@@ -1,0 +1,23 @@
+{
+  "name": "plantwatch",
+  "version": "1.0.0",
+  "description": "Repository to maintain Team OG's progress in their pilot project for an all in one smart IOT plant monitoring solution",
+  "main": "connect-db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NisuraHewage/plantwatch.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NisuraHewage/plantwatch/issues"
+  },
+  "homepage": "https://github.com/NisuraHewage/plantwatch#readme",
+  "dependencies": {
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0"
+  }
+}

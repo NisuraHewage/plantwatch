@@ -1,0 +1,16 @@
+{
+  "name": "og-service",
+  "description": "",
+  "version": "0.1.0",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0"
+  },
+  "devDependencies": {
+    "aws-sdk-mock": "^5.1.0",
+    "serverless-mocha": "^1.12.0",
+    "serverless-pseudo-parameters": "^2.5.0"
+  }
+}
