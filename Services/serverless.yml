@@ -62,6 +62,8 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  postReadings:
+    handler: src/functions/postReadings.postReadings
   validateUser:
     handler: src/functions/validateUser.validateUser
   loginUser:
