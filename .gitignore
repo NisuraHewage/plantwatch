@@ -1,3 +1,5 @@
 /node_modules
 connect-db.js
 Services/.serverless/ogservice.zip
+Services/test-db.js
+Services/createDynamoTables.js

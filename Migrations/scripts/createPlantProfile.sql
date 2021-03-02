@@ -1,0 +1,1 @@
+CREATE TABLE PlantProfiles (Id INT AUTO_INCREMENT  PRIMARY KEY, Name Varchar(300), ScientificName Varchar(300));

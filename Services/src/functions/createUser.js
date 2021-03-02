@@ -1,7 +1,7 @@
 'use strict';
 
-const { Sequelize,Model,DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
+const { Sequelize,Model,DataTypes } = require('sequelize');
 
 // Move to config
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
@@ -10,12 +10,8 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
     port: 3306
 });
 
-const User = sequelize.define('User', {
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
-  }, {
-    // Other model options go here
-  });
+const Users = require('../models/Users');
+const User = Users(sequelize, DataTypes);
 
 async function userCreate(email, password, event){
     try {
