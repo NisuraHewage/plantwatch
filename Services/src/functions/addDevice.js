@@ -16,9 +16,9 @@ async function deviceCreate(userId, deviceId, event){
   try {
       await sequelize.authenticate();
 
-     // Validate Email, Password
+     // Check if user exists
 
-      const exitingUsers = await User.findAll({
+      const exitingUsers = await Device.findAll({
         where:{Id: userId}
       });
 
@@ -26,7 +26,7 @@ async function deviceCreate(userId, deviceId, event){
         return {
           statusCode: 400,
           body:{
-            message: "User Does Not"
+            message: "User Does Not Exist"
           },
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -36,7 +36,7 @@ async function deviceCreate(userId, deviceId, event){
         }
       }
 
-      const newDevice = await User.create({ DeviceID: deviceId, UserID : userId });
+      const newDevice = await Device.create({ DeviceID: deviceId, UserID : userId });
       // Return login token
 
       await sequelize.close();
@@ -46,6 +46,9 @@ async function deviceCreate(userId, deviceId, event){
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': true,
           'Access-Control-Allow-Headers': 'Authorization'
+        },
+        body: {
+          created: newDevice.Id
         }
       };
     } catch (error) {
