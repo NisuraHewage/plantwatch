@@ -2,6 +2,9 @@
 const {
   Model
 } = require('sequelize');
+
+const Parameter = require('./parameter')
+
 module.exports = (sequelize, DataTypes) => {
   class PlantProfile extends Model {
     /**
@@ -11,10 +14,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      PlantProfile.hasMany(Parameter);
     }
   };
   PlantProfile.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    scientificName: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'PlantProfile',
