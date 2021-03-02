@@ -15,9 +15,7 @@ const User = Users(sequelize, DataTypes);
 
 async function userCreate(email, password, event){
     try {
-        console.log(email);
         await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
 
        // Validate Email, Password
 
@@ -39,13 +37,10 @@ async function userCreate(email, password, event){
           }
         }
 
-        // 
-
         const newUser = await User.create({ email, password : bcrypt.hashSync(password, 10) });
         // Return login token
 
         await sequelize.close();
-        console.log('User successfully created');
         return {
           statusCode: 201,
           headers: {
