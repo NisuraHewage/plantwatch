@@ -19,7 +19,6 @@ module.exports.validateUser = async (event, context) => {
 
 };
 
-
 // Help function to generate an IAM policy
 const generatePolicy = function(principalId, effect, resource) {
   let authResponse = {}
