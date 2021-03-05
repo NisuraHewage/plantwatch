@@ -26,6 +26,14 @@ module.exports = function(sequelize, DataTypes) {
         model: 'Devices',
         key: 'Id'
       }
+    },
+    PlantProfileID: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'PlantProfiles',
+        key: 'Id'
+      }
     }
   }, {
     sequelize,
@@ -52,6 +60,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "DeviceID" },
+        ]
+      },
+      {
+        name: "fk_plant_profile",
+        using: "BTREE",
+        fields: [
+          { name: "PlantProfileID" },
         ]
       },
     ]

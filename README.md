@@ -254,4 +254,7 @@ Reading (Nosql) - Dynamo?
 
 Notification (Nosql) - Dynamo?
 
+KnowledgeBase
+    Title, Subtitle, Last Updated, RichText
+
 sequelize-auto -h <host> -d <database> -u <user> -x [password] -p [port]  --dialect [dialect]  -o [/path/to/models] 

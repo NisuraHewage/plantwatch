@@ -16,9 +16,7 @@ const User = Users(sequelize, DataTypes);
 
 async function userLogin(email, password, event){
     try {
-        console.log(email);
         await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
 
        // Validate Email, Password (To be moved to Gateway)
 
@@ -37,7 +35,7 @@ async function userLogin(email, password, event){
             return {
               statusCode: 200,
               body:{
-                message: "Email Already Exists",
+                message: "Successful Login",
                 token: token
               },
               headers: {
