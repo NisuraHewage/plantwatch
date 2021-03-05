@@ -71,10 +71,25 @@ functions:
           cors: true
   addPlant:
     handler: src/functions/addPlant.addPlant
+    events:
+      - httpApi:
+          path: /v1/plants
+          method: post
+          cors: true
   addPlantProfile:
     handler: src/functions/addPlantProfile.addPlantProfile
+    events:
+      - httpApi:
+          path: /v1/plantprofiles
+          method: post
+          cors: true
   addDevice:
     handler: src/functions/addDevice.addDevice
+    events:
+      - httpApi:
+          path: /v1/devices
+          method: post
+          cors: true
   postReadings:
     handler: src/functions/postReadings.postReadings
     events:
@@ -86,6 +101,11 @@ functions:
     handler: src/functions/validateUser.validateUser
   loginUser:
     handler: src/functions/loginUser.loginUser
+    events:
+      - httpApi:
+          path: /v1/user/login
+          method: post
+          cors: true
   createUser:
     handler: src/functions/createUser.createUser
     events:
