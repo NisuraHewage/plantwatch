@@ -54,5 +54,5 @@ docClient.query(params, function(err, data) {
 }
 
 module.exports.viewReadings = async (event, context) => {
-  await readingsView(event.query.deviceId, context);
+  await readingsView(event.queryStringParameters.deviceId, context);
 };
