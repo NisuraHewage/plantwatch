@@ -6,8 +6,8 @@ const { v4: uuidv4 } = require('uuid');
 
 AWS.config.update({
     region: "us-east-1",
-    accessKeyId: process.env.DynamoDBAccessKey,
-    secretAccessKey: process.env.DynamoDBSecretKey
+    accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
+    secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
 });
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
@@ -60,8 +60,7 @@ docClient.put(params, function(err, data) {
 
 }
 
-
 module.exports.postReadings = async (event, context) => {
   const body = JSON.parse(event.body);
-  await readingCreate(body);
+  await readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
 };
