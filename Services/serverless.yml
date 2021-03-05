@@ -64,6 +64,11 @@ provider:
 functions:
   viewReadings:
     handler: src/functions/viewReadings.viewReadings
+    events:
+      - httpApi:
+          path: /v1/readings
+          method: get
+          cors: true
   addPlant:
     handler: src/functions/addPlant.addPlant
   addPlantProfile:
@@ -72,6 +77,11 @@ functions:
     handler: src/functions/addDevice.addDevice
   postReadings:
     handler: src/functions/postReadings.postReadings
+    events:
+      - httpApi:
+          path: /v1/readings
+          method: post
+          cors: true
   validateUser:
     handler: src/functions/validateUser.validateUser
   loginUser:

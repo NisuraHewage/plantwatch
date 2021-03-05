@@ -35,7 +35,7 @@ async function userLogin(email, password, event){
             return {
               statusCode: 200,
               body:{
-                message: "Email Already Exists",
+                message: "Successful Login",
                 token: token
               },
               headers: {
