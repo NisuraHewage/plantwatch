@@ -62,6 +62,10 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  viewReadings:
+    handler: src/functions/viewReadings.viewReadings
+  addPlant:
+    handler: src/functions/addPlant.addPlant
   addPlantProfile:
     handler: src/functions/addPlantProfile.addPlantProfile
   addDevice:

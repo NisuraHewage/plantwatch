@@ -12,21 +12,45 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
 const PlantProfiles = require('../models/PlantProfiles');
 const PlantProfile = PlantProfiles(sequelize, DataTypes);
 
-async function profileCreate(plantName, scientificName, imageUrl, event){
+const Plants = require('../models/Plants');
+const Plant = Plants(sequelize, DataTypes);
+
+const Devices = require('../models/Devices');
+const Device = Devices(sequelize, DataTypes);
+
+async function plantCreate(userId, deviceId, event){
   try {
       await sequelize.authenticate();
 
-     // Check if profile exists
+     // Check if device exists
+
+     const exitingDevices = await Device.findAll({
+      where:{DeviceID: deviceId}
+    });
+
+    if(exitingDevices.length != 0){
+      return {
+        statusCode: 400,
+        body:{
+          message: "Device of this Id is already registered"
+        },
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Headers': 'Authorization'
+        }
+      }
+    }
 
       const exitingProfiles = await PlantProfile.findAll({
-        where:{Name: plantName}
+        where:{Id: plantProfileId}
       });
 
       if(exitingProfiles.length != 0){
         return {
           statusCode: 400,
           body:{
-            message: "Plant profile of same name already exists"
+            message: "Plant Profile Does Not Exist"
           },
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -36,7 +60,7 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
         }
       }
 
-      const newProfile = await PlantProfile.create({ Name: plantName, ScientificName: scientificName, ImageUrl: imageUrl });
+      const newPlant = await Plant.create({ Name: plantName, PlantProfileID: plantProfileId, DeviceID: deviceId, UserID : userId });
 
       await sequelize.close();
       return {
@@ -47,7 +71,7 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
           'Access-Control-Allow-Headers': 'Authorization'
         },
         body: {
-          created: newProfile.Id
+          created: newPlant.Id
         }
       };
     } catch (error) {
@@ -63,12 +87,8 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
     }
 }
 
-async function uploadToS3(){
-  return "URL";
-}
 
-module.exports.addPlantProfile = async (event, context) => {
+module.exports.addPlant = async (event, context) => {
   const body = JSON.parse(event.body);
-  const createdImageUrl = await uploadToS3();
-  await profileCreate( body.name, body.scientificName, createdImageUrl ,event);
+  await plantCreate( body.name, body.scientificName, createdImageUrl ,event);
 };

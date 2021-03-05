@@ -12,13 +12,16 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
 const Devices = require('../models/Devices');
 const Device = Devices(sequelize, DataTypes);
 
+const Users = require('../models/Users');
+const User = Users(sequelize, DataTypes);
+
 async function deviceCreate(userId, deviceId, event){
   try {
       await sequelize.authenticate();
 
      // Check if user exists
 
-      const exitingUsers = await Device.findAll({
+      const exitingUsers = await User.findAll({
         where:{Id: userId}
       });
 
@@ -35,6 +38,26 @@ async function deviceCreate(userId, deviceId, event){
           }
         }
       }
+
+      const exitingDevices = await Device.findAll({
+        where:{DeviceID: deviceId}
+      });
+
+      if(exitingDevices.length != 0){
+        return {
+          statusCode: 400,
+          body:{
+            message: "Device of this Id is already registered"
+          },
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+            'Access-Control-Allow-Headers': 'Authorization'
+          }
+        }
+      }
+
+
 
       const newDevice = await Device.create({ DeviceID: deviceId, UserID : userId });
       // Return login token

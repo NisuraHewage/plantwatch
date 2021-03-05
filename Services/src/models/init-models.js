@@ -16,6 +16,8 @@ function initModels(sequelize) {
   Devices.hasMany(Plants, { as: "Plants", foreignKey: "DeviceID"});
   Parameters.belongsTo(PlantProfiles, { as: "PlantProfile", foreignKey: "PlantProfileID"});
   PlantProfiles.hasMany(Parameters, { as: "Parameters", foreignKey: "PlantProfileID"});
+  Plants.belongsTo(PlantProfiles, { as: "PlantProfile", foreignKey: "PlantProfileID"});
+  PlantProfiles.hasMany(Plants, { as: "Plants", foreignKey: "PlantProfileID"});
   Devices.belongsTo(Users, { as: "User", foreignKey: "UserID"});
   Users.hasMany(Devices, { as: "Devices", foreignKey: "UserID"});
   Plants.belongsTo(Users, { as: "User", foreignKey: "UserID"});

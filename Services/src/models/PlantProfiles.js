@@ -14,6 +14,10 @@ module.exports = function(sequelize, DataTypes) {
     ScientificName: {
       type: DataTypes.STRING(300),
       allowNull: true
+    },
+    ImageUrl: {
+      type: DataTypes.STRING(300),
+      allowNull: true
     }
   }, {
     sequelize,

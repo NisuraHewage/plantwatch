@@ -30,6 +30,14 @@ module.exports = function(sequelize, DataTypes) {
         model: 'PlantProfiles',
         key: 'Id'
       }
+    },
+    Message: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    Action: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
     }
   }, {
     sequelize,
