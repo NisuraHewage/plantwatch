@@ -47,6 +47,9 @@ async function userCreate(email, password, event){
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
             'Access-Control-Allow-Headers': 'Authorization'
+          },
+          body: {
+            created: newUser.Id
           }
         };
       } catch (error) {
