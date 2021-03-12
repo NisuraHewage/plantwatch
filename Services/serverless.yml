@@ -174,7 +174,6 @@ plugins:
   - serverless-pseudo-parameters
   - serverless-mocha
   - serverless-apigw-binary
-  - serverless-offline
 
 custom:
   serverless-mocha-plugin:
