@@ -173,7 +173,6 @@ functions:
 plugins:
   - serverless-pseudo-parameters
   - serverless-mocha
-  - serverless-apigw-binary
 
 custom:
   serverless-mocha-plugin:
