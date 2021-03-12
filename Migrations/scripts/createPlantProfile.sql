@@ -1,1 +1,2 @@
-CREATE TABLE PlantProfiles (Id INT AUTO_INCREMENT  PRIMARY KEY, Name Varchar(300), ScientificName Varchar(300), ImageUrl Varchar(300));
+CREATE TABLE PlantProfiles (Id INT AUTO_INCREMENT  PRIMARY KEY, Name Varchar(300), ScientificName Varchar(300), Family Varchar(300), Description Varchar(500),
+CountryOfOrigin Varchar(300), CountryOfProduction Varchar(300), Color Varchar(300),ImageUrl Varchar(300));

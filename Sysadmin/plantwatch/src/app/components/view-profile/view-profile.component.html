@@ -1,0 +1,174 @@
+<div class="columns">
+    <div class='container profile' [ngClass]="{'is-clipped': showEditProfile == true}">
+<div class='modal' id='edit-profile-modal' [ngClass]="{'is-active': showEditProfile == true}">
+    <div class='modal-background'></div>
+    <div class='modal-card'>
+        <header class='modal-card-head'>
+            <p class='modal-card-title'>Edit Profile</p>
+            <button class='delete' (click)="editProfile(false)"></button>
+        </header>
+        <section class='modal-card-body'>
+            
+            <form method="post" action="#">
+        
+        <p class="subtitle is-4">General Info</p>
+
+        <div class="field">
+			<label class="label" for="the_name">Plant Image</label>
+            <div class="file">
+                <label class="file-label">
+                    <input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose a file…
+                    </span>
+                    <span *ngIf='selectedFile != null' class="file-name">
+                        {{ selectedFile.name }}
+                      </span>
+                  </span>
+                </label>
+              </div>
+		</div>
+
+		<div class="field">
+			<label class="label" for="plant_name">Plant Name</label>
+			<input type="text" name="plant_name" id="plant_name" class="input">
+		</div>
+
+        <div class="field">
+			<label class="label" for="plant_name">Scientific Name</label>
+			<input type="text" name="plant_name" id="plant_name" class="input">
+		</div>
+
+        <div class="field">
+			<label class="label" for="brief_description">Brief Description</label>
+			<textarea name="message" id="brief_description" class="textarea"></textarea>
+		</div>
+
+		<div class="field">
+			<label class="label" for="country_of_origin">Country Of Origin</label>
+			<input type="text" name="country_of_origin" id="country_of_origin" class="input">
+		</div>
+
+        <p class="subtitle is-4">Dimensions</p>
+
+        <div class="field">
+			<label class="label" for="size">Size</label>
+			<input type="text" name="size" id="size" class="input">
+		</div>
+        <div class="field">
+			<label class="label" for="soil">Soil</label>
+			<input type="text" name="soil" id="soil" class="input">
+		</div>
+        <div class="field">
+			<label class="label" for="color">Color</label>
+			<input type="text" name="color" id="color" class="input">
+		</div>
+		
+    </form>
+        
+    </section>
+    <footer class='modal-card-foot'>
+        <a class='button is-primary modal-save'>Save changes</a>
+        <a class='button modal-cancel' (click)="editProfile(false)">Cancel</a>
+    </footer>
+</div>
+  </div>
+
+  <div class='section profile-heading'>
+    <div class='columns is-mobile is-multiline'>
+      <div class='column is-2'>
+        <span class='header-icon user-profile-image'>
+          <img alt='' src='https://www.almanac.com/sites/default/files/image_nodes/tomatoes_helios4eos_gettyimages-edit.jpeg'>
+        </span>
+      </div>
+      <div class='column is-4-tablet is-10-mobile name'>
+        <p>
+          <span class='title is-bold'>Tomato</span>
+          <br>
+          <a class='button is-primary is-outlined' (click)="editProfile(true)" id='edit-profile' style='margin: 5px 0'>
+            Edit Profile
+          </a>
+          <br>
+        </p>
+        <p class='tagline'>
+            Solanum lycopersicum
+        </p>
+      </div>
+      <div class='column is-2-tablet is-4-mobile has-text-centered'>
+        <p class='stat-val'>30</p>
+        <p class='stat-key'>Plants</p>
+      </div>
+      <div class='column is-2-tablet is-4-mobile has-text-centered'>
+        <p class='stat-val'>10</p>
+        <p class='stat-key'>Devices</p>
+      </div>
+      <div class='column is-2-tablet is-4-mobile has-text-centered'>
+        <p class='stat-val'>300</p>
+        <p class='stat-key'>Knowledge Base Visits</p>
+      </div>
+    </div>
+  </div>
+  <div class='profile-options is-fullwidth'>
+    <div class='tabs is-fullwidth is-medium'>
+      <ul>
+        <li class='link'>
+          <a [routerLink]="['/parameters']"  [queryParams]="{profileId: '5'}">
+            <span class='icon'>
+              <i class='fa fa-list'></i>
+            </span>
+            <span>Edit Parameters</span>
+          </a>
+        </li>
+        <li class='link'>
+          <a [routerLink]="['/knowledge']"  [queryParams]="{profileId: '5'}">
+            <span class='icon'>
+              <i class='fa fa-book'></i>
+            </span>
+            <span>View Knowledge Base</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <nav class="panel">
+    <p class="panel-heading">
+      Details
+    </p>
+    <div class="panel-block">
+      <p class="control has-icons-left">
+        <input class="input" type="text" placeholder="Search Details">
+        <span class="icon is-left">
+          <i class="fas fa-search" aria-hidden="true"></i>
+        </span>
+      </p>
+    </div>
+    <p class="panel-tabs">
+      <a class="is-active">All</a>
+      <a>Brief Info</a>
+      <a>Plant Care</a>
+      <a>Origins</a>
+      <a>Meta</a>
+    </p>
+    <a class="panel-block is-active">
+      <div class="tags has-addons are-medium">
+        <span class="tag  is-info is-light">Family and Genus</span>
+        <span class="tag is-dark">Solanum lycopersicum</span>
+      </div>
+    </a>
+    <a class="panel-block">
+        <div class="tags has-addons are-medium">
+            <span class="tag  is-info is-light">Country Of Origin</span>
+            <span class="tag  is-dark">Latin America</span>
+          </div>
+    </a>
+    
+  </nav>
+
+
+</div>
+</div>

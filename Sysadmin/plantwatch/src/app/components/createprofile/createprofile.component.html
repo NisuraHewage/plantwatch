@@ -1,0 +1,82 @@
+
+<main class="container content box">
+
+
+	<!-- <div class="notification is-danger">
+		<p class="heading">Something went wrong. try:</p>
+		<ul class="">
+			<li>first thing that happened</li>
+			<li>second thing that happened</li>
+		</ul>
+	</div> -->
+	
+	<!-- <div class="notification is-success">
+		<p class="heading">Thank You</p>
+		<p>I'll be in touch soon.</p>
+	</div> -->
+
+	<form method="post" action="#">
+        <p class="subtitle is-4">General Info</p>
+
+        <div class="field">
+			<label class="label" for="the_name">Plant Image</label>
+            <div class="file">
+                <label class="file-label">
+                    <input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose a file…
+                    </span>
+                    <span *ngIf='selectedFile != null' class="file-name">
+                        {{ selectedFile.name }}
+                      </span>
+                  </span>
+                </label>
+              </div>
+		</div>
+
+		<div class="field">
+			<label class="label" for="plant_name">Plant Name</label>
+			<input type="text" name="plant_name" id="plant_name" class="input">
+		</div>
+
+        <div class="field">
+			<label class="label" for="plant_name">Scientific Name</label>
+			<input type="text" name="plant_name" id="plant_name" class="input">
+		</div>
+
+        <div class="field">
+			<label class="label" for="brief_description">Brief Description</label>
+			<textarea name="message" id="brief_description" class="textarea"></textarea>
+		</div>
+
+		<div class="field">
+			<label class="label" for="country_of_origin">Country Of Origin</label>
+			<input type="text" name="country_of_origin" id="country_of_origin" class="input">
+		</div>
+
+        <p class="subtitle is-4">Dimensions</p>
+
+        <div class="field">
+			<label class="label" for="size">Size</label>
+			<input type="text" name="size" id="size" class="input">
+		</div>
+        <div class="field">
+			<label class="label" for="soil">Soil</label>
+			<input type="text" name="soil" id="soil" class="input">
+		</div>
+        <div class="field">
+			<label class="label" for="color">Color</label>
+			<input type="text" name="color" id="color" class="input">
+		</div>
+		
+
+		<div class="field">
+			<input type="submit" value="Create" class="button is-primary">
+		</div>
+	</form>
+
+</main>
