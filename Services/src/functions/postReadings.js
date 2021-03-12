@@ -14,7 +14,7 @@ console.log(process.env.DYNAMO_DB_ACCESSKEY);
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
-async function readingCreate(userId, deviceId, moisture, temperature,  light, humidity, context){
+ function readingCreate(userId, deviceId, moisture, temperature,  light, humidity, context){
 
   // Check if device exists in middleware
 
@@ -66,5 +66,5 @@ docClient.put(params, function(err, data) {
 module.exports.postReadings = async (event, context) => {
   console.log(event.body)
   const body = JSON.parse(event.body);
-  await readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
+  readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
 };

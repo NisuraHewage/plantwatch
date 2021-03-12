@@ -12,7 +12,7 @@ console.log(process.env.DYNAMO_DB_SECRETKEY);
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
-async function readingsView(deviceId, context){
+ function readingsView(deviceId, context){
   var params = {
     TableName : "Readings",
     KeyConditionExpression: "#dId = :device",
@@ -59,5 +59,5 @@ docClient.query(params, function(err, data) {
 
 module.exports.viewReadings = async (event, context) => {
   console.log(event.queryStringParameters);
-  await readingsView(event.queryStringParameters.deviceId, context);
+  readingsView(event.queryStringParameters.deviceId, context);
 };
