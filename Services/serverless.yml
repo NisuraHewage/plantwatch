@@ -156,6 +156,7 @@ functions:
       JWT_SECRET: ${param:JWT_SECRET}
       DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
       DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
 
 # you can add CloudFormation resource templates here
 #resources:

@@ -30,7 +30,9 @@ async function userLogin(email, password, event){
           if (compareResult) {
             let token = jwt.sign({
               email: exitingUser.email
-            }, process.env.JWT_SECRET);
+            }, process.env.JWT_SECRET, {
+              expiresIn: '365d'
+         });
 
             return {
               statusCode: 200,

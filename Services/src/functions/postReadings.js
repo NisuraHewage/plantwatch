@@ -57,7 +57,6 @@ docClient.put(params, function(err, data) {
         }
     }
 });
-
 }
 
 module.exports.postReadings = async (event, context) => {

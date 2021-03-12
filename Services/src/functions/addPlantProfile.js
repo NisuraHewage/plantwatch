@@ -72,12 +72,12 @@ async function uploadToS3(file){
 
   var base64data = Buffer.from(file.content, 'binary');
   let s3bucket = new AWS.S3({
-    accessKeyId: 'AKIAY7RTYKCBA7P4S2W5',
-    secretAccessKey: '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',
+    accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
+    secretAccessKey: process.DYNAMO_DB_SECRETKEY,
     region: 'us-east-1'
   });
   const params = {
-    Bucket: 'ogservice-vitals-serverlessdeploymentbucket-50de08bgk7vm',
+    Bucket: process.env.STORAGE_BUCKET,
     Key: Date.now().toString() + file.filename,
     Body: base64data,
     ContentType: file.contentType,
