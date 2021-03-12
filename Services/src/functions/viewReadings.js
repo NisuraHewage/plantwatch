@@ -20,7 +20,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
         "#dId": "DeviceId"
     },
     ExpressionAttributeValues: {
-        ":device": deviceId
+        ":device": parseInt(deviceId),
     }
 };
 

@@ -22,7 +22,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
     TableName:"Readings",
     Item:{
         "ReadingId": uuidv4(),
-        "DeviceId": deviceId,
+        "DeviceId": parseInt(deviceId),
         "UserId": userId,
         "Timestamp": Date.now(),
         "Moisture": moisture,
