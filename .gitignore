@@ -3,3 +3,4 @@ connect-db.js
 Services/.serverless/ogservice.zip
 Services/test-db.js
 Services/createDynamoTables.js
+Services/test-S3.js

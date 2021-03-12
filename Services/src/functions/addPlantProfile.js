@@ -2,6 +2,8 @@
 
 const { Sequelize,Model,DataTypes } = require('sequelize');
 
+const { parse } = require('aws-multipart-parser')
+
 // Move to config
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
     host:  process.env.MYSQL_ENDPOINT,
@@ -10,6 +12,7 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
 });
 
 const PlantProfiles = require('../models/PlantProfiles');
+const { compareSync } = require('bcryptjs');
 const PlantProfile = PlantProfiles(sequelize, DataTypes);
 
 async function profileCreate(plantName, scientificName, imageUrl, event){
@@ -63,12 +66,55 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
     }
 }
 
-async function uploadToS3(){
-  return "URL";
+var AWS = require("aws-sdk");
+
+async function uploadToS3(file){
+
+  var base64data = Buffer.from(file.content, 'binary');
+  let s3bucket = new AWS.S3({
+    accessKeyId: 'AKIAY7RTYKCBA7P4S2W5',
+    secretAccessKey: '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',
+    region: 'us-east-1'
+  });
+  const params = {
+    Bucket: 'ogservice-vitals-serverlessdeploymentbucket-50de08bgk7vm',
+    Key: Date.now().toString() + file.filename,
+    Body: base64data,
+    ContentType: file.contentType,
+    ACL: 'public-read'
+  };
+
+  s3bucket.upload(params, async (err, data) => {
+    try {
+      if (err) {
+        console.log(err);
+        return {
+          statusCode: 400,
+          body:{
+            data
+          }
+        }
+       } else {
+         console.log(data);
+         return data.Location;
+     }
+    } catch (err) {
+      console.log(err);
+      return {
+        statusCode: 500,
+        body:{
+          data
+        }
+      }
+    }
+  });
 }
 
 module.exports.addPlantProfile = async (event, context) => {
-  const body = JSON.parse(event.body);
-  const createdImageUrl = await uploadToS3();
-  await profileCreate( body.name, body.scientificName, createdImageUrl ,event);
+  //const body = JSON.parse(event.body);
+  const formData = parse(event);
+   const createdImageUrl = await uploadToS3(formData.myFile);
+   console.log(createdImageUrl);
+   console.log(formData.name)
+ // await profileCreate( body.name, body.scientificName, createdImageUrl ,event);
 };

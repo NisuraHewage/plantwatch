@@ -1,0 +1,9 @@
+html{
+	background:#eee;
+}
+.container{
+	min-width:320px;
+	width:64%;
+	max-width:40em;
+	margin:10vh auto;
+}

@@ -21,7 +21,7 @@ async function userLogin(email, password, event){
        // Validate Email, Password (To be moved to Gateway)
 
         const exitingUser = await User.findOne({
-          where:{email}
+          where:{Email: email}
         });
 
         if(exitingUser.length != 0){

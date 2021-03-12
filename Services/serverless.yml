@@ -172,8 +172,13 @@ functions:
 plugins:
   - serverless-pseudo-parameters
   - serverless-mocha
+  - serverless-apigw-binary
+  - serverless-offline
 
 custom:
   serverless-mocha-plugin:
       testTemplate: src/templates/test-template.ejs
       functionTemplate: src/templates/function-template.ejs
+  apigwBinary:
+    types:
+      - 'multipart/form-data'

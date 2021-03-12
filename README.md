@@ -1,4 +1,9 @@
 # plantwatch
+
+Mobile Device will send the device token with the 
+
+https://fireship.io/lessons/flutter-push-notifications-fcm-guide/
+
 Repository to maintain Team OG's progress in their pilot project for an all in one smart IOT plant monitoring solution
 
 Directory Structure -

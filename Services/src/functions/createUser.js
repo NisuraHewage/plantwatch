@@ -20,7 +20,7 @@ async function userCreate(email, password, event){
        // Validate Email, Password
 
         const exitingUsers = await User.findAll({
-          where:{email}
+          where:{Email: email}
         });
 
         if(exitingUsers.length != 0){
@@ -37,8 +37,12 @@ async function userCreate(email, password, event){
           }
         }
 
-        const newUser = await User.create({ email, password : bcrypt.hashSync(password, 10) });
+        const newUser = await User.create({ Email, Password : bcrypt.hashSync(password, 10) });
         // Return login token
+         // Send the token from the request and use that to register for SnS notifications
+        /* let snsPlatformEndpointArn = await registerDevice(body.deviceToken, newUser.userId)
+        newUser.SnSPushDeviceId = snsPlatformEndpointArn;
+        await newUser.save(); */
 
         await sequelize.close();
         return {
@@ -65,8 +69,33 @@ async function userCreate(email, password, event){
       }
 }
 
+var sns = new AWS.SNS({apiVersion: '2010-03-31'});
+
+async function registerDevice(token, userId){
+  var params = {
+    PlatformApplicationArn: '',//process.env.SNS_PLATFORM_APPLICATION_ARN, /* required */
+    Token: token, 
+    CustomUserData: userId
+  };
+  sns.createPlatformEndpoint(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack);
+      return null;
+    }// an error occurred
+    else {
+      if(data == null){
+        console.log("Request ended with Error. Failed to Register with SNS" );
+        return null;
+      }
+       console.log(data.EndpointArn);           // successful response
+       return data.EndpointArn;
+    }  
+  });
+}
+
 module.exports.createUser = async (event, context) => {
   const body = JSON.parse(event.body);
+
   await userCreate(body.email, body.password, event);
 
   return ;
