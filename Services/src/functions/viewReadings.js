@@ -8,9 +8,11 @@ AWS.config.update({
     secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
 });
 
+console.log(process.env.DYNAMO_DB_SECRETKEY);
+
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
-async function readingsView(deviceId, context){
+ function readingsView(deviceId, context){
   var params = {
     TableName : "Readings",
     KeyConditionExpression: "#dId = :device",
@@ -18,9 +20,11 @@ async function readingsView(deviceId, context){
         "#dId": "DeviceId"
     },
     ExpressionAttributeValues: {
-        ":device": deviceId
+        ":device": parseInt(deviceId),
     }
 };
+
+console.log(params);
 
 docClient.query(params, function(err, data) {
     if (err) {
@@ -54,5 +58,6 @@ docClient.query(params, function(err, data) {
 }
 
 module.exports.viewReadings = async (event, context) => {
-  await readingsView(event.queryStringParameters.deviceId, context);
+  console.log(event.queryStringParameters);
+  readingsView(event.queryStringParameters.deviceId, context);
 };
