@@ -12,7 +12,7 @@ console.log(process.env.DYNAMO_DB_SECRETKEY);
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
- function readingsView(deviceId, context){
+ async function readingsView(deviceId, context){
   var params = {
     TableName : "Readings",
     KeyConditionExpression: "#dId = :device",
@@ -26,7 +26,34 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 
 console.log(params);
 
-docClient.query(params, function(err, data) {
+try{
+  var result = await docClient.scan({TableName:"Readings"}).promise();
+  console.log("Query succeeded.");
+  return {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Headers': 'Authorization'
+    },
+    body: {
+      readings: result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp )
+    }
+  };
+}catch(err){
+  return {
+    statusCode: 500,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Headers': 'Authorization'
+    }
+}
+}
+ }
+
+
+/* docClient.query(params, function(err, data) {
     if (err) {
         console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
         return {
@@ -55,9 +82,9 @@ docClient.query(params, function(err, data) {
         };
     }
 });
-}
+} */
 
 module.exports.viewReadings = async (event, context) => {
   console.log(event.queryStringParameters);
-  readingsView(event.queryStringParameters.deviceId, context);
+  await readingsView(event.queryStringParameters.deviceId, context);
 };

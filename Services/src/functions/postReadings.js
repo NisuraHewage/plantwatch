@@ -14,7 +14,7 @@ console.log(process.env.DYNAMO_DB_ACCESSKEY);
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
- function readingCreate(userId, deviceId, moisture, temperature,  light, humidity, context){
+async function readingCreate(userId, deviceId, moisture, temperature,  light, humidity, context){
 
   // Check if device exists in middleware
 
@@ -33,38 +33,37 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 };
 
 console.log(params)
-
-docClient.put(params, function(err, data) {
-    if (err) {
-        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-        return {
-          statusCode: 500,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Headers': 'Authorization'
-          }
-        }
-    } else {
-        console.log("Added item:", JSON.stringify(data, null, 2));
-        return {
-          statusCode: 201,
-          body:{
-            message: "Added Reading",
-            created: data.ReadingId
-          },
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Headers': 'Authorization'
-          }
-        }
+try{
+  var result = await docClient.put(params).promise();
+  console.log("Added item:", result);
+  return {
+    statusCode: 201,
+    body:{
+      message: "Added Reading",
+      created: result.ReadingId
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Headers': 'Authorization'
     }
-});
+  }
+}catch(err){
+  console.error("Unable to add item. Error JSON:", err);
+  return {
+    statusCode: 500,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Headers': 'Authorization'
+    }
+  }
+}
+
 }
 
 module.exports.postReadings = async (event, context) => {
   console.log(event.body)
   const body = JSON.parse(event.body);
-  readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
+  await readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
 };
