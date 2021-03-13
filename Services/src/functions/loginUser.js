@@ -57,7 +57,7 @@ async function userLogin(email, password, event){
             return {
               statusCode: 400,
               body:{
-                message: "Invalid Credentials"
+                message: "Invalid  Credentials"
               },
               headers: {
                 'Access-Control-Allow-Origin': '*',
