@@ -184,8 +184,6 @@ plugins:
   - serverless-pseudo-parameters
   - serverless-mocha
   - serverless-apigw-binary
-  - serverless-offline-ssm
-  - serverless-offline
 
 custom:
   serverless-mocha-plugin:
