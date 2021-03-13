@@ -4,20 +4,23 @@ const { Sequelize,Model,DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-console.log("MYSQL PW  " + process.env.MYSQL_PASSWORD);
-console.log("Process  " + process.env);
-// Move to config
-const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
-    host:  process.env.MYSQL_ENDPOINT,
-    dialect: 'mysql',
-    port: 3306
-});
 
-const Users = require('../models/Users');
-const User = Users(sequelize, DataTypes);
 
 async function userLogin(email, password, event){
     try {
+      console.log("MYSQL PW  " + process.env.MYSQL_PASSWORD);
+        let envCopy = {};
+      for (e in process.env) envCopy[e] = process.env[e];
+        console.log(envCopy)
+        // Move to config
+        const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
+            host:  process.env.MYSQL_ENDPOINT,
+            dialect: 'mysql',
+            port: 3306
+        });
+
+        const Users = require('../models/Users');
+        const User = Users(sequelize, DataTypes);
         await sequelize.authenticate();
 
        // Validate Email, Password (To be moved to Gateway)
