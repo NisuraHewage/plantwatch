@@ -60,7 +60,7 @@ async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
         }
       }
 
-      const newPlant = await Plant.create({ Name: plantName, PlantProfileID: plantProfileId, DeviceID: deviceId, UserID : userId });
+      const newPlant = await Plant.create({ Name: plantName, PlantProfileID: plantProfileId, DeviceID: exitingDevices[0].Id, UserID : userId });
 
       await sequelize.close();
       return {
@@ -89,5 +89,6 @@ async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
 
 module.exports.addPlant = async (event, context) => {
   const body = JSON.parse(event.body);
-  return await plantCreate( body.plantName, body.plantProfileId, body.userId, body.deviceId ,event);
+  const {plantName, plantProfileId, userId, deviceId } = body;
+  return await plantCreate(plantName, plantProfileId, userId, deviceId  ,event);
 };

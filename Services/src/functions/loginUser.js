@@ -93,6 +93,32 @@ async function userLogin(email, password, event){
       }
 }
 
+var AWS = require("aws-sdk");
+var sns = new AWS.SNS({apiVersion: '2010-03-31'});
+
+// For notifications (Check whether this goes in login)
+async function registerDevice(token, userId){
+  var params = {
+    PlatformApplicationArn: '',//process.env.SNS_PLATFORM_APPLICATION_ARN, /* required */
+    Token: token, 
+    CustomUserData: userId
+  };
+  sns.createPlatformEndpoint(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack);
+      return null;
+    }// an error occurred
+    else {
+      if(data == null){
+        console.log("Request ended with Error. Failed to Register with SNS" );
+        return null;
+      }
+       console.log(data.EndpointArn);           // successful response
+       return data.EndpointArn;
+    }  
+  });
+}
+
 module.exports.loginUser = async (event, context) => {
   const body = JSON.parse(event.body);
   return await userLogin(body.email, body.password, event);
