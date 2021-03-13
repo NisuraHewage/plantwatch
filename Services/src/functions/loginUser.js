@@ -27,10 +27,10 @@ async function userLogin(email, password, event){
 
         if(exitingUser.length != 0){
 
-          const compareResult = bcrypt.compareSync(password, exitingUser.password)
+          const compareResult = bcrypt.compareSync(password, exitingUser.Password)
           if (compareResult) {
             let token = jwt.sign({
-              email: exitingUser.email
+              email: exitingUser.Email
             }, process.env.JWT_SECRET, {
               expiresIn: '365d'
          });

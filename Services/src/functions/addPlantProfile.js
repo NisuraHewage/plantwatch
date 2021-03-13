@@ -109,7 +109,7 @@ module.exports.addPlantProfile = async (event, context) => {
      }
     }
   }
-   await profileCreate(formData.plantName, formData.scientificName, createdImageUrl,event);
-   console.log(createdImageUrl);
-   console.log(formData)
+  console.log(createdImageUrl);
+  console.log(formData)
+  return await profileCreate(formData.plantName, formData.scientificName, createdImageUrl,event);
 };

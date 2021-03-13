@@ -99,7 +99,6 @@ async function registerDevice(token, userId){
 module.exports.createUser = async (event, context) => {
   const body = JSON.parse(event.body);
 
-  await userCreate(body.email, body.password, event);
+  return await userCreate(body.email, body.password, event);
 
-  return ;
 };
