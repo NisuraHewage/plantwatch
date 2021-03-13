@@ -3,7 +3,7 @@
 const bcrypt = require('bcryptjs');
 const { Sequelize,Model,DataTypes } = require('sequelize');
 
-console.log(process.env.MYSQL_ENDPOINT);
+console.log("MYSQL Server  " + process.env.MYSQL_ENDPOINT);
 // Move to config
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
     host:  process.env.MYSQL_ENDPOINT,
@@ -38,7 +38,7 @@ async function userCreate(email, password, event){
           }
         }
 
-        const newUser = await User.create({ Email, Password : bcrypt.hashSync(password, 10) });
+        const newUser = await User.create({ Email: email, Password : bcrypt.hashSync(password, 10) });
         // Return login token
          // Send the token from the request and use that to register for SnS notifications
         /* let snsPlatformEndpointArn = await registerDevice(body.deviceToken, newUser.userId)
