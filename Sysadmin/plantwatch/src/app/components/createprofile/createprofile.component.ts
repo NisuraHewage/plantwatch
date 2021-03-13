@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from 'src/app/profile.service';
 
+import { FormGroup, FormControl } from '@angular/forms';
+
 @Component({
   selector: 'app-createprofile',
   templateUrl: './createprofile.component.html',
@@ -10,9 +12,20 @@ export class CreateprofileComponent implements OnInit {
 
   selectedFile: any;
 
+  profileForm = new FormGroup({
+    plantName: new FormControl(''),
+    scientificName: new FormControl(''),
+    briefDescription: new FormControl(''),
+    countryOfOrigin: new FormControl(''),
+    size: new FormControl(''),
+    soil: new FormControl(''),
+    color: new FormControl(''),
+  });
+
   constructor(private profileService: ProfileService) { }
 
   ngOnInit(): void {
+    this.selectedFile = null;
   }
 
   onFileChanged(event: any) {
@@ -21,9 +34,21 @@ export class CreateprofileComponent implements OnInit {
   }
 
   submitForm(event: any){
-    const uploadData = new FormData();
-    uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
-    uploadData.append('name', 'John');
-    this.profileService.uploadTest(uploadData);
+    event.preventDefault();
+    let uploadData : any = new FormData();
+    if(this.selectedFile != null){
+      uploadData.append('profileImage', this.selectedFile, this.selectedFile.name);
+    }
+    for(let key in this.profileForm.value){
+      console.log(key + " - " + this.profileForm.value[key]);
+      uploadData.append(key, this.profileForm.value[key]);
+    }
+    console.log(uploadData);
+    for (var key of uploadData.entries()) {
+      console.log(key[0] + ', ' + key[1]);
+  }
+
+    console.log(this.profileForm);
+    //this.profileService.uploadTest(uploadData);
   }
 }

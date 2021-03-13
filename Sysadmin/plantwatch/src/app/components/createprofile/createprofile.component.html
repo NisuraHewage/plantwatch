@@ -15,7 +15,7 @@
 		<p>I'll be in touch soon.</p>
 	</div> -->
 
-	<form method="post" action="#">
+	<form [formGroup]="profileForm">
         <p class="subtitle is-4">General Info</p>
 
         <div class="field">
@@ -39,43 +39,43 @@
 		</div>
 
 		<div class="field">
-			<label class="label" for="plant_name">Plant Name</label>
-			<input type="text" name="plant_name" id="plant_name" class="input">
+			<label class="label" for="plant_name" >Plant Name</label>
+			<input type="text" name="plant_name" formControlName="plantName" id="plant_name" class="input">
 		</div>
 
         <div class="field">
-			<label class="label" for="plant_name">Scientific Name</label>
-			<input type="text" name="plant_name" id="plant_name" class="input">
+			<label class="label" for="plant_name" >Scientific Name</label>
+			<input type="text" name="plant_name" formControlName="scientificName" id="plant_name" class="input">
 		</div>
 
         <div class="field">
-			<label class="label" for="brief_description">Brief Description</label>
-			<textarea name="message" id="brief_description" class="textarea"></textarea>
+			<label class="label" for="brief_description" >Brief Description</label>
+			<textarea name="message" id="brief_description" class="textarea" formControlName="briefDescription"></textarea>
 		</div>
 
 		<div class="field">
-			<label class="label" for="country_of_origin">Country Of Origin</label>
-			<input type="text" name="country_of_origin" id="country_of_origin" class="input">
+			<label class="label" for="country_of_origin" >Country Of Origin</label>
+			<input type="text" name="country_of_origin" formControlName="countryOfOrigin" id="country_of_origin" class="input">
 		</div>
 
         <p class="subtitle is-4">Dimensions</p>
 
         <div class="field">
-			<label class="label" for="size">Size</label>
-			<input type="text" name="size" id="size" class="input">
+			<label class="label" for="size" >Size</label>
+			<input type="text" name="size" formControlName="size" id="size" class="input">
 		</div>
         <div class="field">
-			<label class="label" for="soil">Soil</label>
-			<input type="text" name="soil" id="soil" class="input">
+			<label class="label" for="soil" >Soil</label>
+			<input type="text" name="soil" formControlName="soil" id="soil" class="input">
 		</div>
         <div class="field">
-			<label class="label" for="color">Color</label>
-			<input type="text" name="color" id="color" class="input">
+			<label class="label" for="color" >Color</label>
+			<input type="text" name="color" formControlName="color" id="color" class="input">
 		</div>
 		
 
 		<div class="field">
-			<input type="submit" value="Create" class="button is-primary">
+			<input type="submit" value="Create" class="button is-primary" (click)="submitForm($event)">
 		</div>
 	</form>
 

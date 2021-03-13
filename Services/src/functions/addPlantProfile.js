@@ -84,37 +84,31 @@ async function uploadToS3(file){
     ACL: 'public-read'
   };
 
-  s3bucket.upload(params, async (err, data) => {
-    try {
-      if (err) {
-        console.log(err);
-        return {
-          statusCode: 400,
-          body:{
-            data
-          }
-        }
-       } else {
-         console.log(data);
-         return data.Location;
-     }
-    } catch (err) {
-      console.log(err);
-      return {
-        statusCode: 500,
-        body:{
-          data
-        }
-      }
-    }
-  });
+  try{
+    var data = await s3bucket.upload(params).promise();
+    console.log(data);
+    return data.Location;
+  }catch(err){
+    console.log(err);
+    return null;
+  }
+  
 }
 
 module.exports.addPlantProfile = async (event, context) => {
   //const body = JSON.parse(event.body);
   const formData = parse(event);
-   const createdImageUrl = await uploadToS3(formData.myFile);
+   const createdImageUrl = await uploadToS3(formData.profileImage);
+   if(createdImageUrl == null){
+    return {
+      statusCode: 500,
+      body:{
+        data
+      }
+    }
+   }
+   await profileCreate(formData.plantName, formData.scientificName, createdImageUrl,event);
    console.log(createdImageUrl);
-   console.log(formData.name)
+   console.log(formData)
  // await profileCreate( body.name, body.scientificName, createdImageUrl ,event);
 };
