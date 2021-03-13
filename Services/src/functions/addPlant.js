@@ -18,7 +18,7 @@ const Plant = Plants(sequelize, DataTypes);
 const Devices = require('../models/Devices');
 const Device = Devices(sequelize, DataTypes);
 
-async function plantCreate(userId, deviceId, event){
+async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
   try {
       await sequelize.authenticate();
 
@@ -28,11 +28,11 @@ async function plantCreate(userId, deviceId, event){
       where:{DeviceID: deviceId}
     });
 
-    if(exitingDevices.length != 0){
+    if(exitingDevices.length == 0){
       return {
         statusCode: 400,
         body:{
-          message: "Device of this Id is already registered"
+          message: "This device does not exists"
         },
         headers: {
           'Access-Control-Allow-Origin': '*',
@@ -46,7 +46,7 @@ async function plantCreate(userId, deviceId, event){
         where:{Id: plantProfileId}
       });
 
-      if(exitingProfiles.length != 0){
+      if(exitingProfiles.length == 0){
         return {
           statusCode: 400,
           body:{
@@ -70,9 +70,9 @@ async function plantCreate(userId, deviceId, event){
           'Access-Control-Allow-Credentials': true,
           'Access-Control-Allow-Headers': 'Authorization'
         },
-        body: {
+        body: JSON.stringify({
           created: newPlant.Id
-        }
+        })
       };
     } catch (error) {
       console.error('Unable to connect to the database:', error);
@@ -87,8 +87,7 @@ async function plantCreate(userId, deviceId, event){
     }
 }
 
-
 module.exports.addPlant = async (event, context) => {
   const body = JSON.parse(event.body);
-  await plantCreate( body.name, body.scientificName, createdImageUrl ,event);
+  return await plantCreate( body.plantName, body.plantProfileId, body.userId, body.deviceId ,event);
 };

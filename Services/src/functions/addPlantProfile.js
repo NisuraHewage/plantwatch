@@ -12,7 +12,6 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
 });
 
 const PlantProfiles = require('../models/PlantProfiles');
-const { compareSync } = require('bcryptjs');
 const PlantProfile = PlantProfiles(sequelize, DataTypes);
 
 async function profileCreate(plantName, scientificName, imageUrl, event){
@@ -49,9 +48,9 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
           'Access-Control-Allow-Credentials': true,
           'Access-Control-Allow-Headers': 'Authorization'
         },
-        body: {
+        body: JSON.stringify({
           created: newProfile.Id
-        }
+        })
       };
     } catch (error) {
       console.error('Unable to connect to the database:', error);
@@ -98,17 +97,19 @@ async function uploadToS3(file){
 module.exports.addPlantProfile = async (event, context) => {
   //const body = JSON.parse(event.body);
   const formData = parse(event);
-   const createdImageUrl = await uploadToS3(formData.profileImage);
-   if(createdImageUrl == null){
-    return {
-      statusCode: 500,
-      body:{
-        data
-      }
+  const createdImageUrl = "";
+  if(formData.profileImage){
+    createdImageUrl = await uploadToS3(formData.profileImage);
+    if(createdImageUrl == null){
+     return {
+       statusCode: 500,
+       body:{
+         data
+       }
+     }
     }
-   }
+  }
    await profileCreate(formData.plantName, formData.scientificName, createdImageUrl,event);
    console.log(createdImageUrl);
    console.log(formData)
- // await profileCreate( body.name, body.scientificName, createdImageUrl ,event);
 };

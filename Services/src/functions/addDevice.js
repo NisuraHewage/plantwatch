@@ -67,9 +67,9 @@ async function deviceCreate(userId, deviceId, event){
           'Access-Control-Allow-Credentials': true,
           'Access-Control-Allow-Headers': 'Authorization'
         },
-        body: {
+        body: JSON.stringify({
           created: newDevice.Id
-        }
+        })
       };
     } catch (error) {
       console.error('Unable to connect to the database:', error);
@@ -86,5 +86,5 @@ async function deviceCreate(userId, deviceId, event){
 
 module.exports.addDevice = async (event, context) => {
   const body = JSON.parse(event.body);
-  await deviceCreate( body.userId, body.deviceId ,event);
+  return await deviceCreate( body.userId, body.deviceId ,event);
 };

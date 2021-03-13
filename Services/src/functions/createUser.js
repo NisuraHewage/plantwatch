@@ -3,6 +3,7 @@
 const bcrypt = require('bcryptjs');
 const { Sequelize,Model,DataTypes } = require('sequelize');
 
+console.log(process.env.MYSQL_ENDPOINT);
 // Move to config
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
     host:  process.env.MYSQL_ENDPOINT,
@@ -52,9 +53,9 @@ async function userCreate(email, password, event){
             'Access-Control-Allow-Credentials': true,
             'Access-Control-Allow-Headers': 'Authorization'
           },
-          body: {
+          body: JSON.stringify({
             created: newUser.Id
-          }
+          })
         };
       } catch (error) {
         console.error('Unable to connect to the database:', error);
@@ -72,6 +73,7 @@ async function userCreate(email, password, event){
 var AWS = require("aws-sdk");
 var sns = new AWS.SNS({apiVersion: '2010-03-31'});
 
+// For notifications
 async function registerDevice(token, userId){
   var params = {
     PlatformApplicationArn: '',//process.env.SNS_PLATFORM_APPLICATION_ARN, /* required */
