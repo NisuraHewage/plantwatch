@@ -4,7 +4,8 @@ const { Sequelize,Model,DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-console.log("MYSQL Server  " + process.env.MYSQL_PASSWORD);
+console.log("MYSQL PW  " + process.env.MYSQL_PASSWORD);
+console.log("Process  " + process.env);
 // Move to config
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
     host:  process.env.MYSQL_ENDPOINT,
