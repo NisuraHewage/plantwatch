@@ -69,6 +69,7 @@ async function userCreate(email, password, event){
       }
 }
 
+var AWS = require("aws-sdk");
 var sns = new AWS.SNS({apiVersion: '2010-03-31'});
 
 async function registerDevice(token, userId){
