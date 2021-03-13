@@ -65,5 +65,5 @@ try{
 module.exports.postReadings = async (event, context) => {
   console.log(event.body)
   const body = JSON.parse(event.body);
-  await readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
+  return await readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
 };
