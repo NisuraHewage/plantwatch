@@ -27,9 +27,9 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
       if(exitingProfiles.length != 0){
         return {
           statusCode: 400,
-          body:{
+          body: JSON.stringify({
             message: "Plant profile of same name already exists"
-          },
+          }),
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,

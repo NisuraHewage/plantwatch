@@ -25,12 +25,12 @@ async function deviceCreate(userId, deviceId, event){
         where:{Id: userId}
       });
 
-      if(exitingUsers.length != 0){
+      if(exitingUsers.length == 0){
         return {
           statusCode: 400,
-          body:{
+          body: JSON.stringify({
             message: "User Does Not Exist"
-          },
+          }),
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
@@ -46,9 +46,9 @@ async function deviceCreate(userId, deviceId, event){
       if(exitingDevices.length != 0){
         return {
           statusCode: 400,
-          body:{
+          body: JSON.stringify({
             message: "Device of this Id is already registered"
-          },
+          }),
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,

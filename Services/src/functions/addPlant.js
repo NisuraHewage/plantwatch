@@ -31,9 +31,9 @@ async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
     if(exitingDevices.length == 0){
       return {
         statusCode: 400,
-        body:{
+        body: JSON.stringify({
           message: "This device does not exists"
-        },
+        }),
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': true,
@@ -49,9 +49,9 @@ async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
       if(exitingProfiles.length == 0){
         return {
           statusCode: 400,
-          body:{
+          body:JSON.stringify({
             message: "Plant Profile Does Not Exist"
-          },
+          }),
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
