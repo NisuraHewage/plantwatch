@@ -38,10 +38,10 @@ try{
   console.log("Added item:", result);
   return {
     statusCode: 201,
-    body:{
+    body:JSON.stringify({
       message: "Added Reading",
       created: result.ReadingId
-    },
+    }),
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
@@ -65,5 +65,5 @@ try{
 module.exports.postReadings = async (event, context) => {
   console.log(event.body)
   const body = JSON.parse(event.body);
-  await readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
+  return await readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
 };

@@ -36,9 +36,9 @@ try{
       'Access-Control-Allow-Credentials': true,
       'Access-Control-Allow-Headers': 'Authorization'
     },
-    body: {
+    body: JSON.stringify({
       readings: result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp )
-    }
+    })
   };
 }catch(err){
   return {
@@ -86,5 +86,5 @@ try{
 
 module.exports.viewReadings = async (event, context) => {
   console.log(event.queryStringParameters);
-  await readingsView(event.queryStringParameters.deviceId, context);
+  return await readingsView(event.queryStringParameters.deviceId, context);
 };

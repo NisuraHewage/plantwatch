@@ -36,10 +36,10 @@ async function userLogin(email, password, event){
 
             return {
               statusCode: 200,
-              body:{
+              body:JSON.stringify({
                 message: "Successful Login",
                 token: token
-              },
+              }),
               headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Credentials': true,
