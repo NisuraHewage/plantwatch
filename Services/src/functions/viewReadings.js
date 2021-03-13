@@ -27,6 +27,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 console.log(params);
 
 try{
+  // Replace Scan with Query
   var result = await docClient.scan({TableName:"Readings"}).promise();
   console.log("Query succeeded.");
   return {
@@ -37,7 +38,7 @@ try{
       'Access-Control-Allow-Headers': 'Authorization'
     },
     body: JSON.stringify({
-      readings: result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp )
+      readings: result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp ).slice(0,100)
     })
   };
 }catch(err){

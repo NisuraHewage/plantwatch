@@ -10,7 +10,6 @@ AWS.config.update({
     secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
 });
 
-console.log(process.env.DYNAMO_DB_ACCESSKEY);
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
@@ -65,5 +64,8 @@ try{
 module.exports.postReadings = async (event, context) => {
   console.log(event.body)
   const body = JSON.parse(event.body);
-  return await readingCreate(body.userId, body.deviceId, body.moisture, body.temperature, body.light, body.humidity, context);
+
+  const {userId, deviceId, moisture, temperature, light, humidity} = body;
+
+  return await readingCreate(userId, deviceId, moisture, temperature, light, humidity, context);
 };
