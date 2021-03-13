@@ -26,4 +26,43 @@ export class ProfileService {
     });
   }
 
+  updatePlantProfile(plantData: FormData){
+    this.http.put(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    .subscribe(d => {
+      console.log(d);
+    });
+  }
+
+  getPlantProfileById(id: any){
+    return {};
+  }
+
+  getPlantProfilesByName(name: any){
+    return [];
+  }
+
+  upsertParameters(params: any){
+    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, params)
+    .subscribe(d => {
+      console.log(d);
+    });
+  }
+
+  createKnowledgeBase(plantData: FormData){
+    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    .subscribe(d => {
+      console.log(d);
+    });
+  }
+
+  updateKnowledgeBase(plantData: FormData){
+    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    .subscribe(d => {
+      console.log(d);
+    });
+  }
+
+  getKnowledgeByProfileId(id: any){
+    return [];
+  }
 }

@@ -75,54 +75,47 @@ functions:
   viewReadings:
     handler: src/functions/viewReadings.viewReadings
     events:
-      - httpApi:
+      - http:
           path: /v1/readings
           method: get
-          cors: true
   addPlant:
     handler: src/functions/addPlant.addPlant
     events:
-      - httpApi:
+      - http:
           path: /v1/plants
           method: post
-          cors: true
   addPlantProfile:
     handler: src/functions/addPlantProfile.addPlantProfile
     events:
-      - httpApi:
+      - http:
           path: /v1/plantprofiles
           method: post
-          cors: true
   addDevice:
     handler: src/functions/addDevice.addDevice
     events:
-      - httpApi:
+      - http:
           path: /v1/devices
           method: post
-          cors: true
   postReadings:
     handler: src/functions/postReadings.postReadings
     events:
-      - httpApi:
+      - http:
           path: /v1/readings
           method: post
-          cors: true
   validateUser:
     handler: src/functions/validateUser.validateUser
   loginUser:
     handler: src/functions/loginUser.loginUser
     events:
-      - httpApi:
+      - http:
           path: /v1/user/login
           method: post
-          cors: true
   createUser:
     handler: src/functions/createUser.createUser
     events:
-      - httpApi:
+      - http:
           path: /v1/user
           method: post
-          cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
