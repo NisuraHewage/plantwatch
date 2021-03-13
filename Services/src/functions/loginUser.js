@@ -10,8 +10,10 @@ async function userLogin(email, password, event){
     try {
       console.log("MYSQL PW  " + process.env.MYSQL_PASSWORD);
         let envCopy = {};
-      for (e in process.env) envCopy[e] = process.env[e];
-        console.log(envCopy)
+      for(let e in process.env){
+        envCopy[e] = process.env[e];
+      } 
+      console.log(envCopy)
         // Move to config
         const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
             host:  process.env.MYSQL_ENDPOINT,
