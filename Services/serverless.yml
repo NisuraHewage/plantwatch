@@ -72,6 +72,50 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  deleteProfile:
+    handler: src/functions/deleteProfile.deleteProfile
+    events:
+      - http:
+          path: /v1/profiles
+          method: delete
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  updateProfile:
+    handler: src/functions/updateProfile.updateProfile
+    events:
+      - http:
+          path: /v1/profiles
+          method: put
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  getProfile:
+    handler: src/functions/getProfile.getProfile
+    events:
+      - http:
+          path: /v1/profile
+          method: get
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  getProfiles:
+    handler: src/functions/getProfiles.getProfiles
+    events:
+      - http:
+          path: /v1/profiles
+          method: get
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
   viewReadings:
     handler: src/functions/viewReadings.viewReadings
     events:
