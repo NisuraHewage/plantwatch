@@ -72,6 +72,8 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  upsertParameters:
+    handler: src/functions/upsertParameters.upsertParameters
   deleteProfile:
     handler: src/functions/deleteProfile.deleteProfile
     events:
