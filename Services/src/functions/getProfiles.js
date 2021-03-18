@@ -19,7 +19,7 @@ async function profilesGet(name, event){
 
       let result = null;
       if(name != "" || undefined){
-        result = plantProfiles.filter(pp => pp.Name.includes(name))
+        result = plantProfiles.filter(pp => pp.Name.toLowerCase().includes(name.toLowerCase()))
       }else{
         result = plantProfiles;
       }

@@ -14,8 +14,8 @@
         </div>
         <div class='column is-8'>
           <p class='control has-addons'>
-            <input class='input' placeholder='Search Profiles' style='width: 80% !important' type='text'>
-            <button class='button'>
+            <input class='input' (keyup)="updateSearch($event)" placeholder='Search Profiles' style='width: 80% !important' type='text'>
+            <button (click)="searchProfiles()" class='button'>
               Search
             </button>
           </p>
@@ -47,7 +47,7 @@
         <div class='card'>
           <div class='card-image'>
             <figure class='image is-4by3'>
-              <img alt='' src='{{profile.ImageUrl}}'>
+              <img alt='' src={{profile.ImageUrl}}>
             </figure>
           </div>
           <div class='card-content'>
@@ -56,7 +56,7 @@
             </div>
           </div>
           <footer class='card-footer'>
-            <a [routerLink]="['/profile']"  [queryParams]="{profileId: '{{ profile.Id }}'}" class='card-footer-item'>Edit</a>
+            <a [routerLink]="['/profile']"  [queryParams]="{profileId: profile.Id }" class='card-footer-item'>Edit</a>
             <a (click)="confirmDeleteProfile($event)" class='card-footer-item'>Delete</a>
           </footer>
         </div>

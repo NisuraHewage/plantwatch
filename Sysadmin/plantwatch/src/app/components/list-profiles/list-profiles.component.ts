@@ -9,14 +9,24 @@ import { ProfileService } from 'src/app/profile.service';
 export class ListProfilesComponent implements OnInit {
 
   profiles: any;
-  searchText: string = "";
+  searchText: any;
   constructor(private profileService: ProfileService) { }
 
   ngOnInit(): void {
-    this.profileService.getPlantProfilesByName(this.searchText).subscribe(p => {
-      console.log(p)
-      this.profiles = p;
+    this.searchText = "";
+    this.profileService.getPlantProfilesByName(this.searchText).subscribe((p:any) => {
+      this.profiles = p.result;
     });
+  }
+
+  searchProfiles(){
+    this.profileService.getPlantProfilesByName(this.searchText).subscribe((p:any) => {
+      this.profiles = p.result;
+    });
+  }
+
+  updateSearch(event: any){
+    this.searchText = event.target.value;
   }
 
   confirmDeleteProfile(event: any){

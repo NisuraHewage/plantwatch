@@ -20,10 +20,7 @@ export class ProfileService {
   }
 
   createPlantProfile(plantData: FormData){
-    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
-    .subscribe(d => {
-      console.log(d);
-    });
+    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData);
   }
 
   updatePlantProfile(plantData: FormData){
