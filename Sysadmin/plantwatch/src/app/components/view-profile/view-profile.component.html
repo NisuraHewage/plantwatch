@@ -82,12 +82,12 @@
     <div class='columns is-mobile is-multiline'>
       <div class='column is-2'>
         <span class='header-icon user-profile-image'>
-          <img alt='' src='https://www.almanac.com/sites/default/files/image_nodes/tomatoes_helios4eos_gettyimages-edit.jpeg'>
+          <img alt='' *ngIf="profile.ImageUrl" src='{{ profile.ImageUrl }}' />
         </span>
       </div>
       <div class='column is-4-tablet is-10-mobile name'>
         <p>
-          <span class='title is-bold'>Tomato</span>
+          <span class='title is-bold'>{{ profile.Name }}</span>
           <br>
           <a class='button is-primary is-outlined' (click)="editProfile(true)" id='edit-profile' style='margin: 5px 0'>
             Edit Profile
@@ -95,7 +95,7 @@
           <br>
         </p>
         <p class='tagline'>
-            Solanum lycopersicum
+            {{ profile.ScientificName }}
         </p>
       </div>
       <div class='column is-2-tablet is-4-mobile has-text-centered'>
@@ -116,7 +116,7 @@
     <div class='tabs is-fullwidth is-medium'>
       <ul>
         <li class='link'>
-          <a [routerLink]="['/parameters']"  [queryParams]="{profileId: '5'}">
+          <a [routerLink]="['/parameters']"  [queryParams]="{profileId: profile.Id}">
             <span class='icon'>
               <i class='fa fa-list'></i>
             </span>

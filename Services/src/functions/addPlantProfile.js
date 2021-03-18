@@ -101,19 +101,19 @@ async function uploadToS3(file){
 module.exports.addPlantProfile = async (event, context) => {
   //const body = JSON.parse(event.body);
   const formData = parse(event);
+  console.log(formData);
   let createdImageUrl = "";
   if(formData.profileImage){
     createdImageUrl = await uploadToS3(formData.profileImage);
     if(createdImageUrl == null){
      return {
        statusCode: 500,
-       body:{
-         data
-       }
+       body: JSON.stringify({
+         message: "Error uploading image to storage"
+       })
      }
     }
   }
   console.log(createdImageUrl);
-  console.log(formData)
   return await profileCreate(formData.plantName, formData.scientificName, createdImageUrl,event);
 };

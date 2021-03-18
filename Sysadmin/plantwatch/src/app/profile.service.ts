@@ -31,7 +31,7 @@ export class ProfileService {
   }
 
   getPlantProfileById(id: any){
-    return {};
+    return this.http.get(`${environment.baseGateway}/v1/profile?profileId=${id}`);
   }
 
   getPlantProfilesByName(name: any){
