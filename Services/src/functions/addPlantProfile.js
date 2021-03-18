@@ -71,6 +71,12 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
 
 var AWS = require("aws-sdk");
 
+AWS.config.update({
+  region: "us-east-1",
+  accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
+  secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
+});
+
 async function uploadToS3(file){
 
   var base64data = Buffer.from(file.content, 'binary');
@@ -88,7 +94,7 @@ async function uploadToS3(file){
   };
 
   try{
-    var data = await s3bucket.upload(params).promise();
+    var data = await new AWS.S3().upload(params).promise();
     console.log(data);
     return data.Location;
   }catch(err){
