@@ -26,16 +26,18 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: us-east-1
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-       - dynamodb:Query
-       - dynamodb:Scan
-       - dynamodb:GetItem
-       - dynamodb:PutItem
-       - dynamodb:UpdateItem
-       - dynamodb:DeleteItem
-      Resource: ${param:DYNAMODB_READINGS_ARN}
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'dynamodb:Query'
+            - 'dynamodb:Scan'
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+            - 'dynamodb:UpdateItem'
+            - 'dynamodb:DeleteItem'
+          Resource:  ${param:DYNAMODB_READINGS_ARN}
   httpApi:
       cors: true
 # you can overwrite defaults here
@@ -146,14 +148,14 @@ functions:
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
       JWT_SECRET: ${param:JWT_SECRET}
       STORAGE_BUCKET: ${param:STORAGE_BUCKET}
-      iamRoleStatements:
-        - Effect: "Allow"
-          Action:
-            - s3:PutObject
-            - s3:GetObject
-            - s3:ListBucket
-            - s3:DeleteObject
-          Resource: ${param:S3_BUCKET_ARN}
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - s3:PutObject
+          - s3:GetObject
+          - s3:ListBucket
+          - s3:DeleteObject
+        Resource: ${param:S3_BUCKET_ARN}
   addDevice:
     handler: src/functions/addDevice.addDevice
     events:
