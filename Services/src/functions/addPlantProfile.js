@@ -21,14 +21,19 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
      // Check if profile exists
 
       const exitingProfiles = await PlantProfile.findAll({
-        where:{Name: plantName}
+        where:{
+          [Op.and]: [
+            { Name: plantName },
+            { ScientificName: scientificName }
+          ]
+        }
       });
 
       if(exitingProfiles.length != 0){
         return {
           statusCode: 400,
           body: JSON.stringify({
-            message: "Plant profile of same name already exists"
+            message: "Plant profile of same name or scientific name already exists"
           }),
           headers: {
             'Access-Control-Allow-Origin': '*',

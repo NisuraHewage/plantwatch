@@ -1,5 +1,6 @@
 'use strict';
 
+const { Sequelize,Model,DataTypes } = require('sequelize');
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
   host:  process.env.MYSQL_ENDPOINT,
   dialect: 'mysql',
