@@ -38,12 +38,9 @@ provider:
             - 'dynamodb:UpdateItem'
             - 'dynamodb:DeleteItem'
           Resource:  ${param:DYNAMODB_READINGS_ARN}
-        - Effect: "Allow"
+        - Effect: 'Allow'
           Action:
-            - 's3:PutObject'
-            - 's3:GetObject'
-            - 's3:ListBucket'
-            - 's3:DeleteObject'
+            - 's3:*'
           Resource: ${param:S3_BUCKET_ARN}
   httpApi:
       cors: true
