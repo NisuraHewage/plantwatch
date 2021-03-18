@@ -1,6 +1,6 @@
 'use strict';
 
-const { Sequelize,Model,DataTypes } = require('sequelize');
+const { Sequelize,Model,DataTypes, Op } = require('sequelize');
 
 const { parse } = require('aws-multipart-parser')
 
