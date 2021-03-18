@@ -43,6 +43,25 @@
         <br>
       </div>
       
+      <div *ngFor="let profile of profiles" class='column is-3-tablet is-6-mobile'>
+        <div class='card'>
+          <div class='card-image'>
+            <figure class='image is-4by3'>
+              <img alt='' src='{{profile.ImageUrl}}'>
+            </figure>
+          </div>
+          <div class='card-content'>
+            <div class='content'>
+              <span class='tag is-info is-medium'>{{profile.Name}}</span>
+            </div>
+          </div>
+          <footer class='card-footer'>
+            <a [routerLink]="['/profile']"  [queryParams]="{profileId: '{{ profile.Id }}'}" class='card-footer-item'>Edit</a>
+            <a (click)="confirmDeleteProfile($event)" class='card-footer-item'>Delete</a>
+          </footer>
+        </div>
+        <br>
+      </div>
     </div>
   </div>
 </div>

@@ -20,14 +20,14 @@ export class ProfileService {
   }
 
   createPlantProfile(plantData: FormData){
-    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
     .subscribe(d => {
       console.log(d);
     });
   }
 
   updatePlantProfile(plantData: FormData){
-    this.http.put(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    return this.http.put(`${environment.baseGateway}/v1/plantprofiles`, plantData)
     .subscribe(d => {
       console.log(d);
     });
@@ -38,25 +38,25 @@ export class ProfileService {
   }
 
   getPlantProfilesByName(name: any){
-    return [];
+    return this.http.get(`${environment.baseGateway}/v1/plantprofiles?plantName=${name}`);
   }
 
   upsertParameters(params: any){
-    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, params)
+    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, params)
     .subscribe(d => {
       console.log(d);
     });
   }
 
   createKnowledgeBase(plantData: FormData){
-    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
     .subscribe(d => {
       console.log(d);
     });
   }
 
   updateKnowledgeBase(plantData: FormData){
-    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
     .subscribe(d => {
       console.log(d);
     });

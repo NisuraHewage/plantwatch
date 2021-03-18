@@ -49,6 +49,6 @@ export class CreateprofileComponent implements OnInit {
   }
 
     console.log(this.profileForm);
-    //this.profileService.uploadTest(uploadData);
+    this.profileService.createPlantProfile(uploadData);
   }
 }

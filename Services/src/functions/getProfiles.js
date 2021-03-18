@@ -1,5 +1,10 @@
 'use strict';
 
+const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
+  host:  process.env.MYSQL_ENDPOINT,
+  dialect: 'mysql',
+  port: 3306
+});
 
 const PlantProfiles = require('../models/PlantProfiles');
 const PlantProfile = PlantProfiles(sequelize, DataTypes);
@@ -44,5 +49,5 @@ async function profilesGet(name, event){
 }
 
 module.exports.getProfiles = async (event, context) => {
-  return await profilesGet(event,queryStringParameters.plantName, event);
+  return await profilesGet(event.queryStringParameters.plantName, event);
 };

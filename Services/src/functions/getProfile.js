@@ -62,5 +62,5 @@ async function profileGet(profileId, event){
 
 module.exports.getProfile = async (event, context) => {
   const body = JSON.parse(event.body);
-  return await profileGet(body.profileId, event);
+  return await profileGet(event.queryStringParameters.profileId, event);
 };
