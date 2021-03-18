@@ -36,7 +36,6 @@ async function profileGet(profileId, event){
         }
       }
 
-      await sequelize.close();
       return {
         statusCode: 200,
         headers: {

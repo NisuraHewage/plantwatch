@@ -21,7 +21,6 @@ async function profileDelete(profileId, event){
 
       await plantProfiles[0].destroy();
 
-      await sequelize.close();
       return {
         statusCode: 204,
         headers: {

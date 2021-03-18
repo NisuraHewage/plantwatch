@@ -38,7 +38,7 @@ export class ProfileService {
   }
 
   getPlantProfilesByName(name: any){
-    return this.http.get(`${environment.baseGateway}/v1/plantprofiles?plantName=${name}`);
+    return this.http.get(`${environment.baseGateway}/v1/profiles?plantName=${name}`);
   }
 
   upsertParameters(params: any){

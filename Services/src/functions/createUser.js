@@ -39,7 +39,6 @@ async function userCreate(email, password, event){
 
         const newUser = await User.create({ Email: email, Password : bcrypt.hashSync(password, 10) });
 
-        await sequelize.close();
         return {
           statusCode: 201,
           headers: {

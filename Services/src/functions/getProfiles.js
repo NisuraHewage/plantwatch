@@ -24,7 +24,6 @@ async function profilesGet(name, event){
         result = plantProfiles;
       }
 
-      await sequelize.close();
       return {
         statusCode: 200,
         headers: {

@@ -45,7 +45,6 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
 
       const newProfile = await PlantProfile.create({ Name: plantName, ScientificName: scientificName, ImageUrl: imageUrl });
 
-      await sequelize.close();
       return {
         statusCode: 201,
         headers: {
