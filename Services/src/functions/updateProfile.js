@@ -71,14 +71,17 @@ async function profileUpdate(plantName, scientificName, imageUrl, event){
 
 var AWS = require("aws-sdk");
 
+AWS.config.update({
+  region: "us-east-1",
+  accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
+  secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
+});
+
+
 async function uploadToS3(file){
 
   var base64data = Buffer.from(file.content, 'binary');
-  let s3bucket = new AWS.S3({
-    accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
-    secretAccessKey: process.DYNAMO_DB_SECRETKEY,
-    region: 'us-east-1'
-  });
+
   const params = {
     Bucket: process.env.STORAGE_BUCKET,
     Key: Date.now().toString() + file.filename,
@@ -88,7 +91,7 @@ async function uploadToS3(file){
   };
 
   try{
-    var data = await s3bucket.upload(params).promise();
+    var data = await new AWS.S3().upload(params).promise();
     console.log(data);
     return data.Location;
   }catch(err){
@@ -101,7 +104,7 @@ async function uploadToS3(file){
 
 module.exports.updateProfile = async (event, context) => {
   const formData = parse(event);
-  const createdImageUrl = "";
+  let createdImageUrl = "";
   if(formData.profileImage){
     createdImageUrl = await uploadToS3(formData.profileImage);
     if(createdImageUrl == null){
