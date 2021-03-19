@@ -100,6 +100,7 @@ async function parametersUpsert(plantProfileId, parameters, event){
 // Parameter { Name, UpperLimit, LowerLimit, Message, Action  }
 module.exports.upsertParameters = async (event, context) => {
   const body = JSON.parse(event.body);
+  console.log(body);
   // parameters is an array of Parameter
   const { parameters, plantProfileId } = body;
   return await parametersUpsert(plantProfileId, parameters ,event);

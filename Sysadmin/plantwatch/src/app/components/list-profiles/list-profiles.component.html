@@ -1,3 +1,17 @@
+<div class='modal' id='delete-profile-modal' *ngIf="profileToDelete != null" [ngClass]="{'is-active': profileToDelete != null}">
+  <div class='modal-background'></div>
+  <div class='modal-card'>
+      <header class='modal-card-head'>
+          <p class='modal-card-title'>Delete Profile({{ profileToDelete.Name }})?</p>
+          <button class='delete' (click)="setProfileToDelete(null)"></button>
+      </header>
+  <footer class='modal-card-foot'>
+      <a class='button is-danger modal-save' (click)="confirmDeleteProfile()">Yes</a>
+      <a class='button modal-cancel' (click)="setProfileToDelete(null)">Cancel</a>
+  </footer>
+</div>
+</div>
+
 <div class='columns'>
   <div class='container profile'>
     
@@ -23,25 +37,7 @@
       </div>
     </div>
     <div class='columns is-mobile'>
-      <div class='column is-3-tablet is-6-mobile'>
-        <div class='card'>
-          <div class='card-image'>
-            <figure class='image is-4by3'>
-              <img alt='' src='https://www.almanac.com/sites/default/files/image_nodes/tomatoes_helios4eos_gettyimages-edit.jpeg'>
-            </figure>
-          </div>
-          <div class='card-content'>
-            <div class='content'>
-              <span class='tag is-info is-medium'>Tomato</span>
-            </div>
-          </div>
-          <footer class='card-footer'>
-            <a [routerLink]="['/profile']"  [queryParams]="{profileId: '5'}" class='card-footer-item'>Edit</a>
-            <a (click)="confirmDeleteProfile($event)" class='card-footer-item'>Delete</a>
-          </footer>
-        </div>
-        <br>
-      </div>
+      
       
       <div *ngFor="let profile of profiles" class='column is-3-tablet is-6-mobile'>
         <div class='card'>
@@ -57,7 +53,7 @@
           </div>
           <footer class='card-footer'>
             <a [routerLink]="['/profile']"  [queryParams]="{profileId: profile.Id }" class='card-footer-item'>Edit</a>
-            <a (click)="confirmDeleteProfile($event)" class='card-footer-item'>Delete</a>
+            <a (click)="setProfileToDelete(profile)" class='card-footer-item'>Delete</a>
           </footer>
         </div>
         <br>

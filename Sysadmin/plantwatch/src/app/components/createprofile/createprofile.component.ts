@@ -52,9 +52,10 @@ export class CreateprofileComponent implements OnInit {
   }
 
     console.log(this.profileForm);
-    this.profileService.createPlantProfile(uploadData).subscribe(r => {
+    this.profileService.createPlantProfile(uploadData).subscribe((r: any) => {
       // redirect to upsert vitals
-      this.router.navigate(['/profiles']);
+      console.log(r)
+      this.router.navigate([`/profile?profileId=${r.created}`]);
     });
   }
 }

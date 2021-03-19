@@ -30,6 +30,10 @@ export class ProfileService {
     });
   }
 
+  deletePlantProfile(id: string){
+    return this.http.request('delete',`${environment.baseGateway}/v1/plantprofiles`, { body: {profileId: id} });
+  }
+
   getPlantProfileById(id: any){
     return this.http.get(`${environment.baseGateway}/v1/profile?profileId=${id}`);
   }
@@ -39,14 +43,12 @@ export class ProfileService {
   }
 
   getParametersByProfileId(id: any){
-    return this.http.get(`${environment.baseGateway}/v1/profiles?profileId=${id}`);
+    return this.http.get(`${environment.baseGateway}/v1/parameters?profileId=${id}`);
   }
 
   upsertParameters(params: any){
-    return this.http.post(`${environment.baseGateway}/v1/parameters`, params)
-    .subscribe(d => {
-      console.log(d);
-    });
+    const headers = { 'content-type': 'application/json'}  
+    return this.http.post(`${environment.baseGateway}/v1/parameters`, params, {'headers': headers});
   }
 
   createKnowledgeBase(plantData: FormData){

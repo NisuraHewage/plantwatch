@@ -10,35 +10,35 @@
 <button (click)="addParameter()" class="button is-primary">Add Parameter</button>
 
 <div *ngFor="let param of parameters" class="notification">
-    <button class="delete"></button>
+    <button (click)="removeParameter(param.Name)" class="delete"></button>
     <div class="field is-grouped">
         <p class="control">
-          <input type="text" value="param.Name" name="type" placeholder="Type" value="Light" disabled class="input"/>
+          <input type="text" [value]="param.Name" name="type" placeholder="Type" disabled class="input"/>
         </p>
-            <div class="control field has-addons">
-                <p class="control">
-                    <input type="text" placeholder="Lower Value"  class="input"/>
-                </p>
-                <p class="control">
-                  <a class="button is-static">
-                    &gt;
-                  </a>
-                </p>
-              </div>
+        <div class="control field has-addons">
+            <p class="control">
+                <input type="number" (keyup)="updateField(param.Name,'LowerLimit', $event)" [value]="param.LowerLimit"  placeholder="Lower Value"  class="input"/>
+            </p>
+            <p class="control">
+              <a class="button is-static">
+                -
+              </a>
+            </p>
+        </div>
         <p class="control">
-            <input type="text" placeholder="Upper Value"  class="input"/>
-        </p>
-        <p class="control">
-            <input type="text" placeholder="Message"  class="input"/>
+            <input type="number" (keyup)="updateField(param.Name,'UpperLimit', $event)" [value]="param.UpperLimit" placeholder="Upper Value"  class="input"/>
         </p>
         <p class="control">
-            <input type="text" placeholder="Action"  class="input"/>
+            <input type="text" (keyup)="updateField(param.Name,'Message', $event)" [value]="param.Message"  placeholder="Message"  class="input"/>
+        </p>
+        <p class="control">
+            <input type="text" (keyup)="updateField(param.Name,'Action', $event)" [value]="param.Action"  placeholder="Action"  class="input"/>
         </p>
       </div>
   </div>
 
   <button (click)="save()" class="button is-primary">Save</button>
-
+  <a [routerLink]="['/profile']"  [queryParams]="{profileId: profileId }" class='button'>Cancel</a>
 <!--   <div class="notification">
     <button class="delete"></button>
     <div class="field is-grouped">
