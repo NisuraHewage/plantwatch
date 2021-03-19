@@ -25,9 +25,6 @@ export class ProfileService {
 
   updatePlantProfile(plantData: FormData){
     return this.http.put(`${environment.baseGateway}/v1/plantprofiles`, plantData)
-    .subscribe(d => {
-      console.log(d);
-    });
   }
 
   deletePlantProfile(id: string){

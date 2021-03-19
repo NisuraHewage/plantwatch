@@ -115,6 +115,5 @@ module.exports.updateProfile = async (event, context) => {
     }
   }
   console.log(createdImageUrl);
-  console.log(formData)
   return await profileUpdate(formData.plantName, formData.scientificName, createdImageUrl,event);
 };

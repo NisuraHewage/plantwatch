@@ -68,7 +68,7 @@ export class UpsertParamsComponent implements OnInit {
     subscribe(d => {
       console.log(d);
       alert("Successfully updated parameters")
-      this.router.navigate([`/profile?profileId=${this.profileId}`]);
+      this.router.navigate([`/profile`], {queryParams: {profileId: this.profileId}});
     }, e=> {
       console.log(e);
       alert('Error occured while updating parameters');
