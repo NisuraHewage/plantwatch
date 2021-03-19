@@ -45,7 +45,6 @@ async function profileUpdate(plantName, scientificName, imageUrl, event){
 
       await exitingProfiles[0].save();
 
-      await sequelize.close();
       return {
         statusCode: 204,
         headers: {

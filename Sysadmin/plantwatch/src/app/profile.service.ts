@@ -24,11 +24,11 @@ export class ProfileService {
   }
 
   updatePlantProfile(plantData: FormData){
-    return this.http.put(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    return this.http.put(`${environment.baseGateway}/v1/profiles`, plantData)
   }
 
   deletePlantProfile(id: string){
-    return this.http.request('delete',`${environment.baseGateway}/v1/plantprofiles`, { body: {profileId: id} });
+    return this.http.request('delete',`${environment.baseGateway}/v1/profiles`, { body: {profileId: id} });
   }
 
   getPlantProfileById(id: any){

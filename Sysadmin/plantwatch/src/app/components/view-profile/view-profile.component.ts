@@ -73,7 +73,8 @@ export class ViewProfileComponent implements OnInit {
     this.profileService.updatePlantProfile(uploadData).subscribe((r: any) => {
       // redirect to upsert vitals
       console.log(r)
-      this.router.navigate([`/profile?profileId=${r.created}`]);
+      alert('Successfully Updated!');
+      this.router.navigate([`/profile`], {queryParams: {profileId: this.profile.Id}});
     });
   }
 }
