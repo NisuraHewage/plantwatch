@@ -1,5 +1,5 @@
 <div class="selectg">
-    <select class="select" name="Type" id="parameter-type">
+    <select (change)='selectParamType($event)' class="select" name="Type" id="parameter-type">
       <option value="light">Light</option>
       <option value="temperature">Temperature</option>
       <option value="moisture">Moisture</option>
@@ -7,13 +7,13 @@
       <option value="humidity">Humidity</option>
     </select>
 </div>
-<button class="button is-primary">Add Parameter</button>
+<button (click)="addParameter()" class="button is-primary">Add Parameter</button>
 
-<div class="notification">
+<div *ngFor="let param of parameters" class="notification">
     <button class="delete"></button>
     <div class="field is-grouped">
         <p class="control">
-          <input type="text" name="type" placeholder="Type" value="Light" disabled class="input"/>
+          <input type="text" value="param.Name" name="type" placeholder="Type" value="Light" disabled class="input"/>
         </p>
             <div class="control field has-addons">
                 <p class="control">
@@ -37,7 +37,9 @@
       </div>
   </div>
 
-  <div class="notification">
+  <button (click)="save()" class="button is-primary">Save</button>
+
+<!--   <div class="notification">
     <button class="delete"></button>
     <div class="field is-grouped">
         <p class="control">
@@ -63,4 +65,4 @@
             <input type="text" placeholder="Action"  class="input"/>
         </p>
       </div>
-  </div>
+  </div> -->

@@ -80,11 +80,6 @@ AWS.config.update({
 async function uploadToS3(file){
 
   var base64data = Buffer.from(file.content, 'binary');
-  let s3bucket = new AWS.S3({
-    accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
-    secretAccessKey: process.DYNAMO_DB_SECRETKEY,
-    region: 'us-east-1'
-  });
   const params = {
     Bucket: process.env.STORAGE_BUCKET,
     Key: Date.now().toString() + file.filename,

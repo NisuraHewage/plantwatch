@@ -38,8 +38,12 @@ export class ProfileService {
     return this.http.get(`${environment.baseGateway}/v1/profiles?plantName=${name}`);
   }
 
+  getParametersByProfileId(id: any){
+    return this.http.get(`${environment.baseGateway}/v1/profiles?profileId=${id}`);
+  }
+
   upsertParameters(params: any){
-    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, params)
+    return this.http.post(`${environment.baseGateway}/v1/parameters`, params)
     .subscribe(d => {
       console.log(d);
     });
