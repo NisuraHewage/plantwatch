@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProfileService } from 'src/app/profile.service';
 
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-createprofile',
@@ -22,7 +23,7 @@ export class CreateprofileComponent implements OnInit {
     color: new FormControl(''),
   });
 
-  constructor(private profileService: ProfileService) { }
+  constructor(private profileService: ProfileService, private router: Router) { }
 
   ngOnInit(): void {
     this.selectedFile = null;
@@ -41,7 +42,9 @@ export class CreateprofileComponent implements OnInit {
     }
     for(let key in this.profileForm.value){
       console.log(key + " - " + this.profileForm.value[key]);
-      uploadData.append(key, this.profileForm.value[key]);
+      if(this.profileForm.value[key] != null){
+        uploadData.append(key, this.profileForm.value[key]);
+      }
     }
     console.log(uploadData);
     for (var key of uploadData.entries()) {
@@ -49,6 +52,10 @@ export class CreateprofileComponent implements OnInit {
   }
 
     console.log(this.profileForm);
-    //this.profileService.uploadTest(uploadData);
+    this.profileService.createPlantProfile(uploadData).subscribe((r: any) => {
+      // redirect to upsert vitals
+      console.log(r)
+      this.router.navigate([`/profile?profileId=${r.created}`]);
+    });
   }
 }

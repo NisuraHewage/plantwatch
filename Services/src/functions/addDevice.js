@@ -59,7 +59,6 @@ async function deviceCreate(userId, deviceId, event){
 
       const newDevice = await Device.create({ DeviceID: deviceId, UserID : userId });
 
-      await sequelize.close();
       return {
         statusCode: 201,
         headers: {

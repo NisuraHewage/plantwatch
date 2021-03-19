@@ -26,16 +26,22 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: us-east-1
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-       - dynamodb:Query
-       - dynamodb:Scan
-       - dynamodb:GetItem
-       - dynamodb:PutItem
-       - dynamodb:UpdateItem
-       - dynamodb:DeleteItem
-      Resource: ${param:DYNAMODB_READINGS_ARN}
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'dynamodb:Query'
+            - 'dynamodb:Scan'
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+            - 'dynamodb:UpdateItem'
+            - 'dynamodb:DeleteItem'
+          Resource:  ${param:DYNAMODB_READINGS_ARN}
+        - Effect: 'Allow'
+          Action:
+            - 's3:*'
+          Resource: ${param:S3_BUCKET_ARN}
   httpApi:
       cors: true
 # you can overwrite defaults here
@@ -72,6 +78,79 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  predictDisease:
+    handler: src/functions/predictDisease.predictDisease
+  getParameters:
+    handler: src/functions/getParameters.getParameters
+    events:
+      - http:
+          path: /v1/parameters
+          method: get
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  upsertParameters:
+    handler: src/functions/upsertParameters.upsertParameters
+    events:
+      - http:
+          path: /v1/parameters
+          method: post
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  deleteProfile:
+    handler: src/functions/deleteProfile.deleteProfile
+    events:
+      - http:
+          path: /v1/profiles
+          method: delete
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  updateProfile:
+    handler: src/functions/updateProfile.updateProfile
+    events:
+      - http:
+          path: /v1/profiles
+          method: put
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  getProfile:
+    handler: src/functions/getProfile.getProfile
+    events:
+      - http:
+          path: /v1/profile
+          method: get
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  getProfiles:
+    handler: src/functions/getProfiles.getProfiles
+    events:
+      - http:
+          path: /v1/profiles
+          method: get
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
   viewReadings:
     handler: src/functions/viewReadings.viewReadings
     events:
@@ -100,6 +179,8 @@ functions:
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
       JWT_SECRET: ${param:JWT_SECRET}
       STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
   addDevice:
     handler: src/functions/addDevice.addDevice
     events:

@@ -1,6 +1,5 @@
 'use strict';
-
-const { Sequelize,Model,DataTypes, Op } = require('sequelize');
+const { Sequelize,Model,DataTypes } = require('sequelize');
 
 const { parse } = require('aws-multipart-parser')
 
@@ -14,26 +13,21 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
 const PlantProfiles = require('../models/PlantProfiles');
 const PlantProfile = PlantProfiles(sequelize, DataTypes);
 
-async function profileCreate(plantName, scientificName, imageUrl, event){
+async function profileUpdate(plantName, scientificName, imageUrl, event){
   try {
       await sequelize.authenticate();
 
      // Check if profile exists
 
       const exitingProfiles = await PlantProfile.findAll({
-        where:{
-          [Op.and]: [
-            { Name: plantName },
-            { ScientificName: scientificName }
-          ]
-        }
+        where:{Name: plantName}
       });
 
-      if(exitingProfiles.length != 0){
+      if(exitingProfiles.length == 0){
         return {
           statusCode: 400,
           body: JSON.stringify({
-            message: "Plant profile of same name or scientific name already exists"
+            message: "This plant profile doesn't exist"
           }),
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -43,17 +37,23 @@ async function profileCreate(plantName, scientificName, imageUrl, event){
         }
       }
 
-      const newProfile = await PlantProfile.create({ Name: plantName, ScientificName: scientificName, ImageUrl: imageUrl });
+      exitingProfiles[0].Name = plantName;
+      exitingProfiles[0].ScientificName = scientificName;
+      if(imageUrl != ""){
+        exitingProfiles[0].ImageUrl = imageUrl;
+      }
+
+      await exitingProfiles[0].save();
 
       return {
-        statusCode: 201,
+        statusCode: 204,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': true,
           'Access-Control-Allow-Headers': 'Authorization'
         },
         body: JSON.stringify({
-          created: newProfile.Id
+          updateProfile: exitingProfiles[0].Id
         })
       };
     } catch (error) {
@@ -77,9 +77,11 @@ AWS.config.update({
   secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
 });
 
+
 async function uploadToS3(file){
 
   var base64data = Buffer.from(file.content, 'binary');
+
   const params = {
     Bucket: process.env.STORAGE_BUCKET,
     Key: Date.now().toString() + file.filename,
@@ -99,8 +101,8 @@ async function uploadToS3(file){
   
 }
 
-module.exports.addPlantProfile = async (event, context) => {
-  //const body = JSON.parse(event.body);
+
+module.exports.updateProfile = async (event, context) => {
   const formData = parse(event);
   let createdImageUrl = "";
   if(formData.profileImage){
@@ -108,12 +110,12 @@ module.exports.addPlantProfile = async (event, context) => {
     if(createdImageUrl == null){
      return {
        statusCode: 500,
-       body: JSON.stringify({
-         message: "Error uploading image to storage"
-       })
+       body:{
+         data
+       }
      }
     }
   }
   console.log(createdImageUrl);
-  return await profileCreate(formData.plantName, formData.scientificName, createdImageUrl,event);
+  return await profileUpdate(formData.plantName, formData.scientificName, createdImageUrl,event);
 };

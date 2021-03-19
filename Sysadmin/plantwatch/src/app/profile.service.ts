@@ -20,43 +20,43 @@ export class ProfileService {
   }
 
   createPlantProfile(plantData: FormData){
-    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
-    .subscribe(d => {
-      console.log(d);
-    });
+    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData);
   }
 
   updatePlantProfile(plantData: FormData){
-    this.http.put(`${environment.baseGateway}/v1/plantprofiles`, plantData)
-    .subscribe(d => {
-      console.log(d);
-    });
+    return this.http.put(`${environment.baseGateway}/v1/profiles`, plantData)
+  }
+
+  deletePlantProfile(id: string){
+    return this.http.request('delete',`${environment.baseGateway}/v1/profiles`, { body: {profileId: id} });
   }
 
   getPlantProfileById(id: any){
-    return {};
+    return this.http.get(`${environment.baseGateway}/v1/profile?profileId=${id}`);
   }
 
   getPlantProfilesByName(name: any){
-    return [];
+    return this.http.get(`${environment.baseGateway}/v1/profiles?plantName=${name}`);
+  }
+
+  getParametersByProfileId(id: any){
+    return this.http.get(`${environment.baseGateway}/v1/parameters?profileId=${id}`);
   }
 
   upsertParameters(params: any){
-    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, params)
-    .subscribe(d => {
-      console.log(d);
-    });
+    const headers = { 'content-type': 'application/json'}  
+    return this.http.post(`${environment.baseGateway}/v1/parameters`, params, {'headers': headers});
   }
 
   createKnowledgeBase(plantData: FormData){
-    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
     .subscribe(d => {
       console.log(d);
     });
   }
 
   updateKnowledgeBase(plantData: FormData){
-    this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
+    return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
     .subscribe(d => {
       console.log(d);
     });

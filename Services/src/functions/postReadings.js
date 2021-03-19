@@ -13,6 +13,21 @@ AWS.config.update({
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
+async function verifyParameters(userId, deviceId, moisture, temperature,  light, humidity){
+  // Foreach plantIds associated to device
+
+    // Get plant profile
+
+      // Get parameters
+
+      // Foreach parameter
+        // Verify that the last n readings are in condition state for each parameter.
+        // If it is in condition state 
+          // Create Notification Record
+          // Push notification to socket 
+
+}
+
 async function readingCreate(userId, deviceId, moisture, temperature,  light, humidity, context){
 
   // Check if device exists in middleware

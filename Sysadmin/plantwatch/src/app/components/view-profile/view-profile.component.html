@@ -8,71 +8,68 @@
             <button class='delete' (click)="editProfile(false)"></button>
         </header>
         <section class='modal-card-body'>
-            
-            <form method="post" action="#">
-        
-        <p class="subtitle is-4">General Info</p>
-
-        <div class="field">
-			<label class="label" for="the_name">Plant Image</label>
-            <div class="file">
-                <label class="file-label">
-                    <input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      Choose a file…
-                    </span>
-                    <span *ngIf='selectedFile != null' class="file-name">
-                        {{ selectedFile.name }}
+          <form [formGroup]="profileForm">
+            <p class="subtitle is-4">General Info</p>
+    
+            <div class="field">
+          <label class="label" for="the_name">Plant Image</label>
+                <div class="file">
+                    <label class="file-label">
+                        <input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Choose a file…
+                        </span>
+                        <span *ngIf='selectedFile != null' class="file-name">
+                            {{ selectedFile.name }}
+                          </span>
                       </span>
-                  </span>
-                </label>
-              </div>
-		</div>
-
-		<div class="field">
-			<label class="label" for="plant_name">Plant Name</label>
-			<input type="text" name="plant_name" id="plant_name" class="input">
-		</div>
-
+                    </label>
+                  </div>
+        </div>
+    
         <div class="field">
-			<label class="label" for="plant_name">Scientific Name</label>
-			<input type="text" name="plant_name" id="plant_name" class="input">
-		</div>
-
+          <label class="label" for="plant_name" >Plant Name</label>
+          <input type="text" name="plant_name" formControlName="plantName" id="plant_name" class="input">
+        </div>
+    
+            <div class="field">
+          <label class="label" for="plant_name" >Scientific Name</label>
+          <input type="text" name="plant_name" formControlName="scientificName" id="plant_name" class="input">
+        </div>
+    
+            <div class="field">
+          <label class="label" for="brief_description" >Brief Description</label>
+          <textarea name="message" id="brief_description" class="textarea" formControlName="briefDescription"></textarea>
+        </div>
+    
         <div class="field">
-			<label class="label" for="brief_description">Brief Description</label>
-			<textarea name="message" id="brief_description" class="textarea"></textarea>
-		</div>
-
-		<div class="field">
-			<label class="label" for="country_of_origin">Country Of Origin</label>
-			<input type="text" name="country_of_origin" id="country_of_origin" class="input">
-		</div>
-
-        <p class="subtitle is-4">Dimensions</p>
-
-        <div class="field">
-			<label class="label" for="size">Size</label>
-			<input type="text" name="size" id="size" class="input">
-		</div>
-        <div class="field">
-			<label class="label" for="soil">Soil</label>
-			<input type="text" name="soil" id="soil" class="input">
-		</div>
-        <div class="field">
-			<label class="label" for="color">Color</label>
-			<input type="text" name="color" id="color" class="input">
-		</div>
-		
-    </form>
+          <label class="label" for="country_of_origin" >Country Of Origin</label>
+          <input type="text" name="country_of_origin" formControlName="countryOfOrigin" id="country_of_origin" class="input">
+        </div>
+    
+            <p class="subtitle is-4">Dimensions</p>
+    
+            <div class="field">
+          <label class="label" for="size" >Size</label>
+          <input type="text" name="size" formControlName="size" id="size" class="input">
+        </div>
+            <div class="field">
+          <label class="label" for="soil" >Soil</label>
+          <input type="text" name="soil" formControlName="soil" id="soil" class="input">
+        </div>
+            <div class="field">
+          <label class="label" for="color" >Color</label>
+          <input type="text" name="color" formControlName="color" id="color" class="input">
+        </div>
+      </form>
         
     </section>
     <footer class='modal-card-foot'>
-        <a class='button is-primary modal-save'>Save changes</a>
+        <button class='button is-primary modal-save' (click)="saveProfile($event)" >Save changes</button>
         <a class='button modal-cancel' (click)="editProfile(false)">Cancel</a>
     </footer>
 </div>
@@ -82,12 +79,12 @@
     <div class='columns is-mobile is-multiline'>
       <div class='column is-2'>
         <span class='header-icon user-profile-image'>
-          <img alt='' src='https://www.almanac.com/sites/default/files/image_nodes/tomatoes_helios4eos_gettyimages-edit.jpeg'>
+          <img alt='' *ngIf="profile.ImageUrl" src='{{ profile.ImageUrl }}' />
         </span>
       </div>
       <div class='column is-4-tablet is-10-mobile name'>
         <p>
-          <span class='title is-bold'>Tomato</span>
+          <span class='title is-bold'>{{ profile.Name }}</span>
           <br>
           <a class='button is-primary is-outlined' (click)="editProfile(true)" id='edit-profile' style='margin: 5px 0'>
             Edit Profile
@@ -95,7 +92,7 @@
           <br>
         </p>
         <p class='tagline'>
-            Solanum lycopersicum
+            {{ profile.ScientificName }}
         </p>
       </div>
       <div class='column is-2-tablet is-4-mobile has-text-centered'>
@@ -116,7 +113,7 @@
     <div class='tabs is-fullwidth is-medium'>
       <ul>
         <li class='link'>
-          <a [routerLink]="['/parameters']"  [queryParams]="{profileId: '5'}">
+          <a [routerLink]="['/parameters']"  [queryParams]="{profileId: profile.Id}">
             <span class='icon'>
               <i class='fa fa-list'></i>
             </span>
