@@ -67,6 +67,7 @@ export class UpsertParamsComponent implements OnInit {
     this.profileService.upsertParameters(payload).
     subscribe(d => {
       console.log(d);
+      alert("Successfully updated parameters")
       this.router.navigate([`/profile?profileId=${this.profileId}`]);
     }, e=> {
       console.log(e);

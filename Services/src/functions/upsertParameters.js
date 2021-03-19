@@ -71,8 +71,6 @@ async function parametersUpsert(plantProfileId, parameters, event){
           LowerLimit: param.LowerLimit, Message: param.Message, Action: param.Action});
       }
     }
-
-      await sequelize.close();
       return {
         statusCode: 201,
         headers: {
