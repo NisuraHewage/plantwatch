@@ -4,12 +4,16 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from 'src/app/profile.service';
 
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 @Component({
   selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',
   styleUrls: ['./view-profile.component.css']
 })
 export class ViewProfileComponent implements OnInit {
+  @BlockUI()
+  blockUI!: NgBlockUI;
 
   profile: any;
   showEditProfile = false;
@@ -29,6 +33,7 @@ export class ViewProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.profile = {};
+    this.blockUI.start();
     this._activatedRoute.queryParams.subscribe(
       params =>{
         console.log('queryParams', params['profileId']);
@@ -39,6 +44,7 @@ export class ViewProfileComponent implements OnInit {
             plantName: this.profile.Name,
             scientificName: this.profile.ScientificName
           });
+          this.blockUI.stop();
         });
       });
     
@@ -69,12 +75,15 @@ export class ViewProfileComponent implements OnInit {
       console.log(key[0] + ', ' + key[1]);
   }
 
-    console.log(this.profileForm);
+    this.blockUI.start();
     this.profileService.updatePlantProfile(uploadData).subscribe((r: any) => {
       // redirect to upsert vitals
       console.log(r)
       alert('Successfully Updated!');
-      this.router.navigate([`/profile`], {queryParams: {profileId: this.profile.Id}});
+      location.reload();
+     //this.router.navigate([`/profile`], {queryParams: {profileId: this.profile.Id}});
+    }, err => {
+      this.blockUI.stop();
     });
   }
 }

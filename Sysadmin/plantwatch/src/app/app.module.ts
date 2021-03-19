@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { BlockUIModule } from 'ng-block-ui';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,7 +32,8 @@ import { ListProfilesComponent } from './components/list-profiles/list-profiles.
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BlockUIModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,12 +4,17 @@ import { ProfileService } from 'src/app/profile.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 @Component({
   selector: 'app-createprofile',
   templateUrl: './createprofile.component.html',
   styleUrls: ['./createprofile.component.css']
 })
 export class CreateprofileComponent implements OnInit {
+
+  @BlockUI()
+  blockUI!: NgBlockUI;
 
   selectedFile: any;
 
@@ -52,10 +57,11 @@ export class CreateprofileComponent implements OnInit {
   }
 
     console.log(this.profileForm);
+    this.blockUI.start();
     this.profileService.createPlantProfile(uploadData).subscribe((r: any) => {
       // redirect to upsert vitals
-      console.log(r)
-      this.router.navigate([`/profile?profileId=${r.created}`]);
+      this.blockUI.stop();
+      this.router.navigate([`/profile`], {queryParams: {profileId: r.created}});
     });
   }
 }
