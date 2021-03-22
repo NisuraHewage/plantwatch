@@ -1,5 +1,7 @@
 'use strict';
 
+const jwt = require('jsonwebtoken');
+
 module.exports.validateUser = async (event, context) => {
   const authorizerToken = event.authorizationToken
   const authorizerArr = authorizerToken.split(' ')
