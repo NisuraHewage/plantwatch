@@ -55,5 +55,6 @@ export class AuthService {
 
   logout(){
     localStorage.removeItem('og-storage');
+    location.reload();
   }
 }

@@ -145,25 +145,69 @@
       </p>
     </div>
     <p class="panel-tabs">
-      <a class="is-active">All</a>
-      <a>Brief Info</a>
-      <a>Plant Care</a>
-      <a>Origins</a>
-      <a>Meta</a>
+      <a (click)="selectSection('all')" [ngClass]="{'is-active': detailsSetion == 'all'}">All</a>
+      <a (click)="selectSection('brief-info')"  [ngClass]="{'is-active': detailsSetion == 'brief-info'}">Brief Info</a>
+      <a (click)="selectSection('plant-care')"  [ngClass]="{'is-active': detailsSetion == 'plant-care'}" >Plant Care</a>
+      <a (click)="selectSection('origins')"  [ngClass]="{'is-active': detailsSetion == 'origins'}" >Origins</a>
+      <a (click)="selectSection('meta')"  [ngClass]="{'is-active': detailsSetion == 'meta'}" >Meta</a>
     </p>
-    <a class="panel-block is-active">
+
+    <a class="panel-block" *ngIf="detailsSetion == 'brief-info' || detailsSetion  == 'all'">
       <div class="tags has-addons are-medium">
         <span class="tag  is-info is-light">Family and Genus</span>
-        <span class="tag is-dark">Solanum lycopersicum</span>
+        <span class="tag is-info">Solanum lycopersicum</span>
       </div>
     </a>
-    <a class="panel-block">
+
+    <a class="panel-block" *ngIf="detailsSetion == 'brief-info'  || detailsSetion  == 'all'">
         <div class="tags has-addons are-medium">
             <span class="tag  is-info is-light">Country Of Origin</span>
-            <span class="tag  is-dark">Latin America</span>
+            <span class="tag  is-primary">Latin America</span>
           </div>
     </a>
     
+    <a class="panel-block" *ngIf="detailsSetion == 'plant-care' || detailsSetion  == 'all'">
+      <div class="tags has-addons are-medium">
+        <span class="tag  is-info is-light">Water</span>
+        <span class="tag is-warning">Daily</span>
+      </div>
+    </a>
+
+    <a class="panel-block" *ngIf="detailsSetion == 'plant-care'  || detailsSetion  == 'all'">
+        <div class="tags has-addons are-medium">
+            <span class="tag  is-info is-light">Pruning</span>
+            <span class="tag  is-primary">Bi-Weekly</span>
+          </div>
+    </a>
+
+    <a class="panel-block" *ngIf="detailsSetion == 'origins' || detailsSetion  == 'all'">
+      <div class="tags has-addons are-medium">
+        <span class="tag  is-info is-light">Grown In</span>
+        <span class="tag is-warning">China</span>
+      </div>
+    </a>
+
+    <a class="panel-block" *ngIf="detailsSetion == 'origins'  || detailsSetion  == 'all'">
+        <div class="tags has-addons are-medium">
+            <span class="tag  is-info is-light">Imported From</span>
+            <span class="tag  is-primary">China</span>
+          </div>
+    </a>
+
+    <a class="panel-block" *ngIf="detailsSetion == 'meta' || detailsSetion  == 'all'">
+      <div class="tags has-addons are-medium">
+        <span class="tag  is-info is-light">Average Plant Height</span>
+        <span class="tag is-danger">12.5 inches</span>
+      </div>
+    </a>
+
+    <a class="panel-block" *ngIf="detailsSetion == 'meta'  || detailsSetion  == 'all'">
+        <div class="tags has-addons are-medium">
+            <span class="tag  is-info is-light">Weight/Volumne</span>
+            <span class="tag  is-primary">8.32</span>
+          </div>
+    </a>
+
   </nav>
 
 

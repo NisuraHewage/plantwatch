@@ -19,6 +19,8 @@ export class ViewProfileComponent implements OnInit {
   showEditProfile = false;
   selectedFile: any;
 
+  detailsSetion: string = "all";
+
   profileForm = new FormGroup({
     plantName: new FormControl(''),
     scientificName: new FormControl(''),
@@ -85,5 +87,10 @@ export class ViewProfileComponent implements OnInit {
     }, err => {
       this.blockUI.stop();
     });
+  }
+
+  selectSection(section: string){
+    console.log(section)
+    this.detailsSetion = section;
   }
 }
