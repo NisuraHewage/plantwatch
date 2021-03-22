@@ -15,7 +15,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 
 async function verifyParameters(userId, deviceId, moisture, temperature,  light, humidity){
   // Foreach plantIds associated to device
-
+  
     // Get plant profile
 
       // Get parameters
