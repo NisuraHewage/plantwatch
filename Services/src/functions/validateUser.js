@@ -3,6 +3,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports.validateUser = async (event, context) => {
+  console.log(event.methodArn);
   const authorizerToken = event.authorizationToken
   const authorizerArr = authorizerToken.split(' ')
   const token = authorizerArr[1]
