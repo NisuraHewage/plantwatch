@@ -157,6 +157,7 @@ functions:
       - http:
           path: /v1/readings
           method: get
+          authorizer: validateUser
   addPlant:
     handler: src/functions/addPlant.addPlant
     events:

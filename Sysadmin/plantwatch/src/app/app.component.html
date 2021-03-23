@@ -32,7 +32,7 @@
     </div>
   </div>
 </nav> -->
-
+<block-ui>
 <section *ngIf="signedIn; else elseBlock" class="main-content columns is-fullheight">
   <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
     <p class="menu-label is-hidden-touch">{{ user }}</p>
@@ -91,3 +91,4 @@
 </footer>
 
 <ng-template #elseBlock><router-outlet></router-outlet></ng-template>
+</block-ui>
