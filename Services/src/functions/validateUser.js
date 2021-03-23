@@ -15,13 +15,12 @@ module.exports.validateUser = async (event, context) => {
     return generatePolicy('undefined', 'Deny', event.methodArn)
   }
   let decodedJwt = jwt.verify(token, process.env.JWT_SECRET)
-  if (typeof decodedJwt.username !== 'undefined' &&
-  decodedJwt.username.length > 0) {
+  if (typeof decodedJwt.email !== 'undefined' &&
+  decodedJwt.email.length > 0) {
     console.log("Successfully verified");
-    return generatePolicy(decodedJwt.username, 'Allow', event.methodArn)
+    return generatePolicy(decodedJwt.email, 'Allow', event.methodArn)
   }
   generatePolicy('undefined', 'Deny', event.methodArn)
-
 };
 
 // Help function to generate an IAM policy
