@@ -3,11 +3,11 @@
 #include "SparkFunHTU21D.h"
 HTU21D myHumidity;
 
-const char* ssid = "fiber";
-const char* password =  "Kamal118888A";
  
 const String endpoint = "https://gfvpdn2440.execute-api.us-east-1.amazonaws.com/v1/readings";
-
+bool userIdRecived = false;
+String userID = "";
+WiFiServer server(80);
 void show_yes_no(const char *prefix, int val)
 {
   Serial.print(prefix);
@@ -35,24 +35,92 @@ void dump_user_register()
 }
 
 void setup() {
- 
   Serial.begin(115200);
+   //Init WiFi as Station, start SmartConfig
+  WiFi.mode(WIFI_AP_STA);
+  WiFi.beginSmartConfig();
+
+  //Wait for SmartConfig packet from mobile
+  Serial.println("Waiting for SmartConfig.");
+  while (!WiFi.smartConfigDone()) {
+    delay(500);
+    
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("SmartConfig received.");
+
+  //Wait for WiFi to connect to AP
+  Serial.println("Waiting for WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("WiFi Connected.");
+
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+  server.begin();
+  Serial.println("Server Up");
+  Serial.println("Waiting for User ID");
+  while(!userIdRecived)
+    {
+      WiFiClient client = server.available(); 
+
+    if (client) { 
+    Serial.println("New Client.");
+    String currentLine = "";  
+    while (client.connected()) {           
+      if (client.available()) {           
+        char c = client.read();                             
+        if (c == '\n') {                    
+          if (currentLine.length() == 0) {
+            client.println("HTTP/1.1 200 OK");
+            client.println("Content-type:text/html");
+            client.println();
+            client.print("Click <a href=\"/H\">here</a> to turn the LED on pin 5 on.<br>");
+            client.print("Click <a href=\"/L\">here</a> to turn the LED on pin 5 off.<br>");
+            client.println();
+            break;
+          } else {   
+            currentLine = "";
+          }
+        } else if (c != '\r') {  // if you got anything else but a carriage return character,
+          currentLine += c;      // add it to the end of the currentLine
+          
+        }
+        if((currentLine.indexOf("userId:") > 0) && (currentLine.endsWith("H"))){
+          Serial.println(currentLine.indexOf("userId:"));
+          Serial.println(currentLine);
+          userID=currentLine.substring(currentLine.indexOf("userId:")+7,currentLine.indexOf("userId:")+13);
+          Serial.println("UserID: "+userID);
+          userIdRecived=true;
+        }
+      }
+    }
+    client.stop();
+    Serial.println("Client Disconnected.");
+    
+  }
+    }
+  
   myHumidity.begin();
   
   dump_user_register();
-  WiFi.begin(ssid, password);
+//  WiFi.begin(ssid, password);
  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi..");
-  }
  
-  Serial.println("Connected to the WiFi network");
 }
 void loop() {
 
  
   if ((WiFi.status() == WL_CONNECTED)) {
+
+    
+    if (userIdRecived){
+    
     String moisture,light;
     HTTPClient http;
     float humid = myHumidity.readHumidity();
@@ -69,9 +137,9 @@ void loop() {
     http.begin(endpoint); //Specify the URL
     
     http.addHeader("Content-Type", "application/json");
-    String httpRequestData = "{\"userId\":\"3\",\"deviceId\": \"1\",\"moisture\": \""+moisture+"\",\"temperature\": \""+temp+"\",\"light\": \""+light+"\",\"humidity\": \""+humid+"\"}";    
-    Serial.println(httpRequestData);       
-      // Send HTTP POST request
+    String httpRequestData = "{\"userId\":\""+userID+"\",\"deviceId\": \"1\",\"moisture\": \""+moisture+"\",\"temperature\": \""+temp+"\",\"light\": \""+light+"\",\"humidity\": \""+humid+"\"}";    
+    Serial.println(httpRequestData);   
+//      // Send HTTP POST request
 //    int httpResponseCode = http.POST(httpRequestData);
 // 
 //   if (httpResponseCode > 0) {
@@ -83,9 +151,9 @@ void loop() {
 //    else {
 //      Serial.println("Error on HTTP request");
 //    }
- 
-    http.end();
-    
+// 
+//    http.end();
   }
   delay(5000);
+  }
 }
