@@ -13,3 +13,5 @@ Directory Structure -
 Create serverless function (in the services directory)
 
     serverless create function -f testFunction --handler src/functions/testFunction.testFunction --path src/tests/
+
+Test
