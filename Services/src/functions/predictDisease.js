@@ -153,7 +153,7 @@ try{
 // image with multi-part form data to identify
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
-
+  console.log(event);
   const formData = parse(event);
   await getIdentificationResult(formData.image);
 
