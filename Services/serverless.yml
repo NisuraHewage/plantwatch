@@ -80,6 +80,16 @@ provider:
 functions:
   predictDisease:
     handler: src/functions/predictDisease.predictDisease
+    events:
+      - http:
+          path: /v1/predict
+          method: post
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
   getParameters:
     handler: src/functions/getParameters.getParameters
     events:
