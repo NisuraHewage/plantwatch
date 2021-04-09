@@ -116,27 +116,28 @@ async function registerDevice(token, userId){
       }
        console.log(data.EndpointArn);           // successful response
        endpointArn = data.EndpointArn;
+       // Create publish parameters
+      var params = {
+        Message: 'MESSAGE_TEXT', /* required */
+        TopicArn: endpointArn
+      };
+
+      // Create promise and SNS service object
+      var publishTextPromise = sns.publish(params).promise();
+
+      // Handle promise's fulfilled/rejected states
+      publishTextPromise.then(
+        function(data) {
+          console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
+          console.log("MessageID is " + data.MessageId);
+        }).catch(
+          function(err) {
+          console.error(err, err.stack);
+        });
     }  
   });
 
-  // Create publish parameters
-  var params = {
-    Message: 'MESSAGE_TEXT', /* required */
-    TopicArn: endpointArn
-  };
-
-  // Create promise and SNS service object
-  var publishTextPromise = sns.publish(params).promise();
-
-  // Handle promise's fulfilled/rejected states
-  publishTextPromise.then(
-    function(data) {
-      console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
-      console.log("MessageID is " + data.MessageId);
-    }).catch(
-      function(err) {
-      console.error(err, err.stack);
-    });
+  
 }
 
 module.exports.loginUser = async (event, context) => {
