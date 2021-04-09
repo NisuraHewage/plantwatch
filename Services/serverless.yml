@@ -84,6 +84,7 @@ functions:
       - http:
           path: /v1/predict
           method: post
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
