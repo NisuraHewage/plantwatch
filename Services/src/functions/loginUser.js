@@ -101,7 +101,7 @@ var sns = new AWS.SNS({apiVersion: '2010-03-31'});
 async function registerDevice(token, userId){
   let endpointArn = null;
   var params = {
-    PlatformApplicationArn: '',//process.env.SNS_PLATFORM_APPLICATION_ARN, /* required */
+    PlatformApplicationArn: process.env.SNS_PLATFORM_APPLICATION_ARN, /* required */
     Token: token, 
     CustomUserData: userId
   };

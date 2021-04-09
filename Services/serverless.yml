@@ -228,6 +228,7 @@ functions:
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
       JWT_SECRET: ${param:JWT_SECRET}
       STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      SNS_PLATFORM_APPLICATION_ARN: ${param:SNS_PLATFORM_APPLICATION_ARN}
   createUser:
     handler: src/functions/createUser.createUser
     events:
