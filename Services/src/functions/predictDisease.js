@@ -33,7 +33,7 @@ async function uploadToS3(file){
   }
 }
 
-const identificationResultPromise = new Promise((res, rej) => {
+/* const identificationResultPromise = new Promise((res, rej) => {
   try{
     var data = "";
     var url = "http://mlmodel-env.eba-rq8ips76.us-east-1.elasticbeanstalk.com/predict";
@@ -63,7 +63,7 @@ const identificationResultPromise = new Promise((res, rej) => {
     console.error("Error at identification endpoint ", err);
     rej(err);
   }
-})
+}) */
 
 
 // Go through ML
