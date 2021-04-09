@@ -126,8 +126,8 @@ async function registerDevice(token, userId){
        endpointArn = data.EndpointArn;
        // Create publish parameters
       var params = {
-        Message: 'MESSAGE_TEXT', /* required */
-        TopicArn: endpointArn
+        Message: 'You logged in!', /* required */
+        TargetArn : endpointArn
       };
 
       // Create promise and SNS service object
