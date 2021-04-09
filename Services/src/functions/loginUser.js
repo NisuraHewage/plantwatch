@@ -99,6 +99,7 @@ var sns = new AWS.SNS({apiVersion: '2010-03-31'});
 
 // For notifications (Check whether this goes in login)
 async function registerDevice(token, userId){
+  let endpointArn = null;
   var params = {
     PlatformApplicationArn: '',//process.env.SNS_PLATFORM_APPLICATION_ARN, /* required */
     Token: token, 
@@ -112,15 +113,34 @@ async function registerDevice(token, userId){
     else {
       if(data == null){
         console.log("Request ended with Error. Failed to Register with SNS" );
-        return null;
       }
        console.log(data.EndpointArn);           // successful response
-       return data.EndpointArn;
+       endpointArn = data.EndpointArn;
     }  
   });
+
+  // Create publish parameters
+  var params = {
+    Message: 'MESSAGE_TEXT', /* required */
+    TopicArn: endpointArn
+  };
+
+  // Create promise and SNS service object
+  var publishTextPromise = sns.publish(params).promise();
+
+  // Handle promise's fulfilled/rejected states
+  publishTextPromise.then(
+    function(data) {
+      console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
+      console.log("MessageID is " + data.MessageId);
+    }).catch(
+      function(err) {
+      console.error(err, err.stack);
+    });
 }
 
 module.exports.loginUser = async (event, context) => {
   const body = JSON.parse(event.body);
+  await registerDevice(body.deviceToken, body.email);
   return await userLogin(body.email, body.password, event);
 };
