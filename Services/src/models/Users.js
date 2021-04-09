@@ -14,6 +14,10 @@ module.exports = function(sequelize, DataTypes) {
     Password: {
       type: DataTypes.STRING(300),
       allowNull: true
+    },
+    SnSPushDeviceId: {
+      type: DataTypes.STRING(300),
+      allowNull: true
     }
   }, {
     sequelize,
