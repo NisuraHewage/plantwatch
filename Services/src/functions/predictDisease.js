@@ -2,7 +2,15 @@
 
 const https = require('https');
 var AWS = require("aws-sdk");
-const { parse } = require('aws-multipart-parser')
+const { parse } = require('aws-multipart-parser');
+const { v4: uuidv4 } = require('uuid');
+
+AWS.config.update({
+  region: "us-east-1",
+  accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
+  secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
+});
+var docClient =  new AWS.DynamoDB.DocumentClient();
 
 // Upload to S3
 async function uploadToS3(file){
@@ -65,8 +73,10 @@ async function getIdentificationResult(file){
     // http://mlmodel-env.eba-rq8ips76.us-east-1.elasticbeanstalk.com/predict
     
     try{
+      var upfile = Date.now();
       var data = "";
       var url = "http://mlmodel-env.eba-rq8ips76.us-east-1.elasticbeanstalk.com/predict";
+      var boundary = "xxxxxxxxxx";
       data += "--" + boundary + "\r\n";
       data += "Content-Disposition: form-data; name=\"file\"; filename=\"" + upfile + "\"\r\n";
       data += "Content-Type:application/octet-stream\r\n\r\n";
@@ -94,18 +104,19 @@ async function getIdentificationResult(file){
 }
 
  // Store result in Dynamo
- async function identificationResultCreate(userId, deviceId, moisture, temperature,  light, humidity, context){
+ async function identificationResultCreate(userId, plantId, result, imageUrl){
 
   // Check if device exists in middleware
 
   var params = {
     TableName:"DiseaseIdentificationResults",
     Item:{
+        "DiseaseIdentificationResultId": uuidv4(),
         "UserId": userId,
-        "PlantId": userId,
+        "PlantId": plantId,
         "Timestamp": Date.now(),
-        "Result": moisture,
-        "ImageUrl": temperature,
+        "Result": result,
+        "ImageUrl": imageUrl,
     }
 };
 
@@ -116,8 +127,8 @@ try{
   return {
     statusCode: 201,
     body:JSON.stringify({
-      message: "Added Reading",
-      created: result.ReadingId
+      message: "Added item",
+      created: result.DiseaseIdentificationResultId
     }),
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -146,10 +157,13 @@ module.exports.predictDisease = async (event, context) => {
   const formData = parse(event);
   await getIdentificationResult(formData.image);
 
+  let imageUrl = await uploadToS3(formData.image);
+  await identificationResultCreate(formData.userId, formData.plantId, "late-blight", imageUrl)
+
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
+      message: 'Success',
       input: event,
     }),
   };
