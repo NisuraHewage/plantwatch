@@ -68,7 +68,7 @@ async function uploadToS3(file){
 
 
 // Go through ML
-async function getIdentificationResult(file){
+async function getIdentificationResult(userId, plantId, file, imageUrl){
 
     // Check if device exists in middleware
     // http://mlmodel-env.eba-rq8ips76.us-east-1.elasticbeanstalk.com/predict
@@ -99,6 +99,7 @@ async function getIdentificationResult(file){
         }
         console.log("Logging response " + response);
         console.log("Logging body " + body);
+        await identificationResultCreate(userId, plantId, response, imageUrl)
         return response;
       });
       
@@ -159,8 +160,9 @@ try{
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
   const formData = parse(event);
-
-  const result = await getIdentificationResult(formData.image);
+  
+  let imageUrl = await uploadToS3(formData.image);
+  const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters..plantId,formData.image, imageUrl);
 
   if(result == ''){
     return {
@@ -171,9 +173,8 @@ module.exports.predictDisease = async (event, context) => {
     };
   }
 
-  let imageUrl = await uploadToS3(formData.image);
 
-  await identificationResultCreate(event.queryStringParameters.userId, event.queryStringParameters.plantId, result, imageUrl)
+  
 
   return {
     statusCode: 200,
