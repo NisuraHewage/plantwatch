@@ -83,7 +83,9 @@ async function getIdentificationResult(file){
       data += "Content-Disposition: form-data; name=\"file\"; filename=\"" + upfile + "\"\r\n";
       data += "Content-Type:application/octet-stream\r\n\r\n";
       var payload = Buffer.concat([
-        Buffer.from(file.content, 'binary')
+        Buffer.from(data, "utf8"),
+        Buffer.from(file.content, 'binary'),
+        Buffer.from("\r\n--" + boundary + "--\r\n", "utf8")
       ]);
       var options = {
           method: 'post',
@@ -96,7 +98,6 @@ async function getIdentificationResult(file){
           console.error("Error at identification request ", error);
         }
         console.log(body);
-        console.log(response);
       });
       
     }catch(err){
@@ -166,7 +167,6 @@ module.exports.predictDisease = async (event, context) => {
     statusCode: 200,
     body: JSON.stringify({
       message: 'Success',
-      input: event,
     }),
   };
 };
