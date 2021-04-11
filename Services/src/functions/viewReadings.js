@@ -86,6 +86,5 @@ try{
 } */
 
 module.exports.viewReadings = async (event, context) => {
-  console.log(event.queryStringParameters);
   return await readingsView(event.queryStringParameters.deviceId, context);
 };
