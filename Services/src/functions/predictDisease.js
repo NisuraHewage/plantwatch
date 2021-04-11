@@ -89,7 +89,7 @@ async function getIdentificationResult(file){
           headers: {"Content-Type": "multipart/form-data; boundary=" + boundary},
           body: payload,
       };
-      request(options, function(error, response, body) {
+      https.request(options, function(error, response, body) {
         if(error){
           console.error("Error at identification request ", error);
         }
@@ -153,13 +153,13 @@ try{
 // image with multi-part form data to identify
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
-  event.isBase64Encoded = false;
+  console.log(event)
   const formData = parse(event);
   console.log(formData)
   await getIdentificationResult(formData.image);
 
   let imageUrl = await uploadToS3(formData.image);
-  await identificationResultCreate(formData.userId, formData.plantId, "late-blight", imageUrl)
+  await identificationResultCreate(event.queryStringParameters.userId, event.queryStringParameters.plantId, "late-blight", imageUrl)
 
   return {
     statusCode: 200,
