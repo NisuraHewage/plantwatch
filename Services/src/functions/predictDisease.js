@@ -97,13 +97,14 @@ async function getIdentificationResult(file){
         if(error){
           console.error("Error at identification request ", error);
         }
-        console.log(body);
+        console.log(response.body);
+        return response.body;
       });
       
     }catch(err){
       console.error("Error at identification endpoint ", err);
     }
-
+    return "";
 }
 
  // Store result in Dynamo
@@ -158,10 +159,20 @@ try{
 module.exports.predictDisease = async (event, context) => {
   const formData = parse(event);
 
-  await getIdentificationResult(formData.image);
+  const result = await getIdentificationResult(formData.image);
+
+  if(result == ''){
+    return {
+      statusCode: 404,
+      body: JSON.stringify({
+        message: 'Disease not identified',
+      }),
+    };
+  }
 
   let imageUrl = await uploadToS3(formData.image);
-  await identificationResultCreate(event.queryStringParameters.userId, event.queryStringParameters.plantId, "late-blight", imageUrl)
+
+  await identificationResultCreate(event.queryStringParameters.userId, event.queryStringParameters.plantId, result, imageUrl)
 
   return {
     statusCode: 200,
