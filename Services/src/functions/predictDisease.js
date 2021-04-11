@@ -98,7 +98,7 @@ async function getIdentificationResult(file){
           console.error("Error at identification request ", error);
           return ""
         }
-        console.log(response.body);
+        console.log(response);
         return response.body;
       });
       
