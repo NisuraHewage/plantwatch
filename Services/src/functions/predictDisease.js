@@ -66,7 +66,7 @@ async function uploadToS3(file){
   }
 }) */
 
-
+const requestPromise = require('request-promise')
 // Go through ML
 async function getIdentificationResult(userId, plantId, file, imageUrl){
 
@@ -92,15 +92,13 @@ async function getIdentificationResult(userId, plantId, file, imageUrl){
           headers: {"Content-Type": "multipart/form-data; boundary=" + boundary},
           body: payload,
       };
-      request(options, async (error, response, body) => {
-        if(error){
-          console.error("Error at identification request ", error);
-          return ""
-        }
-        console.log("Logging response " + response);
+      requestPromise(options).then(async (body) => {
         console.log("Logging body " + body);
         await identificationResultCreate(userId, plantId, response, imageUrl)
-        return response;
+        return body;
+      }).catch(err => {
+        console.error(err);
+        return "";
       });
       
     }catch(err){
