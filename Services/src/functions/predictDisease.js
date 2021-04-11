@@ -27,7 +27,6 @@ async function uploadToS3(file){
 
   try{
     var data = await new AWS.S3().upload(params).promise();
-    console.log(data);
     return data.Location;
   }catch(err){
     console.log(err);
@@ -98,8 +97,9 @@ async function getIdentificationResult(file){
           console.error("Error at identification request ", error);
           return ""
         }
-        console.log(response);
-        return response.body;
+        console.log("Logging response " + response);
+        console.log("Logging body " + body);
+        return response;
       });
       
     }catch(err){
