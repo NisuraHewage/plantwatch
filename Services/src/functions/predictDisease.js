@@ -5,6 +5,8 @@ var AWS = require("aws-sdk");
 const { parse } = require('aws-multipart-parser');
 const { v4: uuidv4 } = require('uuid');
 
+const request = require('request');
+
 AWS.config.update({
   region: "us-east-1",
   accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
@@ -89,7 +91,7 @@ async function getIdentificationResult(file){
           headers: {"Content-Type": "multipart/form-data; boundary=" + boundary},
           body: payload,
       };
-      https.request(options, function(error, response, body) {
+      request(options, function(error, response, body) {
         if(error){
           console.error("Error at identification request ", error);
         }
@@ -153,9 +155,8 @@ try{
 // image with multi-part form data to identify
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
-  console.log(event)
   const formData = parse(event);
-  console.log(formData)
+
   await getIdentificationResult(formData.image);
 
   let imageUrl = await uploadToS3(formData.image);
