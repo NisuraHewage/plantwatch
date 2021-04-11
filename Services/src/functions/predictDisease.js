@@ -96,6 +96,7 @@ async function getIdentificationResult(file){
       request(options, function(error, response, body) {
         if(error){
           console.error("Error at identification request ", error);
+          return ""
         }
         console.log(response.body);
         return response.body;
@@ -103,8 +104,8 @@ async function getIdentificationResult(file){
       
     }catch(err){
       console.error("Error at identification endpoint ", err);
+      return "";
     }
-    return "";
 }
 
  // Store result in Dynamo
@@ -178,6 +179,7 @@ module.exports.predictDisease = async (event, context) => {
     statusCode: 200,
     body: JSON.stringify({
       message: 'Success',
+      disease: result
     }),
   };
 };
