@@ -92,7 +92,7 @@ async function getIdentificationResult(userId, plantId, file, imageUrl){
           headers: {"Content-Type": "multipart/form-data; boundary=" + boundary},
           body: payload,
       };
-      request(options, function(error, response, body) {
+      request(options, async function(error, response, body) {
         if(error){
           console.error("Error at identification request ", error);
           return ""
