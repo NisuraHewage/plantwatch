@@ -40,6 +40,7 @@ const identificationResultPromise = (file) => new Promise((res, rej) => {
     var upfile = Date.now();
     var data = "";
     var url = "http://mlmodel-env.eba-rq8ips76.us-east-1.elasticbeanstalk.com/predict";
+    var boundary = "xxxxxxxxxx";
     data += "--" + boundary + "\r\n";
     data += "Content-Disposition: form-data; name=\"file\"; filename=\"" + upfile + "\"\r\n";
     data += "Content-Type:application/octet-stream\r\n\r\n";
@@ -167,7 +168,7 @@ module.exports.predictDisease = async (event, context) => {
  // const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters.plantId,formData.image, imageUrl);
   const result = await identificationResultPromise(formData.image);
   await identificationResultCreate(userId, plantId, response, imageUrl);
-  
+
   if(result == ''){
     return {
       statusCode: 404,
