@@ -27,6 +27,7 @@ async function uploadToS3(file){
 
   try{
     var data = await new AWS.S3().upload(params).promise();
+    console.log(data.Location)
     return data.Location;
   }catch(err){
     console.log(err);
@@ -34,15 +35,18 @@ async function uploadToS3(file){
   }
 }
 
-/* const identificationResultPromise = new Promise((res, rej) => {
+const identificationResultPromise = (file) => new Promise((res, rej) => {
   try{
+    var upfile = Date.now();
     var data = "";
     var url = "http://mlmodel-env.eba-rq8ips76.us-east-1.elasticbeanstalk.com/predict";
     data += "--" + boundary + "\r\n";
     data += "Content-Disposition: form-data; name=\"file\"; filename=\"" + upfile + "\"\r\n";
     data += "Content-Type:application/octet-stream\r\n\r\n";
     var payload = Buffer.concat([
-      Buffer.from(file.content, 'binary')
+      Buffer.from(data, "utf8"),
+      Buffer.from(file.content, 'binary'),
+      Buffer.from("\r\n--" + boundary + "--\r\n", "utf8")
     ]);
     var options = {
         method: 'post',
@@ -53,20 +57,20 @@ async function uploadToS3(file){
     request(options, function(error, response, body) {
       if(error){
         console.error("Error at identification request ", error);
-        rej(error)
+        rej('')
       }
-      console.log(response);
-      console.log(body);
-
+      console.log("Response " + response);
+      console.log("Body " + body);
+      res(body);
     });
     
   }catch(err){
     console.error("Error at identification endpoint ", err);
-    rej(err);
+    rej('');
   }
-}) */
+})
 
-const requestPromise = require('request-promise')
+const requestPromise = require('request-promise');
 // Go through ML
 async function getIdentificationResult(userId, plantId, file, imageUrl){
 
@@ -160,8 +164,10 @@ module.exports.predictDisease = async (event, context) => {
   const formData = parse(event);
   
   let imageUrl = await uploadToS3(formData.image);
-  const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters.plantId,formData.image, imageUrl);
-
+ // const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters.plantId,formData.image, imageUrl);
+  const result = await identificationResultPromise(formData.image);
+  await identificationResultCreate(userId, plantId, response, imageUrl);
+  
   if(result == ''){
     return {
       statusCode: 404,
