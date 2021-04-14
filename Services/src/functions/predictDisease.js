@@ -167,7 +167,7 @@ module.exports.predictDisease = async (event, context) => {
   let imageUrl = await uploadToS3(formData.image);
  // const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters.plantId,formData.image, imageUrl);
   const result = await identificationResultPromise(formData.image);
-  await identificationResultCreate(userId, plantId, response, imageUrl);
+  await identificationResultCreate(event.queryStringParameters.userId, event.queryStringParameters.plantId, result, imageUrl);
 
   if(result == ''){
     return {
