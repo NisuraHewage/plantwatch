@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 module.exports.readNotification = async (event, context) => {
   return {
     statusCode: 200,
