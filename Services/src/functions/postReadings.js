@@ -31,15 +31,16 @@ const Parameter = Parameters(sequelize, DataTypes);
 const Users = require('../models/Parameters');
 const User = Users(sequelize, DataTypes);
 
+const READING_COUNT = 2;
 
 async function verifyParameters(userId, deviceId, moisture, temperature,  light, humidity){
   try {
         // Get last 5 readings for device
         var result = await docClient.scan({TableName:"Readings"}).promise();
-       var last5Readings =  result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp ).slice(0,5);
+       var last5Readings =  result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp ).slice(0,READING_COUNT);
     await sequelize.authenticate();
 
-    const devices = await Device.findAll({
+    let devices = await Device.findAll({
       DeviceID : deviceId
       }
     );
@@ -58,14 +59,14 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
       }
     };
 
-    const plants = await Plant.findAll({
+    let plants = await Plant.findAll({
       DeviceID : devices[0].Id
       }
     );
 
     for(let i = 0; i < plants.length; i++){
       let plant = plants[i];
-      const params = await Parameter.findAll({
+      let params = await Parameter.findAll({
         PlantProfileID : plant.PlantProfileID
         }
       );
@@ -73,10 +74,15 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
       last5Readings.forEach(reading => {
         for(let j = 0; j < params.length; j++){
           let param = params[j];
-          if(reading[param.Name].Value < param.LowerLimit || reading[param.Name].Value > param.UpperLimit){
-            param.invalid = true;
+          if(reading[param.Name].Value < param.LowerLimit){
+            param.short = true;
           }else{
-            param.invalid = false;
+            param.short = false;
+          }
+          if(reading[param.Name].Value > param.UpperLimit){
+            param.long = true;
+          }else{
+            param.long = false;
           }
         }
       });
@@ -84,8 +90,11 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
       let notificationMessage = "";
       for(let l = 0; l < params.length; l++){
         let param = params[l];
-        if(param.invalid){
-          notificationMessage += param.Message;
+        if(param.long){
+          notificationMessage += " " + param.Action + " ";
+        }
+        if(param.short){
+          notificationMessage += " " + param.Message + " ";
         }
       }
       if(notificationMessage != ""){
@@ -94,27 +103,66 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
           Id: userId
         });
 
-        var params = {
+        var messageParams = {
           Message: notificationMessage, /* required */
           TargetArn : user.SnSPushDeviceId
         };
   
         // Create promise and SNS service object
-        var publishTextPromise = sns.publish(params).promise();
+        var publishTextPromise = sns.publish(messageParams).promise();
   
         // Handle promise's fulfilled/rejected states
         publishTextPromise.then(
           function(data) {
-            console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
+            console.log(`Message ${messageParams.Message} sent to the topic ${messageParams.TopicArn}`);
             console.log("MessageID is " + data.MessageId);
-            return endpointArn;
+
+            // create notification in dynamo
+
+            
+              var notificationParams = {
+                TableName:"Notifications",
+                Item:{
+                    "NotificationId": uuidv4(),
+                    "UserId": userId,
+                    "Timestamp": Date.now(),
+                    "Message": notificationMessage,
+                    "IsRead": false
+                }
+            };
+            
+            try{
+              var result = await docClient.put(notificationParams).promise();
+              console.log("Added item:", result);
+              return "OK";
+            
+            }catch(err){
+              console.error("Unable to add item. Error JSON:", err);
+              return {
+                statusCode: 500,
+                headers: {
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Credentials': true,
+                  'Access-Control-Allow-Headers': 'Authorization'
+                }
+              }
+            }
+            
+
+
           }).catch(
             function(err) {
             console.error(err, err.stack);
+            return {
+              statusCode: 500,
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': true,
+                'Access-Control-Allow-Headers': 'Authorization'
+              }
+            }
           });
 
-
-        return "OK"
       }
     }
 
@@ -169,7 +217,14 @@ try{
   let verificationResult = await verifyParameters(userId, deviceId, moisture, temperature, light, humidity);
 
   if(verificationResult != "OK"){
-    return verificationResult;
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Headers': 'Authorization'
+      }
+    }
   }
 
   return {
