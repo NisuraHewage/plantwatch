@@ -13,7 +13,7 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
 const PlantProfiles = require('../models/PlantProfiles');
 const PlantProfile = PlantProfiles(sequelize, DataTypes);
 
-async function profileUpdate(plantName, scientificName, imageUrl, event){
+async function profileUpdate(plantName, imageUrl, plantDescription, watering, temperature, sunlight, soil, pests, diseases, fertilizer){
   try {
       await sequelize.authenticate();
 
@@ -37,11 +37,17 @@ async function profileUpdate(plantName, scientificName, imageUrl, event){
         }
       }
 
-      exitingProfiles[0].Name = plantName;
-      exitingProfiles[0].ScientificName = scientificName;
       if(imageUrl != ""){
         exitingProfiles[0].ImageUrl = imageUrl;
       }
+      exitingProfiles[0].PlantDescription = plantDescription;
+      exitingProfiles[0].Watering = watering;
+      exitingProfiles[0].Temperature = temperature;
+      exitingProfiles[0].Sunlight = sunlight;
+      exitingProfiles[0].Soil = soil;
+      exitingProfiles[0].Pests = pests;
+      exitingProfiles[0].Diseases = diseases;
+      exitingProfiles[0].Ferilizer = fertilizer;
 
       await exitingProfiles[0].save();
 
@@ -118,5 +124,7 @@ module.exports.updateProfile = async (event, context) => {
     }
   }
   console.log(createdImageUrl);
-  return await profileUpdate(formData.plantName, formData.scientificName, createdImageUrl,event);
+  return await profileUpdate(formData.plantName, formData.scientificName, createdImageUrl,
+    formData.watering, formData.temperature, formData.sunlight, formData.soil, formData.pests, formData.diseases,
+    formData.fertilizer );
 };
