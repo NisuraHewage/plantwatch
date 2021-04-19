@@ -14,6 +14,9 @@ import { AddKnowledgebaseComponent } from './components/add-knowledgebase/add-kn
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { ListProfilesComponent } from './components/list-profiles/list-profiles.component';
+import { NotificationCenterComponent } from './components/notification-center/notification-center.component';
+import { UserRolesComponent } from './components/user-roles/user-roles.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { ListProfilesComponent } from './components/list-profiles/list-profiles.
     AddKnowledgebaseComponent,
     DashboardComponent,
     ViewProfileComponent,
-    ListProfilesComponent
+    ListProfilesComponent,
+    NotificationCenterComponent,
+    UserRolesComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
