@@ -1,7 +1,7 @@
-<form [formGroup]="profileForm">
+<form autocomplete="off" formGroupName="profileForm">
 
 
-  <div class="field">
+  <!-- <div class="field">
     <label class="label" for="the_name">Plant Image</label>
     <figure class="image is-128x128" *ngIf='selectedFile != null' >
       <img [src]="previewImageUrl"/>
@@ -21,7 +21,22 @@
                 </span>
               </label>
             </div>
+  </div> -->
+  <div class="field">
+    <div id="image-upload" >
+      <span class="icon image-icon" *ngIf='previewImageUrl == null' >
+        <i class="fas fa-image fa-3x"></i>
+      </span>
+      <figure class="image" *ngIf='previewImageUrl != null' >
+        <img class="is-rounded " [src]="previewImageUrl"/>
+        </figure>
+      <input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+      <span class="icon camera-icon">
+        <i class="fas fa-camera fa-1x"></i>
+      </span>
+    </div>
   </div>
+
   
   <div class="field">
     <label class="label" for="plant_name" >Plant Name</label>
@@ -35,7 +50,7 @@
   
 
   <div class="columns">
-    <div class="column">
+    <div id="quick-info" class="column">
       <div class="control">
         <p>Water Quick Info</p>
         <label class="radio">
@@ -87,7 +102,7 @@
     <div class="column">
       <div class="field">
         <label class="label" for="brief_description" >Brief Description</label>
-        <textarea name="message" id="brief_description"  class="textarea" formControlName="plantDescription"></textarea>
+        <textarea name="message" rows="2" id="brief_description"  class="textarea" formControlName="plantDescription"></textarea>
       </div>
       
       <div class="field">
@@ -129,7 +144,7 @@
    
   
   <div class="field" id="progress-summary">
-    <button class='button is-primary modal-save' (click)="saveProfile($event)" >Save</button>
+    <button class='button is-primary modal-save pw-button' (click)="saveProfile($event)" >Save</button>
     <div class="steps">
       <div id="step1" class="step-active">
 

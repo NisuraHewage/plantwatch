@@ -26,7 +26,7 @@ export class ViewProfileComponent implements OnInit {
     scientificName: new FormControl(''),
     plantDescription: new FormControl(''),
     watering: new FormControl(''),
-    temparature: new FormControl(''),
+    temperature: new FormControl(''),
     soil: new FormControl(''),
     sunlight: new FormControl(''),
     pests: new FormControl(''),
@@ -43,10 +43,18 @@ export class ViewProfileComponent implements OnInit {
       params =>{
         this.profileService.getPlantProfileById(params['profileId']).subscribe((r: any) => {
           this.profile = r.result[0];
-
+          console.log()
           this.profileForm.patchValue({
             plantName: this.profile.Name,
-            scientificName: this.profile.ScientificName
+            scientificName: this.profile.ScientificName,
+            plantDescription: this.profile.PlantDescription,
+            watering: this.profile.Watering,
+            temperature: this.profile.Temperature,
+            soil: this.profile.Soil,
+            sunlight: this.profile.Sunlight,
+            pests: this.profile.Pets,
+            diseases: this.profile.Diseases,
+            fertilizer: this.profile.Fertilizer,
           });
           this.blockUI.stop();
         });

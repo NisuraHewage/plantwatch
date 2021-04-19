@@ -15,10 +15,15 @@
 
 
 #progress-summary{
-    width: 30%;
+    width: 15%;
     margin: auto;
 }
 
+.pw-button{
+	background: #16C7BD;
+	display: block;
+	margin: auto;
+	}
 
 .field{
     position: relative;
@@ -57,3 +62,69 @@
   .label-input-filled{
     font-size: 0.8rem;
   }
+
+  #image-upload{
+    position: relative;
+    width: 40%;
+    height: 100px;
+    border-radius: 100px;
+    display: block;
+    margin: auto;
+    background: #212936;
+/* Card hover */
+
+box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);
+}
+
+#image-upload .image-icon{
+    position: absolute;
+    top: 40px;
+    left: 40%;
+}
+
+#image-upload .fa-image{
+    color: #16C7BD;
+}
+
+#image-upload .fa-camera{
+    color: #16C7BD;
+    background: #212936;
+    
+}
+
+#image-upload .camera-icon{
+    right: 10px;
+    z-index: 2;
+    bottom: 10px;
+    border-radius: 20px;
+    position: absolute;
+}
+
+#image-upload img{
+    object-fit: cover;
+    max-height: 72px;
+}
+
+#image-upload figure{
+    position: absolute;
+    top: 17px;
+    right: 6px;
+    width: 240px;
+}
+
+#quick-info{
+
+}
+
+#quick-info p{
+    color: #16C7BD;
+    text-align: center;
+    flex-basis: 100%;
+}
+
+#quick-info .control{
+    display: flex;
+    margin-top: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+}

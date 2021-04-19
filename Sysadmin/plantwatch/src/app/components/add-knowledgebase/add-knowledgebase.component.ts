@@ -17,7 +17,7 @@ export class AddKnowledgebaseComponent implements OnInit {
 
   profile: any;
   selectedFile: any;
-  previewImageUrl: any;
+  previewImageUrl: any = "";
 
   profileForm = new FormGroup({
     plantName: new FormControl(''),
@@ -42,7 +42,8 @@ export class AddKnowledgebaseComponent implements OnInit {
         console.log('queryParams', params['profileId']);
         this.profileService.getPlantProfileById(params['profileId']).subscribe((r: any) => {
           this.profile = r.result[0];
-
+          this.previewImageUrl = this.profile.ImageUrl;
+          console.log(this.profile)
           this.profileForm.patchValue({
             plantName: this.profile.Name,
             scientificName: this.profile.ScientificName,

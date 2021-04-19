@@ -73,7 +73,7 @@ export class CreateprofileComponent implements OnInit {
     this.profileService.createPlantProfile(uploadData).subscribe((r: any) => {
       // redirect to upsert vitals
       this.blockUI.stop();
-      this.router.navigate([`/profile`], {queryParams: {profileId: r.created}});
+      this.router.navigate([`/knowledge`], {queryParams: {profileId: r.created}});
     });
   }
 }

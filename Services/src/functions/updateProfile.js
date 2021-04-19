@@ -13,7 +13,7 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
 const PlantProfiles = require('../models/PlantProfiles');
 const PlantProfile = PlantProfiles(sequelize, DataTypes);
 
-async function profileUpdate(plantName, imageUrl, plantDescription, watering, temperature, sunlight, soil, pests, diseases, fertilizer){
+async function profileUpdate(plantName, scientificName, imageUrl, plantDescription, watering, temperature, sunlight, soil, pests, diseases, fertilizer){
   try {
       await sequelize.authenticate();
 
@@ -124,7 +124,7 @@ module.exports.updateProfile = async (event, context) => {
     }
   }
   console.log(createdImageUrl);
-  return await profileUpdate(formData.plantName, formData.scientificName, createdImageUrl,
+  return await profileUpdate(formData.plantName, formData.scientificName, createdImageUrl, formData.plantDescription,
     formData.watering, formData.temperature, formData.sunlight, formData.soil, formData.pests, formData.diseases,
     formData.fertilizer );
 };
