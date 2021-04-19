@@ -1,4 +1,4 @@
-<form autocomplete="off" formGroupName="profileForm">
+<form autocomplete="off" [formGroup]="profileForm">
 
 
   <!-- <div class="field">
@@ -101,41 +101,41 @@
     </div>
     <div class="column">
       <div class="field">
-        <label class="label" for="brief_description" >Brief Description</label>
-        <textarea name="message" rows="2" id="brief_description"  class="textarea" formControlName="plantDescription"></textarea>
+        <label [ngClass]="{'label-input-empty': plantDescriptionInput.value == '', 'label-input-filled': plantDescriptionInput.value != ''}"  class="label" for="brief_description" >Brief Description</label>
+        <textarea #plantDescriptionInput name="message" rows="2" id="brief_description"  class="textarea" formControlName="plantDescription"></textarea>
       </div>
       
       <div class="field">
-        <label class="label" for="country_of_origin" >Watering </label>
-        <input type="text" name="country_of_origin" placeholder="Watering"  formControlName="watering" id="watering" class="input">
+        <label [ngClass]="{'label-input-empty': wateringInput.value == '', 'label-input-filled': wateringInput.value != ''}"  class="label" for="country_of_origin" >Watering </label>
+        <input #wateringInput type="text" name="country_of_origin" placeholder="Watering"  formControlName="watering" id="watering" class="input">
       </div>
       
       
           <div class="field">
-            <label class="label" for="soil" >Temperature</label>
-        <input type="text" name="size" formControlName="temperature" id="temperature" placeholder="Temperature" class="input">
+            <label [ngClass]="{'label-input-empty': tempInput.value == '', 'label-input-filled': tempInput.value != ''}"  class="label" for="soil" >Temperature</label>
+        <input #tempInput type="text" name="size" formControlName="temperature" id="temperature" placeholder="Temperature" class="input">
       </div>
           <div class="field">
-        <label class="label" for="soil" >Soil</label>
-        <input type="text" name="soil" formControlName="soil" placeholder="Soil"  id="soil" class="input">
+        <label [ngClass]="{'label-input-empty': soilInput.value == '', 'label-input-filled': soilInput.value != ''}"  class="label" for="soil" >Soil</label>
+        <input #soilInput type="text" name="soil" formControlName="soil" placeholder="Soil"  id="soil" class="input">
       </div>
     </div>
     <div class="column">
       <div class="field">
-        <label class="label" for="color" >Sunlight</label>
-        <input type="text" name="color" formControlName="sunlight" placeholder="Sunlight"  id="sunlight" class="input">
+        <label [ngClass]="{'label-input-empty': sunlightInput.value == '', 'label-input-filled': sunlightInput.value != ''}"  class="label" for="color" >Sunlight</label>
+        <input #sunlightInput type="text" name="color" formControlName="sunlight" placeholder="Sunlight"  id="sunlight" class="input">
       </div>
       <div class="field">
-          <label class="label" for="color" >Pests</label>
-          <input type="text" name="color" formControlName="pests" placeholder="Pests"  id="pests" class="input">
+          <label [ngClass]="{'label-input-empty': pestsInput.value == '', 'label-input-filled': pestsInput.value != ''}"  class="label" for="color" >Pests</label>
+          <input #pestsInput type="text" name="color" formControlName="pests" placeholder="Pests"  id="pests" class="input">
         </div>
         <div class="field">
-          <label class="label" for="color" >Diseases</label>
-          <input type="text" name="color" formControlName="diseases" placeholder="Diseases"  id="diseases" class="input">
+          <label [ngClass]="{'label-input-empty': diseaseInput.value == '', 'label-input-filled': diseaseInput.value != ''}"  class="label" for="color" >Diseases</label>
+          <input #diseaseInput type="text" name="color" formControlName="diseases" placeholder="Diseases"  id="diseases" class="input">
         </div>
         <div class="field">
-          <label class="label" for="color" >Fertilizer</label>
-          <input type="text" name="color" formControlName="fertilizer" placeholder="Fertilizer"  id="fertilizer" class="input">
+          <label [ngClass]="{'label-input-empty': fertilizerInput.value == '', 'label-input-filled': fertilizerInput.value != ''}"  class="label" for="color" >Fertilizer</label>
+          <input #fertilizerInput type="text" name="color" formControlName="fertilizer" placeholder="Fertilizer"  id="fertilizer" class="input">
         </div>
     </div>
   </div>

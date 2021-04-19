@@ -47,7 +47,7 @@ async function profileUpdate(plantName, scientificName, imageUrl, plantDescripti
       exitingProfiles[0].Soil = soil;
       exitingProfiles[0].Pests = pests;
       exitingProfiles[0].Diseases = diseases;
-      exitingProfiles[0].Ferilizer = fertilizer;
+      exitingProfiles[0].Fertilizer = fertilizer;
 
       await exitingProfiles[0].save();
 
@@ -123,7 +123,7 @@ module.exports.updateProfile = async (event, context) => {
      }
     }
   }
-  console.log(createdImageUrl);
+  console.log(formData.pests);
   return await profileUpdate(formData.plantName, formData.scientificName, createdImageUrl, formData.plantDescription,
     formData.watering, formData.temperature, formData.sunlight, formData.soil, formData.pests, formData.diseases,
     formData.fertilizer );

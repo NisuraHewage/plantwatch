@@ -101,6 +101,7 @@ export class AddKnowledgebaseComponent implements OnInit {
       // redirect to upsert vitals
       console.log(r)
       alert('Successfully Updated!');
+      this.blockUI.stop();
     //  location.reload();
      this.router.navigate([`/profile`], {queryParams: {profileId: this.profile.Id}});
     }, err => {
