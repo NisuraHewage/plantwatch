@@ -1,12 +1,12 @@
 <div class='modal' id='delete-profile-modal' *ngIf="profileToDelete != null" [ngClass]="{'is-active': profileToDelete != null}">
   <div class='modal-background'></div>
   <div class='modal-card'>
-      <header class='modal-card-head'>
-          <p class='modal-card-title'>Delete Profile({{ profileToDelete.Name }})?</p>
+      <header class='modal-card-head' style="background: #2B3648;">
+          <p class='modal-card-title' style="color: #F1F1F1;">Delete Profile({{ profileToDelete.Name }})?</p>
           <button class='delete' (click)="setProfileToDelete(null)"></button>
       </header>
-  <footer class='modal-card-foot'>
-      <a class='button is-danger modal-save' (click)="confirmDeleteProfile()">Yes</a>
+  <footer class='modal-card-foot' style="background: #2B3648;">
+      <a class='button is-primary modal-save' (click)="confirmDeleteProfile()">Yes</a>
       <a class='button modal-cancel' (click)="setProfileToDelete(null)">Cancel</a>
   </footer>
 </div>
@@ -15,50 +15,71 @@
 <div class='columns'>
   <div class='container profile'>
     
-    <div class='box' style='border-radius: 0px;'>
+    <div class="search-block" >
       <!-- Main container -->
       <div class='columns'>
-        <div class='column is-2-tablet user-property-count has-text-centered'>
-          <p class='subtitle is-5'>
-            <strong></strong>
-            {{ profiles.length }}
-            <br>
-            Profiles
-          </p>
-        </div>
-        <div class='column is-8'>
+        <div class='column'>
           <p class='control has-addons'>
-            <input class='input' (keyup)="updateSearch($event)" placeholder='Search Profiles' style='width: 80% !important' type='text'>
-            <button (click)="searchProfiles()" class='button'>
-              Search
-            </button>
+            <span class='icon'>
+              <i class='fa fa-search'></i>
+            </span>
+            <input class='input' (keyup)="updateSearch($event)" placeholder='Search Profiles' type='text'>
           </p>
         </div>
       </div>
     </div>
-    <div class='columns is-mobile'>
-      
-      
-      <div *ngFor="let profile of profiles" class='column is-3-tablet is-6-mobile'>
-        <div class='card'>
+    <div class="columns">
+      <div class="column is-four-fifths"></div>
+      <div class="column add-profile-btn-outline">
+        <a class="" [routerLink]="['/profiles/create']"  ><span class='icon'>
+          <i  class='fa fa-plus-circle'></i>
+        </span>Add Profile</a>
+      </div>
+    </div>
+    <div class='profileContainer'>
+      <div class='profileContainerItem' >
+        <div class='card pw-prof-card' style="height: 224px;">
           <div class='card-image'>
             <!-- is-4by3 -->
-            <figure class='image '>
+            <figure class='image is-128x128'>
+              <a [routerLink]="['/profiles/create']"  id="add-profile-btn">+</a>
+            </figure>
+          </div>
+          <div class='card-content'>
+            <div class='content'>
+              <span >Add Profile</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div *ngFor="let profile of profiles" class='profileContainerItem'>
+        <div class='card pw-prof-card'>
+          <div class='card-image'>
+            <!-- is-4by3 -->
+            <figure class='image is-128x128'>
               <img alt='' src={{profile.ImageUrl}}>
             </figure>
           </div>
           <div class='card-content'>
             <div class='content'>
-              <span class='tag is-info is-medium'>{{profile.Name}}</span>
+              <span >{{profile.Name}}</span>
+            </div>
+            <div class="profileActions">
+              <a  [routerLink]="['/knowledge']"   [queryParams]="{profileId: profile.Id }" ><span class='icon'>
+                <i  class='fa fa-edit'></i>
+              </span></a>
+              <a (click)="setProfileToDelete(profile)"><span class='icon'>
+                <i class='fa fa-trash'></i>
+              </span></a>
+              <a [routerLink]="['/profile']"  [queryParams]="{profileId: profile.Id }" ><span class='icon'>
+                <i  class='fa fa-eye'></i>
+              </span></a>
             </div>
           </div>
-          <footer class='card-footer'>
-            <a [routerLink]="['/profile']"  [queryParams]="{profileId: profile.Id }" class='card-footer-item'>Edit</a>
-            <a (click)="setProfileToDelete(profile)" class='card-footer-item'>Delete</a>
-          </footer>
         </div>
-        <br>
       </div>
+
     </div>
   </div>
 </div>

@@ -1,44 +1,81 @@
-<div class="selectg">
-    <select (change)='selectParamType($event)' class="select" name="Type" id="parameter-type">
-      <option value="light">Light</option>
-      <option value="temperature">Temperature</option>
-      <option value="moisture">Moisture</option>
-      <option value="fertilizer">Fertilizer</option>
-      <option value="humidity">Humidity</option>
-    </select>
+<div id="select-parameter">
+  <div>
+    <div class="select">
+      <select (change)='selectParamType($event)' class="select" name="Type" id="parameter-type">
+        <option value="light">Light</option>
+        <option value="temperature">Temperature</option>
+        <option value="moisture">Moisture</option>
+        <option value="fertilizer">Fertilizer</option>
+        <option value="humidity">Humidity</option>
+      </select>
+  </div>
+  <button style="margin-left: 10px" (click)="addParameter()" class="button is-primary is-rounded pw-button">+</button>
+
+  </div>
+  
 </div>
-<button (click)="addParameter()" class="button is-primary">Add Parameter</button>
+
+
+
+
 
 <div *ngFor="let param of parameters" class="notification">
-    <button (click)="removeParameter(param.Name)" class="delete"></button>
-    <div class="field is-grouped">
-        <p class="control">
-          <input type="text" [value]="param.Name" name="type" placeholder="Type" disabled class="input"/>
-        </p>
-        <div class="control field has-addons">
-            <p class="control">
-                <input type="number" (keyup)="updateField(param.Name,'LowerLimit', $event)" [value]="param.LowerLimit"  placeholder="Lower Value"  class="input"/>
-            </p>
-            <p class="control">
-              <a class="button is-static">
-                -
-              </a>
-            </p>
+    <button  (click)="removeParameter(param.Name)" ><span class="icon"><i class="fas fa-trash fas-3x"></i></span></button>
+    <div class="">
+      <div class="columns">
+        <div class="column">
+          <p class="param-name control">
+            <span class="tag is-primary is-rounded is-medium">
+              {{ param.Name }}
+            </span>
+          </p>
         </div>
-        <p class="control">
-            <input type="number" (keyup)="updateField(param.Name,'UpperLimit', $event)" [value]="param.UpperLimit" placeholder="Upper Value"  class="input"/>
+
+        <div class="column">
+          <div class="control">
+            <label class="label"  [ngClass]="{'label-input-empty': minInput.value == '', 'label-input-filled': minInput.value != ''}" for="plant_name" >Min</label>
+            <input type="number" #minInput (keyup)="updateField(param.Name,'LowerLimit', $event)" [value]="param.LowerLimit"  placeholder="Min"  class="input"/>
+          </div>
+          <div class="control">
+            <label class="label"  [ngClass]="{'label-input-empty': maxInput.value == '', 'label-input-filled': maxInput.value != ''}" for="plant_name" >Max</label>
+            <input type="number" #maxInput (keyup)="updateField(param.Name,'UpperLimit', $event)" [value]="param.UpperLimit" placeholder="Max"  class="input"/>
+
+          </div>
+        </div>
+
+        <div class="column">
+          <p class="control">
+            <label class="label"  [ngClass]="{'label-input-empty': minMessage.value == '', 'label-input-filled': minMessage.value != ''}" for="plant_name" >Message</label>
+            <input type="text" #minMessage (keyup)="updateField(param.Name,'Message', $event)" [value]="param.Message"  placeholder="Lower Message"  class="input"/>
         </p>
         <p class="control">
-            <input type="text" (keyup)="updateField(param.Name,'Message', $event)" [value]="param.Message"  placeholder="Message"  class="input"/>
+          <label class="label"  [ngClass]="{'label-input-empty': maxMessage.value == '', 'label-input-filled': maxMessage.value != ''}" for="plant_name" >Message</label>
+            <input type="text" #maxMessage (keyup)="updateField(param.Name,'Action', $event)" [value]="param.Action"  placeholder="Upper Message"  class="input"/>
         </p>
-        <p class="control">
-            <input type="text" (keyup)="updateField(param.Name,'Action', $event)" [value]="param.Action"  placeholder="Action"  class="input"/>
-        </p>
+        </div>
+      </div>
+        
       </div>
   </div>
 
-  <button (click)="save()" class="button is-primary">Save</button>
-  <a [routerLink]="['/profile']"  [queryParams]="{profileId: profileId }" class='button'>Cancel</a>
+  <div style="width: 20%; display: block; margin: 20px auto;">
+      <button style="margin-right: 15px;" (click)="save()" class="button is-primary">Save</button>
+      <a [routerLink]="['/notifications']" class='button'>Cancel</a>
+  </div>
+
+  <div class="field" id="progress-summary">
+    <div class="steps">
+      <div id="step1">
+  
+      </div>
+      <div id="step2" >
+      
+      </div>
+      <div id="step3"  class="step-active">
+      
+      </div>
+    </div>
+    </div>
 <!--   <div class="notification">
     <button class="delete"></button>
     <div class="field is-grouped">
@@ -49,6 +86,7 @@
                 <p class="control">
                     <input type="text" placeholder="Lower Value"  class="input"/>
                 </p>
+
                 <p class="control">
                   <a class="button is-static">
                     &gt;

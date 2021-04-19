@@ -36,6 +36,7 @@ export class ListProfilesComponent implements OnInit {
 
   updateSearch(event: any){
     this.searchText = event.target.value;
+    this.searchProfiles();
   }
 
   confirmDeleteProfile(){
@@ -51,6 +52,7 @@ export class ListProfilesComponent implements OnInit {
   }
 
   setProfileToDelete(profile: any){
+    console.log(profile)
     this.profileToDelete = profile;
   }
 }

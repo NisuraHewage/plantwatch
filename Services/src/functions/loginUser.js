@@ -83,7 +83,7 @@ async function userLogin(email, password, deviceToken, event){
           where:{Email: email}
         });
 
-        if(exitingUser.length != 0){
+        if(exitingUser != null){
 
           const compareResult = bcrypt.compareSync(password, exitingUser.Password)
           if (compareResult) {
@@ -96,7 +96,7 @@ async function userLogin(email, password, deviceToken, event){
 
 
          if(exitingUser.SnSPushDeviceId == null){
-           var applicationArn = registerDevice(deviceToken, userId);
+           var applicationArn = registerDevice(deviceToken, exitingUser.Id);
            exitingUser.SnSPushDeviceId = applicationArn;
            await exitingUser.save();
          }
@@ -156,5 +156,5 @@ async function userLogin(email, password, deviceToken, event){
 
 module.exports.loginUser = async (event, context) => {
   const body = JSON.parse(event.body);
-  return await userLogin(body.email, body.password, event);
+  return await userLogin(body.email, body.password, body.deviceToken, event);
 };

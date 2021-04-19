@@ -1,4 +1,4 @@
-<div class="columns">
+<!-- <div class="columns">
     <div class='container profile' [ngClass]="{'is-clipped': showEditProfile == true}">
 <div class='modal' id='edit-profile-modal' [ngClass]="{'is-active': showEditProfile == true}">
     <div class='modal-background'></div>
@@ -10,7 +10,7 @@
         <section class='modal-card-body'>
           <form [formGroup]="profileForm">
             <p class="subtitle is-4">General Info</p>
-    
+        
             <div class="field">
           <label class="label" for="the_name">Plant Image</label>
                 <div class="file">
@@ -30,42 +30,54 @@
                     </label>
                   </div>
         </div>
-    
+        
         <div class="field">
           <label class="label" for="plant_name" >Plant Name</label>
-          <input type="text" [attr.disabled]="true" name="plant_name" formControlName="plantName" id="plant_name" class="input">
+          <input type="text" readonly [attr.disabled]="true" name="plant_name" formControlName="plantName" id="plant_name" class="input">
         </div>
-    
+        
             <div class="field">
           <label class="label" for="plant_name" >Scientific Name</label>
-          <input type="text" name="plant_name" formControlName="scientificName" id="plant_name" class="input">
+          <input type="text" readonly name="plant_name" formControlName="scientificName" id="plant_name" class="input">
         </div>
-    
+        
             <div class="field">
           <label class="label" for="brief_description" >Brief Description</label>
-          <textarea name="message" id="brief_description" class="textarea" formControlName="briefDescription"></textarea>
+          <textarea name="message" id="brief_description" class="textarea" formControlName="plantDescription"></textarea>
         </div>
-    
+        
         <div class="field">
-          <label class="label" for="country_of_origin" >Country Of Origin</label>
-          <input type="text" name="country_of_origin" formControlName="countryOfOrigin" id="country_of_origin" class="input">
+          <label class="label" for="country_of_origin" >Watering </label>
+          <input type="text" name="country_of_origin" formControlName="watering" id="watering" class="input">
         </div>
-    
+        
             <p class="subtitle is-4">Dimensions</p>
-    
+        
             <div class="field">
-          <label class="label" for="size" >Size</label>
-          <input type="text" name="size" formControlName="size" id="size" class="input">
+          <label class="label" for="size" >Temperature</label>
+          <input type="text" name="size" formControlName="temperature" id="temperature" class="input">
         </div>
             <div class="field">
           <label class="label" for="soil" >Soil</label>
           <input type="text" name="soil" formControlName="soil" id="soil" class="input">
         </div>
             <div class="field">
-          <label class="label" for="color" >Color</label>
-          <input type="text" name="color" formControlName="color" id="color" class="input">
+          <label class="label" for="color" >Sunlight</label>
+          <input type="text" name="color" formControlName="sunlight" id="sunlight" class="input">
         </div>
-      </form>
+        <div class="field">
+            <label class="label" for="color" >Pests</label>
+            <input type="text" name="color" formControlName="pests" id="pests" class="input">
+          </div>
+          <div class="field">
+            <label class="label" for="color" >Diseases</label>
+            <input type="text" name="color" formControlName="diseases" id="diseases" class="input">
+          </div>
+          <div class="field">
+            <label class="label" for="color" >Fertilizer</label>
+            <input type="text" name="color" formControlName="fertilizer" id="fertilizer" class="input">
+          </div>
+        </form>
         
     </section>
     <footer class='modal-card-foot'>
@@ -121,7 +133,7 @@
           </a>
         </li>
         <li class='link'>
-          <a [routerLink]="['/knowledge']"  [queryParams]="{profileId: '5'}">
+          <a [routerLink]="['/knowledge']"  [queryParams]="{profileId: profile.Id}">
             <span class='icon'>
               <i class='fa fa-book'></i>
             </span>
@@ -213,3 +225,114 @@
 
 </div>
 </div>
+ -->
+<form [formGroup]="profileForm">
+ <div class="columns">
+  <div class="column">
+    <div id="profile-image">
+      <figure class='image is-128x128'>
+        <img alt='' class=" is-rounded "  *ngIf="profile.ImageUrl" src='{{ profile.ImageUrl }}' />
+      </figure>
+    </div>
+    <div class="field">
+      <label class="label label-input-filled" for="plant_name" >Plant Name</label>
+      <input type="text" readonly name="plant_name" formControlName="plantName" id="plant_name" class="input">
+    </div>
+    <div class="field">
+      <label class="label label-input-filled" for="plant_name" >Scientific Name</label>
+      <input type="text" readonly name="plant_name" formControlName="scientificName" id="plant_name" class="input">
+    </div>
+    <div class="field">
+      <label [ngClass]="{'label-input-empty': briefDescriptionInput.value == '', 'label-input-filled': briefDescriptionInput.value != ''}" class="label" for="brief_description" >Brief Description</label>
+      <textarea readonly rows="2" #briefDescriptionInput name="message" id="brief_description"  class="textarea" formControlName="plantDescription"></textarea>
+    </div>
+    <div id="quick-help">
+      <div class='card'>
+        <div class="card-header">
+          Water
+        </div>
+        <div class='card-image'>
+          <!-- is-4by3 -->
+            <span class='icon'>
+              <i  class='fa fa-tint fa-3x'></i>
+            </span>
+        </div>
+        <div class='card-content'>
+          <div class='content'>
+            <span >Daily</span>
+          </div>
+        </div>
+      </div>
+
+      <div class='card' >
+        <div class="card-header">
+          Sun
+        </div>
+        <div class='card-image'>
+          <!-- is-4by3 -->
+            <span class='icon'>
+              <i  class='fa fa-sun fa-3x'></i>
+            </span>
+        </div>
+        <div class='card-content'>
+          <div class='content'>
+            <span >Full</span>
+          </div>
+        </div>
+      </div>
+
+      <div class='card'>
+        <div class="card-header">
+          Care
+        </div>
+        <div class='card-image'>
+          <!-- is-4by3 -->
+            <span class='icon'>
+              <i  class='fa fa-thermometer-full fa-3x'></i>
+            </span>
+        </div>
+        <div class='card-content'>
+          <div class='content'>
+            <span >Medium</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    
+    
+    <div class="field">
+      <label [ngClass]="{'label-input-empty': wateringInput.value == '', 'label-input-filled': wateringInput.value != ''}" class="label" for="country_of_origin" >Watering </label>
+      <input type="text" readonly #wateringInput name="country_of_origin" placeholder="Watering"  formControlName="watering" id="watering" class="input">
+    </div>
+    
+    
+        <div class="field">
+          <label [ngClass]="{'label-input-empty': temperatureInput.value == '', 'label-input-filled': temperatureInput.value != ''}"  class="label" for="soil" >Temperature</label>
+      <input type="text" readonly #temperatureInput name="size" formControlName="temperature" id="temperature" placeholder="Temperature" class="input">
+    </div>
+        <div class="field">
+      <label [ngClass]="{'label-input-empty': soilInput.value == '', 'label-input-filled': soilInput.value != ''}"  class="label" for="soil" >Soil</label>
+      <input type="text" readonly #soilInput name="soil" formControlName="soil" placeholder="Soil"  id="soil" class="input">
+    </div>
+
+    <div class="field">
+      <label [ngClass]="{'label-input-empty': sunlightInput.value == '', 'label-input-filled': sunlightInput.value != ''}"  class="label" for="color" >Sunlight</label>
+      <input type="text" readonly #sunlightInput name="color" formControlName="sunlight" placeholder="Sunlight"  id="sunlight" class="input">
+    </div>
+    <div class="field">
+        <label [ngClass]="{'label-input-empty': pestInput.value == '', 'label-input-filled': pestInput.value != ''}"  class="label" for="color" >Pests</label>
+        <input type="text" readonly #pestInput name="color" formControlName="pests" placeholder="Pests"  id="pests" class="input">
+      </div>
+      <div class="field">
+        <label [ngClass]="{'label-input-empty': diseaseInput.value == '', 'label-input-filled': diseaseInput.value != ''}"  class="label" for="color" >Diseases</label>
+        <input type="text" readonly #diseaseInput name="color" formControlName="diseases" placeholder="Diseases"  id="diseases" class="input">
+      </div>
+      <div class="field">
+        <label [ngClass]="{'label-input-empty': fertilizerInput.value == '', 'label-input-filled': fertilizerInput.value != ''}"  class="label" for="color" >Fertilizer</label>
+        <input type="text" readonly #fertilizerInput name="color" formControlName="fertilizer" placeholder="Fertilizer"  id="fertilizer" class="input">
+      </div>
+  </div>
+ </div>
+</form>

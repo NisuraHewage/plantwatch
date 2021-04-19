@@ -1,1 +1,160 @@
-<p>add-knowledgebase works!</p>
+<form autocomplete="off" [formGroup]="profileForm">
+
+
+  <!-- <div class="field">
+    <label class="label" for="the_name">Plant Image</label>
+    <figure class="image is-128x128" *ngIf='selectedFile != null' >
+      <img [src]="previewImageUrl"/>
+    </figure>
+          <div class="file">
+              <label class="file-label">
+                  <input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+                  
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Choose a file…
+                  </span>
+                  
+                </span>
+              </label>
+            </div>
+  </div> -->
+  <div class="field">
+    <div id="image-upload" >
+      <span class="icon image-icon" *ngIf='previewImageUrl == null' >
+        <i class="fas fa-image fa-3x"></i>
+      </span>
+      <figure class="image" *ngIf='previewImageUrl != null' >
+        <img class="is-rounded " [src]="previewImageUrl"/>
+        </figure>
+      <input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+      <span class="icon camera-icon">
+        <i class="fas fa-camera fa-1x"></i>
+      </span>
+    </div>
+  </div>
+
+  
+  <div class="field">
+    <label class="label" for="plant_name" >Plant Name</label>
+    <input type="text" readonly name="plant_name" formControlName="plantName" id="plant_name" class="input">
+  </div>
+  
+      <div class="field">
+    <label class="label" for="plant_name" >Scientific Name</label>
+    <input type="text" readonly  name="plant_name" formControlName="scientificName" id="plant_name" class="input">
+  </div>
+  
+
+  <div class="columns">
+    <div id="quick-info" class="column">
+      <div class="control">
+        <p>Water Quick Info</p>
+        <label class="radio">
+          <input type="radio" value="Daily" name="waterQuick">
+          Daily
+        </label>
+        <label class="radio">
+          <input type="radio"  value="Weekly" name="waterQuick" checked>
+          Weekly
+        </label>
+        <label class="radio">
+          <input type="radio"  value="Monthly" name="waterQuick">
+          Monthly
+        </label>
+      </div>
+
+      <div class="control">
+        <p>Sunlight Quick Info</p>
+        <label class="radio">
+          <input type="radio" value="Full" name="sunlightQuick">
+          Full
+        </label>
+        <label class="radio">
+          <input type="radio"  value="Balanced" name="sunlightQuick" checked>
+          Balanced
+        </label>
+        <label class="radio">
+          <input type="radio"  value="Shade" name="sunlightQuick">
+          Shade
+        </label>
+      </div>
+
+      <div class="control">
+        <p>Sunlight Quick Info</p>
+        <label class="radio">
+          <input type="radio" value="High" name="careLevel">
+          High
+        </label>
+        <label class="radio">
+          <input type="radio"  value="Medium" name="careLevel" checked>
+          Medium
+        </label>
+        <label class="radio">
+          <input type="radio"  value="Low" name="careLevel">
+          Low
+        </label>
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        <label [ngClass]="{'label-input-empty': plantDescriptionInput.value == '', 'label-input-filled': plantDescriptionInput.value != ''}"  class="label" for="brief_description" >Brief Description</label>
+        <textarea #plantDescriptionInput name="message" rows="2" id="brief_description"  class="textarea" formControlName="plantDescription"></textarea>
+      </div>
+      
+      <div class="field">
+        <label [ngClass]="{'label-input-empty': wateringInput.value == '', 'label-input-filled': wateringInput.value != ''}"  class="label" for="country_of_origin" >Watering </label>
+        <input #wateringInput type="text" name="country_of_origin" placeholder="Watering"  formControlName="watering" id="watering" class="input">
+      </div>
+      
+      
+          <div class="field">
+            <label [ngClass]="{'label-input-empty': tempInput.value == '', 'label-input-filled': tempInput.value != ''}"  class="label" for="soil" >Temperature</label>
+        <input #tempInput type="text" name="size" formControlName="temperature" id="temperature" placeholder="Temperature" class="input">
+      </div>
+          <div class="field">
+        <label [ngClass]="{'label-input-empty': soilInput.value == '', 'label-input-filled': soilInput.value != ''}"  class="label" for="soil" >Soil</label>
+        <input #soilInput type="text" name="soil" formControlName="soil" placeholder="Soil"  id="soil" class="input">
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        <label [ngClass]="{'label-input-empty': sunlightInput.value == '', 'label-input-filled': sunlightInput.value != ''}"  class="label" for="color" >Sunlight</label>
+        <input #sunlightInput type="text" name="color" formControlName="sunlight" placeholder="Sunlight"  id="sunlight" class="input">
+      </div>
+      <div class="field">
+          <label [ngClass]="{'label-input-empty': pestsInput.value == '', 'label-input-filled': pestsInput.value != ''}"  class="label" for="color" >Pests</label>
+          <input #pestsInput type="text" name="color" formControlName="pests" placeholder="Pests"  id="pests" class="input">
+        </div>
+        <div class="field">
+          <label [ngClass]="{'label-input-empty': diseaseInput.value == '', 'label-input-filled': diseaseInput.value != ''}"  class="label" for="color" >Diseases</label>
+          <input #diseaseInput type="text" name="color" formControlName="diseases" placeholder="Diseases"  id="diseases" class="input">
+        </div>
+        <div class="field">
+          <label [ngClass]="{'label-input-empty': fertilizerInput.value == '', 'label-input-filled': fertilizerInput.value != ''}"  class="label" for="color" >Fertilizer</label>
+          <input #fertilizerInput type="text" name="color" formControlName="fertilizer" placeholder="Fertilizer"  id="fertilizer" class="input">
+        </div>
+    </div>
+  </div>
+
+
+   
+  
+  <div class="field" id="progress-summary">
+    <button class='button is-primary modal-save pw-button' (click)="saveProfile($event)" >Save</button>
+    <div class="steps">
+      <div id="step1" class="step-active">
+
+      </div>
+      <div id="step2" class="step-active">
+        
+      </div>
+      <div id="step3">
+        
+      </div>
+    </div>
+  </div>
+</form>

@@ -18,6 +18,38 @@ module.exports = function(sequelize, DataTypes) {
     ImageUrl: {
       type: DataTypes.STRING(300),
       allowNull: true
+    },
+    PlantDescription: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    Watering: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    Temperature: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    Sunlight: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    Soil: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    Pests: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    Diseases: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    Fertilizer: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
     }
   }, {
     sequelize,

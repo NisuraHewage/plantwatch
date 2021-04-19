@@ -16,7 +16,7 @@ async function profileDelete(profileId, event){
       await sequelize.authenticate();
 
       const plantProfiles = await PlantProfile.findAll({
-        Id: profileId
+        where:{ Id: profileId}
       });
 
       await plantProfiles[0].destroy();
@@ -47,5 +47,5 @@ async function profileDelete(profileId, event){
 
 module.exports.deleteProfile = async (event, context) => {
   const body = JSON.parse(event.body);
-  return await profileDelete(body.profileId, event);
+  return await profileDelete(event.queryStringParameters.profileId, event);
 };

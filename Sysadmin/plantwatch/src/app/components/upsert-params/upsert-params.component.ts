@@ -49,8 +49,8 @@ export class UpsertParamsComponent implements OnInit {
 
   addParameter(){
     let parameter = {
-      LowerLimit: 0,
-      UpperLimit: 0,
+      LowerLimit: "",
+      UpperLimit: "",
       Name: this.selectedParameterType,
       Message: "",
       Action: ""

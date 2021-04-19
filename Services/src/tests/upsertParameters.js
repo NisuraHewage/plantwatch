@@ -4,7 +4,7 @@
 
 const mochaPlugin = require('serverless-mocha');
 const expect = mochaPlugin.chai.expect;
-let wrapped = mochaPlugin.getWrapper('upsertParameters', '../../../src/functions/upsertParameters.js', 'upsertParameters');
+let wrapped = mochaPlugin.getWrapper('upsertParameters', '\\src\\functions\\upsertParameters.js', 'upsertParameters');
 
 // Mocking AWS Services
 const AWS = require('aws-sdk-mock');
@@ -16,8 +16,4 @@ describe('upsertParameters', () => {
     done();
   });
 
-  it('implement tests here', async () => {
-    const response = await wrapped.run({});
-    expect(response).to.not.be.empty;
-  });
 });

@@ -8,8 +8,6 @@ AWS.config.update({
     secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
 });
 
-console.log(process.env.DYNAMO_DB_SECRETKEY);
-
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
  async function readingsView(deviceId, context){
@@ -24,7 +22,6 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
     }
 };
 
-console.log(params);
 
 try{
   // Replace Scan with Query

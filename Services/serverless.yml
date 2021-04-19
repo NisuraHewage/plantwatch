@@ -78,6 +78,119 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  updateKnowledgebase:
+    handler: src/functions/updateKnowledgebase.updateKnowledgebase
+  deleteKnowledgebase:
+    handler: src/functions/deleteKnowledgebase.deleteKnowledgebase
+  readNotification:
+    handler: src/functions/readNotification.readNotification
+  deletePlant:
+    handler: src/functions/deletePlant.deletePlant
+  viewDiseaseResults:
+    handler: src/functions/viewDiseaseResults.viewDiseaseResults
+    events:
+      - http:
+          path: /v1/disease
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  sendNotification:
+    handler: src/functions/sendNotification.sendNotification
+    events:
+      - http:
+          path: /v1/notification/send
+          method: post
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  viewNotifications:
+    handler: src/functions/viewNotifications.viewNotifications
+    events:
+      - http:
+          path: /v1/notification
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  getPlants:
+    handler: src/functions/getPlants.getPlants
+    events:
+      - http:
+          path: /v1/plants
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  getDevices:
+    handler: src/functions/getDevices.getDevices
+    events:
+      - http:
+          path: /v1/devices
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+      PUSH_FREQUENCY_MILLI_SECONDS: ${param:PUSH_FREQUENCY_MILLI_SECONDS}
+  viewKnowledgeBase:
+    handler: src/functions/viewKnowledgeBase.viewKnowledgeBase
+    events:
+      - http:
+          path: /v1/knowledgebase/view
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  viewKnowledgeBases:
+    handler: src/functions/viewKnowledgeBases.viewKnowledgeBases
+    events:
+      - http:
+          path: /v1/knowledgebase
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  addKnowledgeBase:
+    handler: src/functions/addKnowledgeBase.addKnowledgeBase
+    events:
+      - http:
+          path: /v1/knowledgebase
+          method: post
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
   predictDisease:
     handler: src/functions/predictDisease.predictDisease
     events:

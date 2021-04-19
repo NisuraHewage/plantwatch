@@ -12,7 +12,7 @@ AWS.config.update({
 
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
-
+const { Sequelize,Model,DataTypes } = require('sequelize');
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
   host:  process.env.MYSQL_ENDPOINT,
   dialect: 'mysql',
@@ -31,15 +31,49 @@ const Parameter = Parameters(sequelize, DataTypes);
 const Users = require('../models/Parameters');
 const User = Users(sequelize, DataTypes);
 
+const READING_COUNT = 2;
+
+function getNotificationMessage(last5Readings, params){
+      last5Readings.forEach(reading => {
+
+        for(let j = 0; j < params.length; j++){
+          let param = params[j];
+
+          if(reading[param.Name] < param.LowerLimit){
+            param.short = true;
+          }else{
+            param.short = false;
+          }
+          if(reading[param.Name] > param.UpperLimit){
+            param.long = true;
+          }else{
+            param.long = false;
+          }
+        }
+      });
+
+      let notificationMessage = "";
+      for(let l = 0; l < params.length; l++){
+        let param = params[l];
+        if(param.long){
+          notificationMessage += " " + param.Action + " | ";
+        }
+        if(param.short){
+          notificationMessage += " " + param.Message + " | ";
+        }
+      }
+      return notificationMessage;
+}
 
 async function verifyParameters(userId, deviceId, moisture, temperature,  light, humidity){
   try {
         // Get last 5 readings for device
         var result = await docClient.scan({TableName:"Readings"}).promise();
-       var last5Readings =  result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp ).slice(0,5);
+        // This is sorted to ensure even if latest readings are not valid that the if the last n windows have been valid it doesn't notify
+       var last5Readings =  result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => a.Timestamp - b.Timestamp ).slice(0,READING_COUNT);
     await sequelize.authenticate();
 
-    const devices = await Device.findAll({
+    let devices = await Device.findAll({
       DeviceID : deviceId
       }
     );
@@ -58,25 +92,32 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
       }
     };
 
-    const plants = await Plant.findAll({
+    let plants = await Plant.findAll({
       DeviceID : devices[0].Id
       }
     );
 
     for(let i = 0; i < plants.length; i++){
       let plant = plants[i];
-      const params = await Parameter.findAll({
+      let params = await Parameter.findAll({
         PlantProfileID : plant.PlantProfileID
         }
       );
+      let notificationMessage = getNotificationMessage(last5Readings, params);
 
+/*  // Replaced with testable unit function
       last5Readings.forEach(reading => {
         for(let j = 0; j < params.length; j++){
           let param = params[j];
-          if(reading[param.Name].Value < param.LowerLimit || reading[param.Name].Value > param.UpperLimit){
-            param.invalid = true;
+          if(reading[param.Name].Value < param.LowerLimit){
+            param.short = true;
           }else{
-            param.invalid = false;
+            param.short = false;
+          }
+          if(reading[param.Name].Value > param.UpperLimit){
+            param.long = true;
+          }else{
+            param.long = false;
           }
         }
       });
@@ -84,37 +125,79 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
       let notificationMessage = "";
       for(let l = 0; l < params.length; l++){
         let param = params[l];
-        if(param.invalid){
-          notificationMessage += param.Message;
+        if(param.long){
+          notificationMessage += " " + param.Action + " | ";
         }
-      }
+        if(param.short){
+          notificationMessage += " " + param.Message + " | ";
+        }
+      } */
       if(notificationMessage != ""){
         // Send to sns
         var user = await User.findOne({
           Id: userId
         });
-
-        var params = {
+        
+        var messageParams = {
           Message: notificationMessage, /* required */
           TargetArn : user.SnSPushDeviceId
         };
   
         // Create promise and SNS service object
-        var publishTextPromise = sns.publish(params).promise();
+        var publishTextPromise = sns.publish(messageParams).promise();
   
         // Handle promise's fulfilled/rejected states
         publishTextPromise.then(
-          function(data) {
-            console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
+          async function(data) {
+            console.log(`Message ${messageParams.Message} sent to the topic ${messageParams.TopicArn}`);
             console.log("MessageID is " + data.MessageId);
-            return endpointArn;
+
+            // create notification in dynamo
+
+            
+              var notificationParams = {
+                TableName:"Notifications",
+                Item:{
+                    "NotificationId": uuidv4(),
+                    "UserId": userId,
+                    "Timestamp": Date.now(),
+                    "Message": notificationMessage,
+                    "IsRead": false
+                }
+            };
+            
+            try{
+              var result = await docClient.put(notificationParams).promise();
+              console.log("Added item:", result);
+              return "OK";
+            
+            }catch(err){
+              console.error("Unable to add item. Error JSON:", err);
+              return {
+                statusCode: 500,
+                headers: {
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Credentials': true,
+                  'Access-Control-Allow-Headers': 'Authorization'
+                }
+              }
+            }
+            
+
+
           }).catch(
             function(err) {
             console.error(err, err.stack);
+            return {
+              statusCode: 500,
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': true,
+                'Access-Control-Allow-Headers': 'Authorization'
+              }
+            }
           });
 
-
-        return "OK"
       }
     }
 
@@ -143,7 +226,7 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
 
 }
 
-async function readingCreate(userId, deviceId, moisture, temperature,  light, humidity, context){
+async function readingCreate(userId, deviceId, moisture, temperature,  light, humidity, batteryLevel, context){
 
   // Check if device exists in middleware
 
@@ -157,7 +240,8 @@ async function readingCreate(userId, deviceId, moisture, temperature,  light, hu
         "Moisture": moisture,
         "Temperature": temperature,
         "Light": light,
-        "Humidity": humidity
+        "Humidity": humidity,
+        "BatteryLevel": batteryLevel
     }
 };
 
@@ -169,7 +253,14 @@ try{
   let verificationResult = await verifyParameters(userId, deviceId, moisture, temperature, light, humidity);
 
   if(verificationResult != "OK"){
-    return verificationResult;
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Headers': 'Authorization'
+      }
+    }
   }
 
   return {
@@ -202,7 +293,9 @@ module.exports.postReadings = async (event, context) => {
   console.log(event.body)
   const body = JSON.parse(event.body);
 
-  const {userId, deviceId, moisture, temperature, light, humidity} = body;
+  const {userId, deviceId, moisture, temperature, light, humidity, batteryLevel} = body;
 
-  return await readingCreate(userId, deviceId, moisture, temperature, light, humidity, context);
+  return await readingCreate(userId, deviceId, moisture, temperature, light, humidity, batteryLevel, context);
 };
+
+module.exports.getNotificationMessage = getNotificationMessage;
