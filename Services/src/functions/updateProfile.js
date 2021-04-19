@@ -109,7 +109,6 @@ async function uploadToS3(file){
 
 
 module.exports.updateProfile = async (event, context) => {
-  console.log(event);
   const formData = parse(event);
   let createdImageUrl = "";
   if(formData.profileImage){
