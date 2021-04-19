@@ -1,4 +1,4 @@
-<div class="selectg">
+<div class="select">
     <select (change)='selectParamType($event)' class="select" name="Type" id="parameter-type">
       <option value="light">Light</option>
       <option value="temperature">Temperature</option>
@@ -29,10 +29,10 @@
             <input type="number" (keyup)="updateField(param.Name,'UpperLimit', $event)" [value]="param.UpperLimit" placeholder="Upper Value"  class="input"/>
         </p>
         <p class="control">
-            <input type="text" (keyup)="updateField(param.Name,'Message', $event)" [value]="param.Message"  placeholder="Message"  class="input"/>
+            <input type="text" (keyup)="updateField(param.Name,'Message', $event)" [value]="param.Message"  placeholder="Lower Message"  class="input"/>
         </p>
         <p class="control">
-            <input type="text" (keyup)="updateField(param.Name,'Action', $event)" [value]="param.Action"  placeholder="Action"  class="input"/>
+            <input type="text" (keyup)="updateField(param.Name,'Action', $event)" [value]="param.Action"  placeholder="Upper Message"  class="input"/>
         </p>
       </div>
   </div>
@@ -49,6 +49,7 @@
                 <p class="control">
                     <input type="text" placeholder="Lower Value"  class="input"/>
                 </p>
+
                 <p class="control">
                   <a class="button is-static">
                     &gt;

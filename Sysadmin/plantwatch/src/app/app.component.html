@@ -33,62 +33,52 @@
   </div>
 </nav> -->
 <block-ui>
-<section *ngIf="signedIn; else elseBlock" class="main-content columns is-fullheight">
-  <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
+<section *ngIf="signedIn; else elseBlock" class="main-content columns is-fullheight pw-full-container">
+  <aside class="column is-1 is-narrow-mobile is-fullheight section is-hidden-mobile pw-nav-side ">
     <p class="menu-label is-hidden-touch">{{ user }}</p>
     <ul class="menu-list">
       <li>
         <a [routerLink]="['/dashboard']" class=""  [ngClass]="{'is-active': route == '/dashboard'}">
-          <span class="icon"><i class="fa fa-home"></i></span> Dashboard
+          <span class="icon"><i class="fa fa-border-all"></i></span>
         </a>
       </li>
       <li>
-        <a [routerLink]="['/profiles']" href="#" [ngClass]="{'is-active': route == '/profiles'}" >
-          <span class="icon"><i class="fa fa-table"></i></span> Plants
+        <a [routerLink]="['/profiles']" href="#" [ngClass]="{'is-active': route.startsWith('/profiles')}" >
+          <span class="icon"><i class="fa fa-leaf"></i></span>
         </a>
-
-        <ul>
-          <li>
-            <a [routerLink]="['/profiles/create']" [ngClass]="{'is-active': route == '/profiles/create'}" >
-              <span class="icon is-small"><i class="fa fa-link"></i></span> Create
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="['/profiles']" [ngClass]="{'is-active': route == '/profiles'}" >
-              <span class="icon is-small"><i class="fa fa-link"></i></span> List
-            </a>
-          </li>
-        </ul>
       </li>
       <li>
         <a [routerLink]="['/notifications']" class="">
-          <span class="icon"><i class="fa fa-info"></i></span> Notifications
+          <span class="icon"><i class="fa fa-bell"></i></span>
         </a>
       </li>
       <li>
-        <a (click)="logout()" class="">
-          <span class="icon"><i class="fa fa-sign-out-alt"></i></span> Logout
+        <a (click)="logout()" class="pw-logout">
+          <span class="icon"><i class="fa fa-sign-out-alt"></i></span>
+        </a>
+      </li>
+      <li>
+        <a class="">
+          <span class="icon"><i class="fa fa-user"></i></span>
+        </a>
+      </li>
+      <li>
+        <a class="">
+          <span class="icon"><i class="fa fa-cog"></i></span>
         </a>
       </li>
     </ul>
   </aside>
 
-  <div class="container column is-10">
+  <div class="container column is-11">
     <div class="section">
       <router-outlet></router-outlet>
     </div>
   </div>
 
-  
 </section>
 
-<footer class="footer is-hidden">
-  <div class="container">
-    <div class="content has-text-centered">
-      <p>Og 2020</p>
-    </div>
-  </div>
-</footer>
+
 
 <ng-template #elseBlock><router-outlet></router-outlet></ng-template>
 </block-ui>

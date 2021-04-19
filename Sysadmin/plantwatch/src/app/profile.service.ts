@@ -28,7 +28,7 @@ export class ProfileService {
   }
 
   deletePlantProfile(id: string){
-    return this.http.request('delete',`${environment.baseGateway}/v1/profiles`, { body: {profileId: id} });
+    return this.http.request('delete',`${environment.baseGateway}/v1/profiles?profileId=${id}`, { body: {profileId: id} });
   }
 
   getPlantProfileById(id: any){

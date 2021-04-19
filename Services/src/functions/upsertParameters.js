@@ -18,6 +18,14 @@ const Plant = Plants(sequelize, DataTypes);
 const Parameters = require('../models/Parameters');
 const Parameter = Parameters(sequelize, DataTypes);
 
+function getParametersToDestroy(){
+
+}
+
+function getParametersToAdd(){
+
+}
+
 async function parametersUpsert(plantProfileId, parameters, event){
   try {
       await sequelize.authenticate();

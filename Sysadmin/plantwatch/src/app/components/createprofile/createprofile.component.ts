@@ -17,15 +17,11 @@ export class CreateprofileComponent implements OnInit {
   blockUI!: NgBlockUI;
 
   selectedFile: any;
+  previewImageUrl: any;
 
   profileForm = new FormGroup({
     plantName: new FormControl(''),
-    scientificName: new FormControl(''),
-    briefDescription: new FormControl(''),
-    countryOfOrigin: new FormControl(''),
-    size: new FormControl(''),
-    soil: new FormControl(''),
-    color: new FormControl(''),
+    scientificName: new FormControl('')
   });
 
   constructor(private profileService: ProfileService, private router: Router) { }
@@ -34,13 +30,29 @@ export class CreateprofileComponent implements OnInit {
     this.selectedFile = null;
   }
 
+  readURL(input: any) {
+    if (input) {
+      var reader = new FileReader();
+      
+      reader.onload = (e: any) => {
+        this.previewImageUrl = e.target.result;
+      }
+      
+      reader.readAsDataURL(input); // convert to base64 string
+    }
+  }
+
   onFileChanged(event: any) {
     this.selectedFile = event.target.files[0];
-    console.log(this.selectedFile);
+    this.readURL(this.selectedFile);
   }
 
   submitForm(event: any){
     event.preventDefault();
+    console.log(this.profileForm.value['plantName'])
+    if(this.profileForm.value['plantName'] == "" || this.profileForm.value['scientificName'] == ""){
+      return;
+    }
     let uploadData : any = new FormData();
     if(this.selectedFile != null){
       uploadData.append('profileImage', this.selectedFile, this.selectedFile.name);

@@ -15,14 +15,24 @@
 		<p>I'll be in touch soon.</p>
 	</div> -->
 
-	<form [formGroup]="profileForm">
-        <p class="subtitle is-4">General Info</p>
+	<form autocomplete="off" [formGroup]="profileForm">
 
         <div class="field">
-			<label class="label" for="the_name">Plant Image</label>
-            <div class="file">
+			<div id="image-upload" >
+				<span class="icon image-icon" *ngIf='selectedFile == null' >
+					<i class="fas fa-image fa-3x"></i>
+				</span>
+				<figure class="image" *ngIf='selectedFile != null' >
+					<img class="is-rounded " [src]="previewImageUrl"/>
+				  </figure>
+				<input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+				<span class="icon camera-icon">
+					<i class="fas fa-camera fa-1x"></i>
+				</span>
+			</div>
+            <!-- <div class="file">
                 <label class="file-label">
-                    <input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+                    
                   <span class="file-cta">
                     <span class="file-icon">
                       <i class="fas fa-upload"></i>
@@ -35,48 +45,37 @@
                       </span>
                   </span>
                 </label>
-              </div>
+              </div> -->
 		</div>
 
 		<div class="field">
-			<label class="label" for="plant_name" >Plant Name</label>
-			<input type="text" name="plant_name" formControlName="plantName" id="plant_name" class="input">
+			<label class="label" [ngClass]="{'label-input-empty': plantNameInput.value == '', 'label-input-filled': plantNameInput.value != ''}" for="plant_name" >Plant Name</label>
+			<input type="text" name="plant_name" #plantNameInput formControlName="plantName" id="plant_name" class="input">
 		</div>
 
         <div class="field">
-			<label class="label" for="plant_name" >Scientific Name</label>
-			<input type="text" name="plant_name" formControlName="scientificName" id="plant_name" class="input">
+			<label class="label"  [ngClass]="{'label-input-empty': scientificNameInput.value == '', 'label-input-filled': scientificNameInput.value != ''}" for="plant_name" >Scientific Name</label>
+			<input type="text" #scientificNameInput name="plant_name" formControlName="scientificName" id="plant_name" class="input">
 		</div>
 
-        <div class="field">
-			<label class="label" for="brief_description" >Brief Description</label>
-			<textarea name="message" id="brief_description" class="textarea" formControlName="briefDescription"></textarea>
-		</div>
 
 		<div class="field">
-			<label class="label" for="country_of_origin" >Country Of Origin</label>
-			<input type="text" name="country_of_origin" formControlName="countryOfOrigin" id="country_of_origin" class="input">
+			<button type="submit" class="button is-primary pw-button" (click)="submitForm($event)">Next</button>
 		</div>
 
-        <p class="subtitle is-4">Dimensions</p>
-
-        <div class="field">
-			<label class="label" for="size" >Size</label>
-			<input type="text" name="size" formControlName="size" id="size" class="input">
-		</div>
-        <div class="field">
-			<label class="label" for="soil" >Soil</label>
-			<input type="text" name="soil" formControlName="soil" id="soil" class="input">
-		</div>
-        <div class="field">
-			<label class="label" for="color" >Color</label>
-			<input type="text" name="color" formControlName="color" id="color" class="input">
-		</div>
+		<div class="field" id="progress-summary">
+			<div class="steps">
+			  <div id="step1" class="step-active">
 		
-
-		<div class="field">
-			<input type="submit" value="Create" class="button is-primary" (click)="submitForm($event)">
-		</div>
+			  </div>
+			  <div id="step2" >
+				
+			  </div>
+			  <div id="step3">
+				
+			  </div>
+			</div>
+		  </div>
 	</form>
 
 </main>

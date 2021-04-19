@@ -19,6 +19,8 @@ Create serverless function (in the services directory)
 
     serverless create function -f testFunction --handler src/functions/testFunction.testFunction --path src/tests/
 
+sls invoke test -f postReadings --path ./src/tests
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     The following functions facilitate functionality

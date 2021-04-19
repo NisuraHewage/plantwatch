@@ -47,5 +47,5 @@ async function profileDelete(profileId, event){
 
 module.exports.deleteProfile = async (event, context) => {
   const body = JSON.parse(event.body);
-  return await profileDelete(body.profileId, event);
+  return await profileDelete(event.queryStringParameters.profileId, event);
 };

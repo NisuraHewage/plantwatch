@@ -24,11 +24,14 @@ export class ViewProfileComponent implements OnInit {
   profileForm = new FormGroup({
     plantName: new FormControl(''),
     scientificName: new FormControl(''),
-    briefDescription: new FormControl(''),
-    countryOfOrigin: new FormControl(''),
-    size: new FormControl(''),
+    plantDescription: new FormControl(''),
+    watering: new FormControl(''),
+    temparature: new FormControl(''),
     soil: new FormControl(''),
-    color: new FormControl(''),
+    sunlight: new FormControl(''),
+    pests: new FormControl(''),
+    diseases: new FormControl(''),
+    fertilizer: new FormControl(''),
   });
 
   constructor(private _activatedRoute: ActivatedRoute, private profileService: ProfileService, private router: Router) { }
@@ -38,7 +41,6 @@ export class ViewProfileComponent implements OnInit {
     this.blockUI.start();
     this._activatedRoute.queryParams.subscribe(
       params =>{
-        console.log('queryParams', params['profileId']);
         this.profileService.getPlantProfileById(params['profileId']).subscribe((r: any) => {
           this.profile = r.result[0];
 

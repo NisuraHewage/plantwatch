@@ -151,6 +151,7 @@ functions:
       STORAGE_BUCKET: ${param:STORAGE_BUCKET}
       DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
       DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+      PUSH_FREQUENCY_MILLI_SECONDS: ${param:PUSH_FREQUENCY_MILLI_SECONDS}
   viewKnowledgeBase:
     handler: src/functions/viewKnowledgeBase.viewKnowledgeBase
     events:

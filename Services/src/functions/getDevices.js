@@ -17,6 +17,17 @@ const Device = Parameters(sequelize, DataTypes);
 const Plants = require('../models/Plants');
 const Plant = Parameters(sequelize, DataTypes);
 
+var AWS = require("aws-sdk");
+
+AWS.config.update({
+    region: "us-east-1",
+    accessKeyId: process.env.DYNAMO_DB_ACCESSKEY,
+    secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
+});
+
+
+var docClient =  new AWS.DynamoDB.DocumentClient();
+
 async function devicesGet(userId, event){
   try {
       await sequelize.authenticate();
@@ -24,6 +35,19 @@ async function devicesGet(userId, event){
       const devices = await Device.findAll({
         where:{UserID: userId}
       });
+      // Replace Scan with Query
+      var result = await docClient.scan({TableName:"Readings"}).promise();
+      console.log("Query succeeded.");
+
+      let readings = result.Items;
+
+      devices.forEach(d => {
+        // Show as active if it is within a certain range
+        if(readings.filter((a) => a.Timestamp > (Date.now() - parseInt(process.env.PUSH_FREQUENCY_MILLI_SECONDS)[0])).length > 0){
+          d.Active = true;
+        }
+      });
+
 
       return {
         statusCode: 200,
