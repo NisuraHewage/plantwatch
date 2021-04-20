@@ -22,7 +22,7 @@ async function registerDevice(token, userId){
   var params = {
     PlatformApplicationArn: process.env.SNS_PLATFORM_APPLICATION_ARN, /* required */
     Token: token, 
-    CustomUserData: userId
+    CustomUserData: userId.toString()
   };
   sns.createPlatformEndpoint(params, function(err, data) {
     if (err) {
@@ -96,7 +96,7 @@ async function userLogin(email, password, deviceToken, event){
 
 
          if(exitingUser.SnSPushDeviceId == null){
-           var applicationArn = registerDevice(deviceToken, exitingUser.Id);
+           var applicationArn = registerDevice(deviceToken, exitingUser.Id.toString());
            exitingUser.SnSPushDeviceId = applicationArn;
            await exitingUser.save();
          }
