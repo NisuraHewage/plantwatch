@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'UI/PlantVitals/PlantVitals.dart';
 import 'UI/BottomNavBar/BottomNav.dart';
+import 'UI/Auth/Login/Login.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,6 +33,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: BottomNav());
+    return BottomNav();
   }
 }
