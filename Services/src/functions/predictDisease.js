@@ -163,7 +163,7 @@ try{
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
   const formData = parse(event);
-  
+  console.log(formData);
   let imageUrl = await uploadToS3(formData.image);
  // const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters.plantId,formData.image, imageUrl);
   const result = await identificationResultPromise(formData.image);

@@ -96,7 +96,7 @@ async function userLogin(email, password, deviceToken, event){
 
 
          if(exitingUser.SnSPushDeviceId == null){
-           var applicationArn = registerDevice(deviceToken, exitingUser.Id.toString());
+           var applicationArn = await registerDevice(deviceToken, exitingUser.Id.toString());
            exitingUser.SnSPushDeviceId = applicationArn;
            await exitingUser.save();
          }
