@@ -42,18 +42,9 @@ async function registerDevice(token, userId){
       };
 
       // Create promise and SNS service object
-      var publishTextPromise = sns.publish(params).promise();
+      var publishTextPromise = await sns.publish(params).promise();
+      return endpointArn;
 
-      // Handle promise's fulfilled/rejected states
-      publishTextPromise.then(
-        function(data) {
-          console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
-          console.log("MessageID is " + data.MessageId);
-          return endpointArn;
-        }).catch(
-          function(err) {
-          console.error(err, err.stack);
-        });
     }  
   });
 }
