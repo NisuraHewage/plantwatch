@@ -162,6 +162,7 @@ try{
 // image with multi-part form data to identify
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
+  console.log(event);
   const formData = parse(event);
   console.log(formData);
   let imageUrl = await uploadToS3(formData.image);

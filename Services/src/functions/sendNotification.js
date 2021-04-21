@@ -121,6 +121,6 @@ async function notificationSend(message, userId){
 }
 
 module.exports.sendNotification = async (event, context) => {
-  var body=  JSON.parse(event.body);
+  var body =  JSON.parse(event.body);
   return await notificationSend(body.message, body.userId);
 };

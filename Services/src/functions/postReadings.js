@@ -153,8 +153,6 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
             console.log("MessageID is " + data.MessageId);
 
             // create notification in dynamo
-
-            
               var notificationParams = {
                 TableName:"Notifications",
                 Item:{
@@ -245,10 +243,8 @@ async function readingCreate(userId, deviceId, moisture, temperature,  light, hu
     }
 };
 
-console.log(params)
 try{
   var result = await docClient.put(params).promise();
-  console.log("Added item:", result);
 
   let verificationResult = await verifyParameters(userId, deviceId, moisture, temperature, light, humidity);
 

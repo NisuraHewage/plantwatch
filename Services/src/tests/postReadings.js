@@ -110,7 +110,7 @@ describe('postReadings', () => {
     expect(message).to.equal(" Low Moisture | ");
   });
 
-  it('No Construct notifications -- Value does not improve over time .', async () => {
+  it('Constructs notifications -- Value does not improve over time .', async () => {
     let lastnReadings2 = [
       {
         "ReadingId": 1,
