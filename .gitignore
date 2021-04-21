@@ -7,3 +7,4 @@ Services/test-S3.js
 Services/test-predict.js
 Services/predict-bin
 Services/predict-binary
+Services/as.js
