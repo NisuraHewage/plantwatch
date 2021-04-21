@@ -9,7 +9,7 @@
         <option value="humidity">Humidity</option>
       </select>
   </div>
-  <button style="margin-left: 10px" (click)="addParameter()" class="button is-primary is-rounded pw-button">+</button>
+  <button style="margin-left: 10px; width: 2rem; font-weight: 500;" (click)="addParameter()" class="button is-primary is-rounded pw-button">+</button>
 
   </div>
   
@@ -20,7 +20,11 @@
 
 
 <div *ngFor="let param of parameters" class="notification">
-    <button  (click)="removeParameter(param.Name)" ><span class="icon"><i class="fas fa-trash fas-3x"></i></span></button>
+    <button  (click)="removeParameter(param.Name)" >
+      <span class="icon" style="width: 5rem;"> 
+        <img src="/assets/Dashboard - Plant Center Overview/delete active.png" alt="">
+      </span>
+    </button>
     <div class="">
       <div class="columns">
         <div class="column">
@@ -58,8 +62,8 @@
       </div>
   </div>
 
-  <div style="width: 20%; display: block; margin: 20px auto;">
-      <button style="margin-right: 15px;" (click)="save()" class="button is-primary">Save</button>
+  <div style="width: 17%; display: block; margin: 20px auto;">
+      <button style="margin-right: 15px; width: 80px;" (click)="save()" class="button is-primary">Save</button>
       <a [routerLink]="['/notifications']" class='button'>Cancel</a>
   </div>
 

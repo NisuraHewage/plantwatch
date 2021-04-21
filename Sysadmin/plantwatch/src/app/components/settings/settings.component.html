@@ -1,1 +1,41 @@
-<p>settings works!</p>
+
+<main class="container content box">
+
+
+	<form autocomplete="off" [formGroup]="profileForm">
+
+        <div class="field">
+			<div id="image-upload" >
+				<span class="icon image-icon"  >
+					<img src="/assets/User Roles and Permissions/user.png" alt="">
+				</span>
+				<span class="icon camera-icon">
+					<img src="/assets/User Roles and Permissions/upload image.png" alt="">
+				</span>
+			</div>
+		</div>
+
+		<div class="field">
+			<label class="label" [ngClass]="{'label-input-empty': userNameInput.value == '', 'label-input-filled': userNameInput.value != ''}" for="plant_name" >User Name</label>
+			<input type="text" name="plant_name" #userNameInput formControlName="username" id="plant_name" class="input">
+		</div>
+
+        <div class="field">
+			<label class="label" [ngClass]="{'label-input-empty': emailInput.value == '', 'label-input-filled': emailInput.value != ''}" for="plant_name" >Email</label>
+			<input type="text" name="plant_name" #emailInput formControlName="email"  id="plant_name" class="input">
+		</div>
+
+
+        <div class="field">
+			<label class="label"  [ngClass]="{'label-input-empty': passwordInput.value == '', 'label-input-filled': passwordInput.value != ''}" for="plant_name" >Change Password</label>
+			<input type="password"  #passwordInput formControlName="password" name="plant_name" id="plant_name" class="input">
+		</div>
+
+
+		<div class="field">
+			<button [disabled]="true" type="button" class="button is-primary pw-button" >Save</button>
+		</div>
+
+	</form>
+
+</main>

@@ -94,8 +94,9 @@ body {
     color: #F1F1F1;
   }
 
-  #quick-help .fa{
+  #quick-help .icon{
     color: #16C7BD;
+    width: 3rem;
     position: absolute;
     left: 40px;
     top: 6px;
@@ -106,7 +107,7 @@ body {
     background: #F1F1F1;
     border-radius: 8px;
     padding: 2px;
-    top: 10px;
+    top: 20px;
     position: relative;
     display: block;
     margin: auto;

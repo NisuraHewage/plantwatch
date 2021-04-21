@@ -2,7 +2,7 @@
   <div class='modal-background'></div>
   <div class='modal-card'>
       <header class='modal-card-head' style="background: #2B3648;">
-          <p class='modal-card-title' style="color: #F1F1F1;">Delete Profile({{ profileToDelete.Name }})?</p>
+          <p class='modal-card-title' style="color: #F1F1F1;">Delete Profile ({{ profileToDelete.Name }})?</p>
           <button class='delete' (click)="setProfileToDelete(null)"></button>
       </header>
   <footer class='modal-card-foot' style="background: #2B3648;">
@@ -30,10 +30,10 @@
     </div>
     <div class="columns">
       <div class="column is-four-fifths"></div>
-      <div class="column add-profile-btn-outline">
-        <a class="" [routerLink]="['/profiles/create']"  ><span class='icon'>
-          <i  class='fa fa-plus-circle'></i>
-        </span>Add Profile</a>
+      <div class="column  add-profile-btn-outline">
+        <a class="" [routerLink]="['/profiles/create']"  ><span style="top: -3px;left: -59px;" class='icon'>
+         <img src="/assets/Dashboard - Central/Add Plant Profile add.png" alt="">
+        </span><span class="description">Add Profile</span></a>
       </div>
     </div>
     <div class='profileContainer'>
@@ -41,9 +41,11 @@
         <div class='card pw-prof-card' style="height: 224px;">
           <div class='card-image'>
             <!-- is-4by3 -->
-            <figure class='image is-128x128'>
-              <a [routerLink]="['/profiles/create']"  id="add-profile-btn">+</a>
-            </figure>
+            <a [routerLink]="['/profiles/create']"  id="add-profile-btn">
+              <figure class='image is-128x128'>
+                <img src="/assets/Dashboard - Plant Center Overview/Add .png" alt="">
+              </figure>
+              </a>
           </div>
           <div class='card-content'>
             <div class='content'>
@@ -67,13 +69,16 @@
             </div>
             <div class="profileActions">
               <a  [routerLink]="['/knowledge']"   [queryParams]="{profileId: profile.Id }" ><span class='icon'>
-                <i  class='fa fa-edit'></i>
+                <img [src]="profile.editImgSrc"  (mouseover)="profile.editImgSrc = '/assets/Dashboard - Plant Center Overview/edit active.png'"
+                (mouseout)="profile.editImgSrc = '/assets/Dashboard - Plant Center Overview/edit.png'"  alt="">
               </span></a>
               <a (click)="setProfileToDelete(profile)"><span class='icon'>
-                <i class='fa fa-trash'></i>
+                <img [src]="profile.deleteImgSrc"  (mouseover)="profile.deleteImgSrc = '/assets/Dashboard - Plant Center Overview/delete active.png'"
+                (mouseout)="profile.deleteImgSrc = '/assets/Dashboard - Plant Center Overview/delete.png'" alt="">
               </span></a>
               <a [routerLink]="['/profile']"  [queryParams]="{profileId: profile.Id }" ><span class='icon'>
-                <i  class='fa fa-eye'></i>
+                <img [src]="profile.viewImgSrc"  (mouseover)="profile.viewImgSrc = '/assets/Dashboard - Plant Center Overview/view active.png'"
+                (mouseout)="profile.viewImgSrc = '/assets/Dashboard - Plant Center Overview/view.png'" alt="">
               </span></a>
             </div>
           </div>

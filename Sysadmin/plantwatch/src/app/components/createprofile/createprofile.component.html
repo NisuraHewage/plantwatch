@@ -2,32 +2,19 @@
 <main class="container content box">
 
 
-	<!-- <div class="notification is-danger">
-		<p class="heading">Something went wrong. try:</p>
-		<ul class="">
-			<li>first thing that happened</li>
-			<li>second thing that happened</li>
-		</ul>
-	</div> -->
-	
-	<!-- <div class="notification is-success">
-		<p class="heading">Thank You</p>
-		<p>I'll be in touch soon.</p>
-	</div> -->
-
 	<form autocomplete="off" [formGroup]="profileForm">
 
         <div class="field">
 			<div id="image-upload" >
 				<span class="icon image-icon" *ngIf='selectedFile == null' >
-					<i class="fas fa-image fa-3x"></i>
+					<img src="/assets/Plant Profile Create Step 1/Image placeholder.png" alt="">
 				</span>
 				<figure class="image" *ngIf='selectedFile != null' >
 					<img class="is-rounded " [src]="previewImageUrl"/>
 				  </figure>
 				<input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
 				<span class="icon camera-icon">
-					<i class="fas fa-camera fa-1x"></i>
+					<img src="/assets/Plant Profile Create Step 1/Upload image.png" alt="">
 				</span>
 			</div>
 		</div>

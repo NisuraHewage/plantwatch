@@ -1,0 +1,58 @@
+.notification-item{
+    width: 80%;
+    margin: 60px auto;
+    background: #2B3648;
+    /* Card hover */
+    padding: 30px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);
+}
+
+.notification-item{
+    color:  #16C7BD;
+}
+
+.add-profile-btn-outline{
+    display: block;
+    box-shadow: 0px 0px 16px rgb(0 0 0 / 30%);
+    border-radius: 100px;
+    text-align: center;
+    padding-bottom: 35px;
+    margin: 10px;
+    height: 56px;
+  }
+
+  .add-profile-btn-outline .icon{
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    height: 40px;
+    width: 40px;
+  }
+
+  .add-profile-btn-outline .description{
+    top: -17px;
+    position: relative;
+  }
+
+  .add-profile-btn-outline a{
+    color: #16C7BD;
+
+  }
+
+  .edit-btn{
+      background-image: url("/assets/User Roles and Permissions/edit.png");
+      background-size:  contain;
+      width: 24px;
+      height: 24px;
+      margin: 0 20px;
+      background-repeat: no-repeat;
+  }
+
+  
+  .delete-btn{
+    background-image: url("/assets/User Roles and Permissions/delete.png");
+    background-size:  contain;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+}
