@@ -5,7 +5,7 @@ var AWS = require("aws-sdk");
 /* const { parse } = require('aws-multipart-parser'); */
 const { v4: uuidv4 } = require('uuid');
 
-const request = require('request');
+const request = require('request-promise');
 
 AWS.config.update({
   region: "us-east-1",
@@ -35,7 +35,7 @@ async function uploadToS3(file){
   }
 }
 
-const identificationResultPromise = (file) => new Promise((res, rej) => {
+const identificationResultPromise = (file) => new Promise(async (res, rej) => {
   try{
     var upfile = Date.now();
     var data = "";
@@ -55,15 +55,9 @@ const identificationResultPromise = (file) => new Promise((res, rej) => {
         headers: {"Content-Type": "multipart/form-data; boundary=" + boundary},
         body: payload,
     };
-    request(options, function(error, response, body) {
-      if(error){
-        console.error("Error at identification request ", error);
-        rej('')
-      }
-      console.log("Response " + response);
-      console.log("Body " + body);
-      res(body);
-    });
+    
+      var result = await request(options);
+      res(result);
     
   }catch(err){
     console.error("Error at identification endpoint ", err);
