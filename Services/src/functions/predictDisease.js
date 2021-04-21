@@ -197,6 +197,7 @@ const parse = function (event, spotText) {
 // image with multi-part form data to identify
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
+  let formData = parse(event);
   let imageUrl = await uploadToS3(formData.image);
  // const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters.plantId,formData.image, imageUrl);
   //const result = await identificationResultPromise(formData.image);
