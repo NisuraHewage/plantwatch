@@ -55,8 +55,9 @@ const identificationResultPromise = (file) => new Promise(async (res, rej) => {
         headers: {"Content-Type": "multipart/form-data; boundary=" + boundary},
         body: payload,
     };
-    
+
       var result = await request(options);
+      console.log(result)
       res(result);
     
   }catch(err){
@@ -196,13 +197,10 @@ const parse = function (event, spotText) {
 // image with multi-part form data to identify
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
-  console.log(event);
-  const formData = parse(event);
-  console.log(formData);
   let imageUrl = await uploadToS3(formData.image);
  // const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters.plantId,formData.image, imageUrl);
-  const result = await identificationResultPromise(formData.image);
-  await identificationResultCreate(event.queryStringParameters.userId, event.queryStringParameters.plantId, result, imageUrl);
+  //const result = await identificationResultPromise(formData.image);
+  await identificationResultCreate(event.queryStringParameters.userId, event.queryStringParameters.plantId, event.queryStringParameters.result, imageUrl);
 
   if(result == ''){
     return {

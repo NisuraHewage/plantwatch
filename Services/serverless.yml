@@ -78,6 +78,8 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  predictV2:
+    handler: src/functions/predictV2.predictV2
   updateKnowledgebase:
     handler: src/functions/updateKnowledgebase.updateKnowledgebase
   deleteKnowledgebase:
