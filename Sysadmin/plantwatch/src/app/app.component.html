@@ -35,13 +35,16 @@
 <block-ui>
 <section *ngIf="signedIn; else elseBlock" class="main-content columns is-fullheight pw-full-container">
   <aside class="column is-1 is-narrow-mobile is-fullheight section is-hidden-mobile pw-nav-side ">
+    <a [routerLink]="['/dashboard']" >
     <span style="
-    width: 2rem;
+    width: 3rem;
     left: 8px;
     position: relative;
 " class="menu-label icon">
-      <img src="/assets/Dashboard - Central/temp logo.png" alt="">
-    </span>
+  <img src="/assets/Logo.svg" alt="">
+  
+</span>
+</a>
     <ul class="menu-list">
       <li>
         <a [routerLink]="['/dashboard']" class=""  [ngClass]="{'is-active': route == '/dashboard'}">

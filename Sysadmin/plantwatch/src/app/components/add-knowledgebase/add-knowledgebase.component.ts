@@ -52,7 +52,7 @@ export class AddKnowledgebaseComponent implements OnInit {
             temperature: this.profile.Temperature,
             soil: this.profile.Soil,
             sunlight: this.profile.Sunlight,
-            pests: this.profile.Pets,
+            pests: this.profile.Pests,
             diseases: this.profile.Diseases,
             fertilizer: this.profile.Fertilizer,
           });
@@ -91,15 +91,9 @@ export class AddKnowledgebaseComponent implements OnInit {
         uploadData.append(key, this.profileForm.value[key]);
       }
     }
-    console.log(uploadData);
-    for (var key of uploadData.entries()) {
-      console.log(key[0] + ', ' + key[1]);
-  }
-
     this.blockUI.start();
     this.profileService.updatePlantProfile(uploadData).subscribe((r: any) => {
       // redirect to upsert vitals
-      console.log(r)
       alert('Successfully Updated!');
       this.blockUI.stop();
     //  location.reload();

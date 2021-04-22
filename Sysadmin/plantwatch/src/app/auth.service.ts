@@ -28,7 +28,6 @@ export class AuthService {
 
   gettoken(){  
     let result = this.getWithExpiry('og-storage') != null;
-    console.log(result);
     return result;  
     }  
 
@@ -40,9 +39,7 @@ export class AuthService {
     }
 
     const item = JSON.parse(itemStr)
-    console.log(item);
     const now = new Date()
-    console.log(now.getTime());
     // compare the expiry time of the item with the current time
     if (now.getTime() > item.expiry) {
       // If the item is expired, delete the item from storage

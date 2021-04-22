@@ -91,6 +91,7 @@ functions:
           path: /v1/notification/read
           method: post
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -106,6 +107,7 @@ functions:
           path: /v1/disease
           method: get
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -132,6 +134,7 @@ functions:
           path: /v1/notification
           method: get
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -145,6 +148,7 @@ functions:
           path: /v1/plants
           method: get
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -158,6 +162,7 @@ functions:
           path: /v1/devices
           method: get
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -211,6 +216,7 @@ functions:
           path: /v1/predict
           method: post
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}

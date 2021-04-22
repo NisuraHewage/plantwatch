@@ -30,10 +30,12 @@
     </div>
     <div class="columns">
       <div class="column is-four-fifths"></div>
-      <div class="column  add-profile-btn-outline">
-        <a class="" [routerLink]="['/profiles/create']"  ><span style="top: -3px;left: -59px;" class='icon'>
-         <img src="/assets/Dashboard - Central/Add Plant Profile add.png" alt="">
-        </span><span class="description">Add Profile</span></a>
+      <div class="column ">
+        <a class="" [routerLink]="['/profiles/create']"  >
+          <span style="width: 20rem;top: 18px;position: relative;left: -32px;"  class='icon'>
+           <img (mouseover)="addplantimage='/assets/Group 192.png'" (mouseout)="addplantimage='/assets/Dashboard - Central/Add Plant Profile.png'" [src]="addplantimage" alt="">
+          </span>
+        </a>
       </div>
     </div>
     <div class='profileContainer'>

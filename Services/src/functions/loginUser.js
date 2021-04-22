@@ -16,7 +16,6 @@ AWS.config.update({
 
 var sns = new AWS.SNS({apiVersion: '2010-03-31'});
 
-// For notifications (Check whether this goes in login)
 async function registerDevice(token, userId){
   try{
   let endpointArn = null;

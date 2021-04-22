@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
+  addplantimage = "/assets/Dashboard - Central/Add Plant Profile.png";
+  notificationimage = "/assets/Dashboard - Central/Notification Center .png" 
   constructor() { }
 
   ngOnInit(): void {
