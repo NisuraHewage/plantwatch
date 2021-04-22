@@ -10,9 +10,9 @@ import 'package:flutter/services.dart';
 import '../../PlantVitals/PlantVitals.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:mime_type/mime_type.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -51,31 +51,47 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> predictDisease() async {
-    Directory tempDir = await getTemporaryDirectory();
-    String tempPath = tempDir.path;
+  // Future<void> predictDisease() async {
+  //   Directory tempDir = await getTemporaryDirectory();
+  //   String tempPath = tempDir.path;
 
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    String filePath = '${tempDir.path}/assets/test.png';
+  //   Directory appDocDir = await getApplicationDocumentsDirectory();
+  //   String appDocPath = appDocDir.path;
+  //   String filePath = '${tempDir.path}/assets/test.png';
 
-    String url =
-        'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/predict?userId=1';
-    var postUri = Uri.parse(url);
+  //   String url =
+  //       'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/predict?userId=1';
+  //   var postUri = Uri.parse(url);
 
-    http.MultipartRequest request = new http.MultipartRequest("POST", postUri);
+  //   http.MultipartRequest request = new http.MultipartRequest("POST", postUri);
 
-    http.MultipartFile multipartFile = await http.MultipartFile.fromBytes(
-      'file',
-      (await rootBundle.load('assets/test.png')).buffer.asUint8List(),
-      filename: 'anatomy.jpg', // use the real name if available, or omit
-      contentType: MediaType('image', 'png'),
-    );
+  //   http.MultipartFile multipartFile = await http.MultipartFile.fromBytes(
+  //     'image',
+  //     (await rootBundle.load('assets/test.png')).buffer.asUint8List(),
+  //     filename: 'test.png', // use the real name if available, or omit
+  //     contentType: MediaType('image', 'png'),
+  //   );
 
-    request.files.add(multipartFile);
+  //   request.files.add(multipartFile);
 
-    http.StreamedResponse response = await request.send();
-    response.stream.bytesToString().then((value) => print(value));
+  //   http.StreamedResponse response = await request.send();
+  //   response.stream.bytesToString().then((value) => print(value));
+  // }
+
+  Future<void> diseasenew(String filePath) async {
+    String mimeType = mime('test.png');
+    String mimee = mimeType.split('/')[0];
+    String type = mimeType.split('/')[1];
+
+    Dio dio = new Dio();
+    dio.options.headers["Content-Type"] = "multipart/form-data";
+    FormData formData = new FormData.fromMap({
+      'file': await MultipartFile.fromFile('filePath',
+          filename: "fileName", contentType: MediaType(mimee, type))
+    });
+    Response response = await dio
+        .post('http://192.168.18.25:8080/test', data: formData)
+        .catchError((e) => print(e.response.toString()));
   }
 
   void createUser() async {
@@ -343,7 +359,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //     MaterialPageRoute(
                                 //         builder: (BuildContext context) =>
                                 //             new PlantVitalsDashbaord()));
-                                login();
+                                diseasenew("");
                               },
                               child: Center(
                                 child: Text("LOGIN",

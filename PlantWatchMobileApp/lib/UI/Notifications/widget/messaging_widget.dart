@@ -20,10 +20,10 @@ class _MessagingWidgetState extends State<MessagingWidget> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        final notification = message['notification'];
+        final notification = message['data'];
         setState(() {
-          messages.add(Message(
-              title: notification['title'], body: notification['body']));
+          messages.add(
+              Message(title: "Plant Watch", body: notification['default']));
         });
       },
       onLaunch: (Map<String, dynamic> message) async {
@@ -32,8 +32,8 @@ class _MessagingWidgetState extends State<MessagingWidget> {
         final notification = message['data'];
         setState(() {
           messages.add(Message(
-            title: '${notification['title']}',
-            body: '${notification['body']}',
+            title: 'Plant Watch',
+            body: '${notification['default']}',
           ));
         });
       },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../Notifications/Notifications.dart';
 import '../Auth/Login/Login.dart';
+import '../Camera/home_page.dart';
+import '../SmartConfig/SmartConfig.dart';
 
 class PlantVitalsDashbaord extends StatelessWidget {
   @override
@@ -16,7 +18,7 @@ class PlantVitalsDashbaord extends StatelessWidget {
               RaisedButton(onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NotificationTest()),
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
               }),
               Row(
@@ -30,7 +32,21 @@ class PlantVitalsDashbaord extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+                child: Container(
+                  child: Text(
+                    "Puk Plant",
+                    style: TextStyle(fontSize: 20, color: Colors.red),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SmartConfig()),
                   );
                 },
                 child: Container(

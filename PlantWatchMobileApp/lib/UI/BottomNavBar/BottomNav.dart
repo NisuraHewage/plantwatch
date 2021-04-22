@@ -4,7 +4,7 @@ import '../Devices/AddDevice.dart';
 
 class BottomNav extends StatelessWidget {
   int _currentIndex = 0;
-  final List<Widget> _children = [AddDevice(), PlantVitalsDashbaord()];
+  final List<Widget> _children = [PlantVitalsDashbaord()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
