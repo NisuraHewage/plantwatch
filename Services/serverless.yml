@@ -86,6 +86,17 @@ functions:
     handler: src/functions/deleteKnowledgebase.deleteKnowledgebase
   readNotification:
     handler: src/functions/readNotification.readNotification
+    events:
+      - http:
+          path: /v1/notification/read
+          method: post
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
   deletePlant:
     handler: src/functions/deletePlant.deletePlant
   viewDiseaseResults:

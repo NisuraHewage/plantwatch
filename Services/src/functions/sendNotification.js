@@ -38,56 +38,36 @@ async function notificationSend(message, userId){
       TargetArn : exitingUser.SnSPushDeviceId
     };
 
-    // Create promise and SNS service object
-    var publishTextPromise = sns.publish(params).promise();
-
-    // Handle promise's fulfilled/rejected states
-    publishTextPromise.then(
-      function(data) {
-        console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
-        console.log("MessageID is " + data.MessageId);
-
-          var notificationParams = {
-            TableName:"Notifications",
-            Item:{
-                "NotificationId": uuidv4(),
-                "UserId": userId,
-                "Timestamp": Date.now(),
-                "Message": message,
-                "IsRead": false
-            }
-        };
-        
-        try{
-          var result = await docClient.put(notificationParams).promise();
-          console.log("Added item:", result);
-        
-        }catch(err){
-          console.error("Unable to add item. Error JSON:", err);
-          return {
-            statusCode: 500,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Credentials': true,
-              'Access-Control-Allow-Headers': 'Authorization'
-            }
-          }
+    try{
+      // Create promise and SNS service object
+      var publishTextPromise = await sns.publish(params).promise();
+      var notificationParams = {
+        TableName:"Notifications",
+        Item:{
+            "NotificationId": uuidv4(),
+            "UserId": userId,
+            "Timestamp": Date.now(),
+            "Message": message,
+            "IsRead": false
         }
-      }).catch(
-        function(err) {
-        console.error(err, err.stack);
-        return {
-          statusCode: 500,
-          body: JSON.stringify({
-            message: "Unfound"
-          }),
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Headers': 'Authorization'
-          }
+      };
+      var result = await docClient.put(notificationParams).promise();
+      console.log("Added item:", result);
+    }catch(error){
+      console.error(err, err.stack);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: "Unfound"
+        }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Headers': 'Authorization'
         }
-      });
+      }
+    }
+    
    
 
       return {

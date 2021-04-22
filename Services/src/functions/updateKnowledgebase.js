@@ -58,6 +58,6 @@ try{
 
 
 module.exports.updateKnowledgebase = async (event, context) => {
-  const body = JSON.parse(event.parse);
+  const body = JSON.parse(event.body);
   return await knowledgeUpdate(body.knowledgeId, body.plantProfileId, body.title, body.content);
 };
