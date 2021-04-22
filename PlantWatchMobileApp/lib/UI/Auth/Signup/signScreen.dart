@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Login/Login.dart';
@@ -5,6 +8,7 @@ import 'VerifyUI.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import '../../BottomNavBar/BottomNav.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -23,8 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _validatePhone = false;
   bool _validatePassword = false;
   bool _validateDOB = false;
-  bool _emailExist = false;
-  bool _phoneExists = false;
+
   CountryCode code;
   bool isLoading = false;
   ProgressDialog pr;
@@ -42,40 +45,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
   }
 
-  Future<void> validateInputs(String email, String number) async {
-    QuerySnapshot emailDocumentList;
-    List<QuerySnapshot> phoneDocumentList;
+  Future<String> createUser() async {
+    pr.show();
+    String url =
+        'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/user';
+    Map map = {
+      'email': _emailController.text,
+      'password': _passController.text
+    };
 
-    await Firestore.instance
-        .collection('Users')
-        .where('userEmail', isEqualTo: email)
-        .getDocuments()
-        .then((value) {
-      if (value.documents.length != 0) {
-        setState(() {
-          _emailExist = true;
-        });
-      } else {
-        setState(() {
-          _emailExist = false;
-        });
-      }
+    return await apiRequest(url, map).then((response) {
+      print(json.decode(response));
+      // pr.hide();
     });
-    await Firestore.instance
-        .collection('Users')
-        .where('userNumber', isEqualTo: number)
-        .getDocuments()
-        .then((value) {
-      if (value.documents.length != 0) {
-        setState(() {
-          _phoneExists = true;
-        });
-      } else {
-        setState(() {
-          _phoneExists = false;
-        });
-      }
-    });
+  }
+
+  Future<String> apiRequest(String url, Map jsonMap) async {
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.add(utf8.encode(json.encode(jsonMap)));
+    HttpClientResponse response = await request.close();
+    // todo - you should check the response.statusCode
+    String reply = await response.transform(utf8.decoder).join();
+    httpClient.close();
+    return reply;
   }
 
   void validateForm() {
@@ -98,44 +92,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } else {
       setState(() {
         _validatePassword = false;
-      });
-    }
-
-    if (_phoneNumController.text == null ||
-        _phoneNumController.text.length < 8) {
-      setState(() {
-        _validatePhone = true;
-      });
-    } else {
-      setState(() {
-        _validatePhone = false;
-      });
-    }
-    if (_nameController == null || _nameController.text.length < 1) {
-      setState(() {
-        _validateName = true;
-      });
-    } else {
-      setState(() {
-        _validateName = false;
-      });
-    }
-    if (dummyDate == null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return new AlertDialog(
-              title: new Text("Error"),
-              content: new Text("Please select date of birth"),
-            );
-          });
-
-      setState(() {
-        _validateDOB = true;
-      });
-    } else {
-      setState(() {
-        _validateDOB = false;
       });
     }
   }
@@ -247,9 +203,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 decoration: InputDecoration(
                                     errorText: _validateEmail
                                         ? "Enter a valid email"
-                                        : _emailExist
-                                            ? "Email aldready exists"
-                                            : null,
+                                        : null,
                                     icon: Icon(Icons.email,
                                         color: Color(0xFF1FC9A7)),
                                     hintText: "Email Address",
@@ -310,83 +264,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   onTap: () {
                                     pr.show();
                                     validateForm();
-                                    if (_validateName == false &&
-                                        _validatePhone == false &&
-                                        _validateEmail == false &&
-                                        _validatePassword == false &&
-                                        _validateDOB == false) {
-                                      String phoneNum =
-                                          _phoneNumController.text.toString();
-                                      phoneNum = phoneNum
-                                          .replaceFirst("0", "")
-                                          .toString();
-                                      validateInputs(
-                                              _emailController.text,
-                                              code == null
-                                                  ? "+94" + phoneNum
-                                                  : code.toString() + phoneNum)
-                                          .then((value) {
-                                        if (_emailExist == false &&
-                                            _phoneExists == false) {
-                                          pr.hide();
-                                          Navigator.of(context)
-                                              .push(PageRouteBuilder(
-                                                  pageBuilder: (_, __, ___) =>
-                                                      new Otp(
-                                                        name: _nameController
-                                                            .text,
-                                                        email: _emailController
-                                                            .text,
-                                                        phoneNumber: code ==
-                                                                null
-                                                            ? "+94" + phoneNum
-                                                            : code.toString() +
-                                                                phoneNum,
-                                                        password:
-                                                            _passController
-                                                                .text,
-                                                        dateOfBirth: dummyDate
-                                                            .toString(),
-                                                      )))
-                                              .then((value) {});
-                                        } else {
-                                          pr.hide();
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                actions: [
-                                                  FlatButton(
-                                                    child: Text(
-                                                      "Ok",
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontFamily:
-                                                              "Montserrat-Medium"),
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  ),
-                                                ],
-                                                title: Text(
-                                                  "Email or Phone Number aldready exists.",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontFamily:
-                                                          "Montserrat-Medium"),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        }
+                                    if (_validateEmail == false &&
+                                        _validatePassword == false) {
+                                      createUser().then((response) {
+                                        print(response);
+                                        pr.hide();
+                                        Navigator.of(context)
+                                            .push(PageRouteBuilder(
+                                                pageBuilder: (_, __, ___) =>
+                                                    BottomNav()))
+                                            .then((value) {});
                                       });
                                     } else {
-                                      setState(() {
-                                        isLoading = false;
+                                      pr.hide().then((value) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              actions: [
+                                                FlatButton(
+                                                  child: Text(
+                                                    "Ok",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontFamily:
+                                                            "Montserrat-Medium"),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                              title: Text(
+                                                "Invalid Credentials.",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontFamily:
+                                                        "Montserrat-Medium"),
+                                              ),
+                                            );
+                                          },
+                                        );
                                       });
                                     }
+
                                     // Navigator.of(context).push(PageRouteBuilder(
                                     //  pageBuilder: (_, __, ___) => new MainHomePage()));
                                   },

@@ -8,11 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:camerawesome/models/orientations.dart';
 import './widgets/bottom_bar.dart';
-import './widgets/camera_preview.dart';
 import './widgets/preview_card.dart';
 import './widgets/top_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image/image.dart' as imgUtils;
 // import 'package:rxdart/rxdart.dart';
 
@@ -24,18 +21,19 @@ import 'package:mime_type/mime_type.dart';
 import 'dart:io' as Io;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
-class MyApp extends StatefulWidget {
+class CaptureImage extends StatefulWidget {
   // just for E2E test. if true we create our images names from datetime.
   // Else it's just a name to assert image exists
   final bool randomPhotoName;
 
-  MyApp({this.randomPhotoName = true});
+  CaptureImage({this.randomPhotoName = true});
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _CaptureImageState createState() => _CaptureImageState();
 }
 
-class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
+class _CaptureImageState extends State<CaptureImage>
+    with TickerProviderStateMixin {
   String _lastPhotoPath, _lastVideoPath;
   bool _focus = false, _fullscreen = true, _isRecordingVideo = false;
 
@@ -208,6 +206,11 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     final String filePath = widget.randomPhotoName
         ? '${testDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg'
         : '${testDir.path}/photo_test.jpg';
+    final targetPath =
+        await Directory('${extDir.path}/target').create(recursive: true);
+    final String target = widget.randomPhotoName
+        ? '${targetPath.path}/${DateTime.now().millisecondsSinceEpoch}.jpg'
+        : '${targetPath.path}/photo_test.jpg';
     await _pictureController.takePicture(filePath);
     // lets just make our phone vibrate
     HapticFeedback.mediumImpact();
@@ -220,21 +223,28 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     print("----------------------------------");
     print("TAKE PHOTO CALLED");
     final file = File(filePath);
-    diseasenew(filePath);
+    print(filePath);
+    print(target);
+    testCompressAndGetFile(file, target).then((value) {
+      diseasenew(target);
+    });
     print("==> hastakePhoto : ${file.exists()} | path : $filePath");
     final img = imgUtils.decodeImage(file.readAsBytesSync());
     print("==> img.width : ${img.width} | img.height : ${img.height}");
     print("----------------------------------");
   }
 
-  void readEnv() async {
-    final str = await rootBundle.loadString(".env");
-    if (str.isNotEmpty) {
-      final decoded = jsonDecode(str);
-      poolId = decoded["poolId"];
-      awsFolderPath = decoded["awsFolderPath"];
-      bucketName = decoded["bucketName"];
-    }
+  Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 40,
+    );
+
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
   }
 
   Future<void> diseasenew(String filePath) async {
@@ -242,30 +252,24 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     String mimee = mimeType.split('/')[0];
     String type = mimeType.split('/')[1];
     print(mimeType);
-    var result = await FlutterImageCompress.compressWithFile(
-      filePath,
-      quality: 90,
-      minHeight: 480,
-      minWidth: 720,
-    );
+    var result = await FlutterImageCompress.compressWithFile(filePath,
+        quality: 50, minHeight: 480, minWidth: 720);
     print(result.buffer.lengthInBytes);
 
-    final bytes = await Io.File(filePath).readAsBytes();
+    final bytes = Io.File(filePath).readAsBytesSync();
     print(filePath.split('/')[filePath.split('/').length - 1]);
 
     Dio dio = new Dio();
 
     FormData formData = new FormData.fromMap({
-      'image': MultipartFile.fromBytes(bytes,
+      'file': MultipartFile.fromBytes(bytes,
           filename: filePath.split('/')[filePath.split('/').length - 1],
           contentType: MediaType(mimee, type))
     });
-    dio.options.headers["Content-Type"] =
-        "multipart/form-data; boundary=--${formData.boundary}";
     print(formData.boundary);
     Response response = await dio
         .post(
-            'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/predict?userId=1',
+            'http://mlmodel-env.eba-rq8ips76.us-east-1.elasticbeanstalk.com/predict',
             data: formData)
         .catchError((e) => print(e.response.toString()));
     print(response.toString());

@@ -104,7 +104,7 @@ class _OptionButtonState extends State<OptionButton>
               angle: newAngle ?? widget.rotationController.value * _angle,
               child: ClipOval(
                 child: Material(
-                  color: Color(0xFF4F6AFF),
+                  color: Color(0xFF16C7BD),
                   child: InkWell(
                     child: SizedBox(
                       width: 48,

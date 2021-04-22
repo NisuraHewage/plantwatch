@@ -67,30 +67,30 @@ class BottomBarWidget extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.photo_camera,
-                      color: Colors.white,
-                    ),
-                    Switch(
-                      key: ValueKey('captureModeSwitch'),
-                      value: (captureMode.value == CaptureModes.VIDEO),
-                      activeColor: Color(0xFF4F6AFF),
-                      onChanged: !isRecording
-                          ? (value) {
-                              HapticFeedback.heavyImpact();
-                              onCaptureModeSwitchChange?.call();
-                            }
-                          : null,
-                    ),
-                    Icon(
-                      Icons.videocam,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Icon(
+                //       Icons.photo_camera,
+                //       color: Colors.white,
+                //     ),
+                //     Switch(
+                //       key: ValueKey('captureModeSwitch'),
+                //       value: (captureMode.value == CaptureModes.VIDEO),
+                //       activeColor: Color(0xFF4F6AFF),
+                //       onChanged: !isRecording
+                //           ? (value) {
+                //               HapticFeedback.heavyImpact();
+                //               onCaptureModeSwitchChange?.call();
+                //             }
+                //           : null,
+                //     ),
+                //     Icon(
+                //       Icons.videocam,
+                //       color: Colors.white,
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ],

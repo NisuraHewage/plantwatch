@@ -10,9 +10,8 @@ import 'package:flutter/services.dart';
 import '../../PlantVitals/PlantVitals.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:mime_type/mime_type.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -51,47 +50,36 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Future<void> predictDisease() async {
-  //   Directory tempDir = await getTemporaryDirectory();
-  //   String tempPath = tempDir.path;
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
 
-  //   Directory appDocDir = await getApplicationDocumentsDirectory();
-  //   String appDocPath = appDocDir.path;
-  //   String filePath = '${tempDir.path}/assets/test.png';
+    return directory.path;
+  }
 
-  //   String url =
-  //       'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/predict?userId=1';
-  //   var postUri = Uri.parse(url);
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/token.txt');
+  }
 
-  //   http.MultipartRequest request = new http.MultipartRequest("POST", postUri);
+  Future<File> writeToken(String token) async {
+    final file = await _localFile;
 
-  //   http.MultipartFile multipartFile = await http.MultipartFile.fromBytes(
-  //     'image',
-  //     (await rootBundle.load('assets/test.png')).buffer.asUint8List(),
-  //     filename: 'test.png', // use the real name if available, or omit
-  //     contentType: MediaType('image', 'png'),
-  //   );
+    // Write the file.
+    return file.writeAsString('$token');
+  }
 
-  //   request.files.add(multipartFile);
+  Future<String> readToken() async {
+    try {
+      final file = await _localFile;
 
-  //   http.StreamedResponse response = await request.send();
-  //   response.stream.bytesToString().then((value) => print(value));
-  // }
+      // Read the file.
+      String contents = await file.readAsString();
 
-  Future<void> diseasenew(String filePath) async {
-    String mimeType = mime('test.png');
-    String mimee = mimeType.split('/')[0];
-    String type = mimeType.split('/')[1];
-
-    Dio dio = new Dio();
-    dio.options.headers["Content-Type"] = "multipart/form-data";
-    FormData formData = new FormData.fromMap({
-      'file': await MultipartFile.fromFile('filePath',
-          filename: "fileName", contentType: MediaType(mimee, type))
-    });
-    Response response = await dio
-        .post('http://192.168.18.25:8080/test', data: formData)
-        .catchError((e) => print(e.response.toString()));
+      return contents;
+    } catch (e) {
+      // If encountering an error, return 0.
+      return "error";
+    }
   }
 
   void createUser() async {
@@ -99,20 +87,29 @@ class _LoginScreenState extends State<LoginScreen> {
         'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/user';
     Map map = {'email': 'dinuga4@gmail.com', 'password': 'Abcdef1324'};
 
-    print(await apiRequest(url, map));
+    // String response = await apiRequest(url, map);
+    var json = Uri.parse(await apiRequest(url, map));
+    print(json);
   }
 
   void login() async {
+    pr.show();
     String url =
         'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/user/login';
     Map map = {
-      'email': 'dinuga4@gmail.com',
+      'email': _emailController.text,
       'password': 'Abcdef1324',
       'deviceToken':
           'fw8v7ZZ0BQY:APA91bH9ofZrtCaXBuBTMc3SXUkbgN37ryk9geIFrJCewGNklCVkORiIt8hjhqHlQ7dgW8cIikpZEu_EfdmtrIceKrvDjCnviJhrCXV-BWUist1t7g0ZSta2Mv_fCDGUFmU6TFDqf_W5'
     };
 
-    print(await apiRequest(url, map));
+    var response = await apiRequest(url, map);
+    writeToken(json.decode(response)['token']).then((value) {
+      // readToken().then((token) {
+      //   print(token + " from file");
+      // });
+      pr.hide();
+    });
   }
 
   Future<String> apiRequest(String url, Map jsonMap) async {
@@ -310,6 +307,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () async {
+                                login();
                                 // validateForm();
                                 // if (_validateEmail == false &&
                                 //     _validatePassword == false) {
@@ -359,7 +357,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //     MaterialPageRoute(
                                 //         builder: (BuildContext context) =>
                                 //             new PlantVitalsDashbaord()));
-                                diseasenew("");
                               },
                               child: Center(
                                 child: Text("LOGIN",
