@@ -268,7 +268,6 @@ try{
 }
 
 module.exports.postReadings = async (event, context) => {
-  console.log(event.body)
   const body = JSON.parse(event.body);
 
   const {userId, deviceId, moisture, temperature, light, humidity, batteryLevel} = body;

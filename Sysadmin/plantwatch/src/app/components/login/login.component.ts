@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       }
       localStorage.setItem('og-storage', JSON.stringify(item));
       // redirect to /profiles
-      this.router.navigate(['/profiles']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
