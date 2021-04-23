@@ -20,6 +20,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 import 'dart:io' as Io;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import '../Camera/DiseaseDetails.dart';
 
 class CaptureImage extends StatefulWidget {
   // just for E2E test. if true we create our images names from datetime.
@@ -271,7 +272,15 @@ class _CaptureImageState extends State<CaptureImage>
         .post(
             'http://mlmodel-env.eba-rq8ips76.us-east-1.elasticbeanstalk.com/predict',
             data: formData)
-        .catchError((e) => print(e.response.toString()));
+        .then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DiseaseDetails(
+                  predictedDisease: value.toString(),
+                )),
+      );
+    }).catchError((e) => print(e.response.toString()));
     print(response.toString());
   }
 

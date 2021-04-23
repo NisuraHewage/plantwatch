@@ -15,7 +15,7 @@ class _BottomNavState extends State<BottomNav> {
   final List<Widget> _children = [
     PlantVitalsDashbaord(),
     CaptureImage(),
-    DiseaseDetails()
+    AddDevice()
   ];
 
   @override
@@ -52,9 +52,9 @@ class _BottomNavState extends State<BottomNav> {
             ),
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.book, color: Color(0xff16C7BD)),
+              icon: Icon(Icons.network_cell, color: Color(0xff16C7BD)),
               title: Text(
-                'Knowledge Base',
+                'Devices',
                 style: TextStyle(color: Color(0xff16C7BD)),
               ))
         ],

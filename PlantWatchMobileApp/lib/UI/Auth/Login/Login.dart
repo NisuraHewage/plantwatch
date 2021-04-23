@@ -11,7 +11,7 @@ import '../../PlantVitals/PlantVitals.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
+import '../../BottomNavBar/BottomNav.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -82,17 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void createUser() async {
-    String url =
-        'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/user';
-    Map map = {'email': 'dinuga4@gmail.com', 'password': 'Abcdef1324'};
-
-    // String response = await apiRequest(url, map);
-    var json = Uri.parse(await apiRequest(url, map));
-    print(json);
-  }
-
-  void login() async {
+  Future<String> login() async {
     pr.show();
     String url =
         'https://xssbntn2e9.execute-api.us-east-1.amazonaws.com/SysAdmin/v1/user/login';
@@ -108,8 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
       // readToken().then((token) {
       //   print(token + " from file");
       // });
-      pr.hide();
     });
+
+    return response;
   }
 
   Future<String> apiRequest(String url, Map jsonMap) async {
@@ -307,7 +298,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () async {
-                                login();
+                                login().then((response) {
+                                  pr.hide();
+                                  print(json.decode(response));
+                                  if (json.decode(response)['message'] ==
+                                      "Successful Login") {
+                                    print("ahahahaha");
+                                    Navigator.of(context)
+                                        .push(PageRouteBuilder(
+                                            pageBuilder: (_, __, ___) =>
+                                                BottomNav()))
+                                        .then((value) {});
+                                  }
+                                });
                                 // validateForm();
                                 // if (_validateEmail == false &&
                                 //     _validatePassword == false) {

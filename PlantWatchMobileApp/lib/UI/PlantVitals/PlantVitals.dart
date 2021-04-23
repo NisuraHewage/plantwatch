@@ -26,7 +26,8 @@ class _PlantVitalsDashbaordState extends State<PlantVitalsDashbaord> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => getReadings());
+    getReadings();
+    timer = Timer.periodic(Duration(seconds: 10), (Timer t) => getReadings());
   }
 
   @override
