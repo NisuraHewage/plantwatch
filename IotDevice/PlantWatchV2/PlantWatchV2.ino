@@ -6,6 +6,21 @@
 #include <sstream>  
 HTU21D myHumidity;
 
+const char *ssid = "Test";
+const char *password = "";
+
+String userID,deviceID,ssidName,passPhrase;
+
+// Set your Static IP address
+IPAddress local_IP(192, 168, 1, 184);
+// Set your Gateway IP address
+IPAddress gateway(192, 168, 1, 1);
+
+IPAddress subnet(255, 255, 0, 0);
+IPAddress primaryDNS(8, 8, 8, 8);   //optional
+IPAddress secondaryDNS(8, 8, 4, 4); //optional
+
+WiFiServer server(80);
 using namespace std;  
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 16200;
@@ -14,8 +29,6 @@ String callTime[4] = {"7", "11", "23", "4"};
 struct tm timeinfo2;
 
 const String endpoint = "https://gfvpdn2440.execute-api.us-east-1.amazonaws.com/v1/readings";
-bool userIdRecived = false;
-String userID = "";
 WiFiServer server(80);
 
 void printLocalTime()
@@ -56,27 +69,20 @@ void dump_user_register()
 
 void setup() {
   Serial.begin(115200);
-   //Init WiFi as Station, start SmartConfig
-  WiFi.mode(WIFI_AP_STA);
-  WiFi.beginSmartConfig();
-
-  //Wait for SmartConfig packet from mobile
-  Serial.println("Waiting for SmartConfig.");
-  while (!WiFi.smartConfigDone()) {
-    delay(500);
-    
-    Serial.print(".");
+Serial.println();
+  Serial.println("Configuring access point...");
+  
+if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+    Serial.println("STA Failed to configure");
   }
+  // You can remove the password parameter if you want the AP to be open.
+  WiFi.softAP(ssid, password);
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
+  server.begin();
 
-  Serial.println("");
-  Serial.println("SmartConfig received.");
-
-  //Wait for WiFi to connect to AP
-  Serial.println("Waiting for WiFi");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
+  Serial.println("Server started");
 
   Serial.println("WiFi Connected.");
 
@@ -91,42 +97,52 @@ void setup() {
   Serial.println("Waiting for User ID");
   while(!userIdRecived)
     {
-      WiFiClient client = server.available(); 
+WiFiClient client = server.available();   // listen for incoming clients
 
-    if (client) { 
-    Serial.println("New Client.");
-    String currentLine = "";  
-    while (client.connected()) {           
-      if (client.available()) {           
-        char c = client.read();                             
-        if (c == '\n') {                    
+  if (client) {                             // if you get a client,
+    Serial.println("New Client.");           // print a message out the serial port
+    String currentLine = "";                // make a String to hold incoming data from the client
+    while (client.connected()) {            // loop while the client's connected
+      if (client.available()) {             // if there's bytes to read from the client,
+        char c = client.read();             // read a byte, then
+        Serial.write(c);                    // print it out the serial monitor
+        if (c == '\n') {                    // if the byte is a newline character
+
+          // if the current line is blank, you got two newline characters in a row.
+          // that's the end of the client HTTP request, so send a response:
           if (currentLine.length() == 0) {
+            // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
+            // and a content-type so the client knows what's coming, then a blank line:
             client.println("HTTP/1.1 200 OK");
             client.println("Content-type:text/html");
             client.println();
-            client.print("Click <a href=\"/H\">here</a> to turn the LED on pin 5 on.<br>");
-            client.print("Click <a href=\"/L\">here</a> to turn the LED on pin 5 off.<br>");
+            client.print("Click <a href=\"/H\">here</a> to turn ON the LED.<br>");
+            client.print("Click <a href=\"/L\">here</a> to turn OFF the LED.<br>");
             client.println();
+
             break;
-          } else {   
+          } else {  
             currentLine = "";
           }
-        } else if (c != '\r') {  // if you got anything else but a carriage return character,
-          currentLine += c;      // add it to the end of the currentLine
-          
+        } else if (c != '\r') {
+          currentLine += c;      
         }
-        if((currentLine.indexOf("userId:") > 0) && (currentLine.endsWith("H"))){
-          Serial.println(currentLine.indexOf("userId:"));
+         if((currentLine.indexOf("deviceID:") > 0) && (currentLine.endsWith("H"))){
+          Serial.println(currentLine.indexOf("deviceID:"));
           Serial.println(currentLine);
-          userID=currentLine.substring(currentLine.indexOf("userId:")+7,currentLine.indexOf("userId:")+13);
-          Serial.println("UserID: "+userID);
-          userIdRecived=true;
+          userID=currentLine.substring(currentLine.indexOf("userId:")+7,currentLine.indexOf("/userIds:"));
+          deviceID=currentLine.substring(currentLine.indexOf("deviceID:")+9,currentLine.indexOf("/deviceID"));
+          ssidName=currentLine.substring(currentLine.indexOf("SSID:")+5,currentLine.indexOf("/SSID"));
+          passPhrase=currentLine.substring(currentLine.indexOf("pass:")+5,currentLine.indexOf("/pass"));
+          Serial.println("deviceID: "+deviceID);
+          Serial.println("ssid: "+ssidName);
+          Serial.println("passPhrase: "+passPhrase);
         }
       }
     }
+    // close the connection:
     client.stop();
     Serial.println("Client Disconnected.");
-    
   }
     }
   
@@ -196,7 +212,7 @@ void loop() {
      if (std::find(std::begin(callTime), std::end(callTime), h.c_str()) != std::end(callTime))
   {
     Serial.println("Hour correct");
-    if((s.compare("22") == 1) && (m.compare("22") == 1))
+    if((s.compare("0") == 1) && (m.compare("0") == 1))
     {
             // Send HTTP POST request
     int httpResponseCode = http.POST(httpRequestData);
@@ -216,6 +232,6 @@ void loop() {
   } 
 
   }
-  delay(5000);
+  delay(1000);
   }
 }
