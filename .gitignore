@@ -1,5 +1,6 @@
 /node_modules
 connect-db.js
+/PlantWatchMobileApp
 Services/.serverless/ogservice.zip
 Services/test-db.js
 Services/createDynamoTables.js
