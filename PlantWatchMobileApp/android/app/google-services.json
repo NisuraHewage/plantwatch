@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "624693589249",
+    "project_id": "plantwatch-67663",
+    "storage_bucket": "plantwatch-67663.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624693589249:android:427ef77b08adbfa3d71700",
+        "android_client_info": {
+          "package_name": "com.example.PlantWatchMobileApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624693589249-ncq0vk8hnh44lu74b7pb4tr105rnpo6k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.PlantWatchMobileApp",
+            "certificate_hash": "8cdc8e1a1841598e28be85710f4be17c6ee31f72"
+          }
+        },
+        {
+          "client_id": "624693589249-buvpdo2dm3ao3p7001019cm3ubicvq8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANe__czrCy-8SVZhMzwr9YvT8X7ScxDqM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624693589249-buvpdo2dm3ao3p7001019cm3ubicvq8g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
