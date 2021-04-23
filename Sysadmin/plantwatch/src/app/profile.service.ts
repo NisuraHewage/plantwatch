@@ -12,10 +12,8 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   uploadTest(uploadData: FormData){
-    console.log(uploadData);
     this.http.post(`${environment.baseGateway}/v1/plantprofiles`, uploadData)
     .subscribe(d => {
-      console.log(d);
     });
   }
 
@@ -51,14 +49,12 @@ export class ProfileService {
   createKnowledgeBase(plantData: FormData){
     return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
     .subscribe(d => {
-      console.log(d);
     });
   }
 
   updateKnowledgeBase(plantData: FormData){
     return this.http.post(`${environment.baseGateway}/v1/plantprofiles`, plantData)
     .subscribe(d => {
-      console.log(d);
     });
   }
 

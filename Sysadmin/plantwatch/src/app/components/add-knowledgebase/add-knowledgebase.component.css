@@ -4,12 +4,15 @@
 
 .steps{
     display: flex;
+    justify-content: center;
+    top: 20px;
+    position: relative;
 }
 
 .steps div{
     width: 40px;
     background: #212936;
-    height: 20px;
+    height: 10px;
     margin: 5px;
 }
 
@@ -130,4 +133,8 @@ box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0p
     margin-top: 50px;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.checkbox:hover, .radio:hover{
+    color: #F1F1F1;
 }

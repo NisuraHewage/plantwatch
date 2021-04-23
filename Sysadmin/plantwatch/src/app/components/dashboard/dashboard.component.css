@@ -7,3 +7,61 @@
 .pw-container a{
     color: #16C7BD;
 }
+
+
+
+  .add-profile-btn-outline{
+    display: block;
+    box-shadow: 0px 0px 16px rgb(0 0 0 / 30%);
+    border-radius: 100px;
+    text-align: center;
+    padding-bottom: 35px;
+    margin: 10px;
+    height: 56px;
+  }
+
+  
+
+  .add-profile-btn-outline .icon{
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    height: 40px;
+    width: 40px;
+  }
+
+  .add-profile-btn-outline .description{
+    top: -17px;
+    position: relative;
+  }
+
+  .add-profile-btn-outline a{
+    color: #16C7BD;
+
+  }
+
+  .add-profile-btn-outline a:hover{
+    background: #16C7BD;
+    color: #2B3648 !important;
+  }
+
+  #app-summary .card{
+    background: #212936;
+    color: #F1F1F1;
+    text-align: center;
+  }
+
+  #app-summary .card:hover{
+    background: #16C7BD;
+  }
+
+  #app-summary h2{
+    color: #F1F1F1;
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  #app-summary img{
+    display: block;
+    margin: 20px auto;
+  }

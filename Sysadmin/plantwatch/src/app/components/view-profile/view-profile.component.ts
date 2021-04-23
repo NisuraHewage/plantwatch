@@ -43,7 +43,6 @@ export class ViewProfileComponent implements OnInit {
       params =>{
         this.profileService.getPlantProfileById(params['profileId']).subscribe((r: any) => {
           this.profile = r.result[0];
-          console.log()
           this.profileForm.patchValue({
             plantName: this.profile.Name,
             scientificName: this.profile.ScientificName,
@@ -52,7 +51,7 @@ export class ViewProfileComponent implements OnInit {
             temperature: this.profile.Temperature,
             soil: this.profile.Soil,
             sunlight: this.profile.Sunlight,
-            pests: this.profile.Pets,
+            pests: this.profile.Pests,
             diseases: this.profile.Diseases,
             fertilizer: this.profile.Fertilizer,
           });
@@ -77,20 +76,14 @@ export class ViewProfileComponent implements OnInit {
       uploadData.append('profileImage', this.selectedFile, this.selectedFile.name);
     }
     for(let key in this.profileForm.value){
-      console.log(key + " - " + this.profileForm.value[key]);
       if(this.profileForm.value[key] != null){
         uploadData.append(key, this.profileForm.value[key]);
       }
     }
-    console.log(uploadData);
-    for (var key of uploadData.entries()) {
-      console.log(key[0] + ', ' + key[1]);
-  }
 
     this.blockUI.start();
     this.profileService.updatePlantProfile(uploadData).subscribe((r: any) => {
       // redirect to upsert vitals
-      console.log(r)
       alert('Successfully Updated!');
       location.reload();
      //this.router.navigate([`/profile`], {queryParams: {profileId: this.profile.Id}});
@@ -100,7 +93,6 @@ export class ViewProfileComponent implements OnInit {
   }
 
   selectSection(section: string){
-    console.log(section)
     this.detailsSetion = section;
   }
 }

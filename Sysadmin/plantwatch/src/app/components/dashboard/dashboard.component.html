@@ -1,14 +1,30 @@
 <div class="pw-container ">
     <div class="columns">
-        <div class="column">
-            <h1>Welcome Nishad!</h1>
+        <div class="column is-half">
+            <h1 style="font-size: 2.2rem;">Welcome Nishad!</h1>
         </div>
-        <div class="column">
-            <a>Add Plant Profile</a>
-        </div>
-        <div class="column">
-            <a >Notification Center</a>
-        </div>
+        <div class="column ">
+            <a class="" [routerLink]="['/profiles/create']"  >
+            <span style="
+            width: 20rem;
+            top: 18px;
+            position: relative;
+        "  class='icon'>
+             <img (mouseover)="addplantimage='/assets/Group 192.png'" (mouseout)="addplantimage='/assets/Dashboard - Central/Add Plant Profile.png'" [src]="addplantimage" alt="">
+            </span>
+          </a>
+          </div>
+          
+          
+          <div class="column ">
+            <a class="" [routerLink]="['/notifications']"  ><span style="
+              width: 20rem;
+              top: 18px;
+              position: relative;
+          " class='icon'>
+                <img  (mouseover)="notificationimage='/assets/Group 191.png'" (mouseout)="notificationimage='/assets/Dashboard - Central/Notification Center .png'" [src]="notificationimage" alt="">
+            </span></a>
+          </div>
     </div>
     
     <div class="columns">
@@ -17,30 +33,93 @@
         </div>
     </div>
     
-    <div class="columns">
+    <div id="app-summary" class="columns">
         <div class="column">
-            Active Users
+            <div class='card'>
+                <div class='card-image'>
+                  <!-- is-4by3 -->
+                        <img src="/assets/Dashboard - Central/people.png" alt="">
+                </div>
+                <div class='card-content'>
+                  <div class='content'>
+                      <h2>21</h2>
+                    <span >Active Users</span>
+                  </div>
+                </div>
+              </div>
+            
         </div>
         <div class="column">
-            Active Devices
+            <div class='card'>
+                <div class='card-image'>
+                  <!-- is-4by3 -->
+                        <img src="/assets/Dashboard - Central/wifi.png" alt="">
+                </div>
+                <div class='card-content'>
+                  <div class='content'>
+                      <h2>13</h2>
+                    <span >Active Devices</span>
+                  </div>
+                </div>
+              </div>
+            
         </div>
         <div class="column">
-            Plant Profiles
+            <div class='card'>
+                <div class='card-image'>
+                  <!-- is-4by3 -->
+                        <img src="/assets/Dashboard - Central/assignment_turned_in.png" alt="">
+                </div>
+                <div class='card-content'>
+                  <div class='content'>
+                      <h2>13</h2>
+                    <span >Plant Profiles</span>
+                  </div>
+                </div>
+              </div>
+            
         </div>
         <div class="column">
-             Knowledgebase Visits
+            <div class='card'>
+                <div class='card-image'>
+                  <!-- is-4by3 -->
+                        <img src="/assets/Dashboard - Central/book-open.png" alt="">
+                </div>
+                <div class='card-content'>
+                  <div class='content'>
+                      <h2>13</h2>
+                    <span >Knowledgebase Visits</span>
+                  </div>
+                </div>
+              </div>
+             
         </div>
         <div class="column">
-            Disease Requests
+            <div class='card'>
+                <div class='card-image'>
+                  <!-- is-4by3 -->
+                        <img src="/assets/Dashboard - Central/camera.png" alt="">
+                </div>
+                <div class='card-content'>
+                  <div class='content'>
+                      <h2>13</h2>
+                    <span >Disease Requests</span>
+                  </div>
+                </div>
+              </div>
+            
         </div>
     </div>
     
     <div class="columns">
         <div class="column">
-            Notification Activity
+            <img src="/assets/deals_graphic.png" alt="">
+
         </div>
-        <div class="column">
+        <div style="background: #212936; margin-top: 30px; height: 350px;box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);
+        border-radius: 4px;" class="column">
             Campaigns
+            <img src="/assets/range.png" alt="">
         </div>
     </div>
 </div>

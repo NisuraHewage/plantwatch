@@ -2,10 +2,10 @@
 
 const https = require('https');
 var AWS = require("aws-sdk");
-const { parse } = require('aws-multipart-parser');
+/* const { parse } = require('aws-multipart-parser'); */
 const { v4: uuidv4 } = require('uuid');
 
-const request = require('request');
+const request = require('request-promise');
 
 AWS.config.update({
   region: "us-east-1",
@@ -35,7 +35,7 @@ async function uploadToS3(file){
   }
 }
 
-const identificationResultPromise = (file) => new Promise((res, rej) => {
+const identificationResultPromise = (file) => new Promise(async (res, rej) => {
   try{
     var upfile = Date.now();
     var data = "";
@@ -55,15 +55,10 @@ const identificationResultPromise = (file) => new Promise((res, rej) => {
         headers: {"Content-Type": "multipart/form-data; boundary=" + boundary},
         body: payload,
     };
-    request(options, function(error, response, body) {
-      if(error){
-        console.error("Error at identification request ", error);
-        rej('')
-      }
-      console.log("Response " + response);
-      console.log("Body " + body);
-      res(body);
-    });
+
+      var result = await request(options);
+      console.log(result)
+      res(result);
     
   }catch(err){
     console.error("Error at identification endpoint ", err);
@@ -159,14 +154,54 @@ try{
 
 }
 
+Object.defineProperty(exports, "__esModule", { value: true });
+function getValueIgnoringKeyCase(object, key) {
+    var foundKey = Object.keys(object)
+        .find(function (currentKey) { return currentKey.toLocaleLowerCase() === key.toLowerCase(); });
+    return object[foundKey];
+}
+function getBoundary(event) {
+    return getValueIgnoringKeyCase(event.headers, 'Content-Type').split('=')[1];
+}
+function getBody(event) {
+    if (event.isBase64Encoded) {
+        return Buffer.from(event.body, 'base64').toString('binary');
+    }
+    return event.body;
+}
+const parse = function (event, spotText) {
+    var boundary = getBoundary(event);
+    console.log(boundary);
+    var result = {};
+    var bodys = getBody(event);
+      bodys.split(boundary)
+        .forEach(function (item) {
+        if (/filename=".+"/g.test(item)) {
+            result[item.match(/name=".+";/g)[0].slice(6, -2)] = {
+                type: 'file',
+                filename: item.match(/filename=".+"/g)[0].slice(10, -1),
+                contentType: item.match(/content-type:\s.+/g)[0].slice(14),
+                content: spotText ? Buffer.from(item.slice(item.search(/content-type:\s.+/g) + item.match(/content-type:\s.+/g)[0].length + 4, -4), 'binary') :
+                    item.slice(item.search(/content-type:\s.+/g) + item.match(/content-type:\s.+/g)[0].length + 4, -4),
+            };
+        }
+        else if (/name=".+"/g.test(item)) {
+            console.log("name matches")
+            result[item.match(/name=".+"/g)[0].slice(6, -1)] = item.slice(item.search(/name=".+"/g) + item.match(/name=".+"/g)[0].length + 4, -4);
+        }
+    });
+    return result;
+};
+
+
 // image with multi-part form data to identify
 // user id, plant id
 module.exports.predictDisease = async (event, context) => {
-  const formData = parse(event);
-  
+  let formData = parse(event);
   let imageUrl = await uploadToS3(formData.image);
  // const result = await getIdentificationResult(event.queryStringParameters.userId, event.queryStringParameters.plantId,formData.image, imageUrl);
   const result = await identificationResultPromise(formData.image);
+  var result = event.queryStringParameters.result;
   await identificationResultCreate(event.queryStringParameters.userId, event.queryStringParameters.plantId, result, imageUrl);
 
   if(result == ''){

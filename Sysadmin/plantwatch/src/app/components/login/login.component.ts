@@ -28,8 +28,6 @@ export class LoginComponent implements OnInit {
   }
 
   checkLogin(){
-    console.log(this.username);
-    console.log(this.password);
     let result = this.authService.checkLogin(this.username, this.password);
     console.log(result);
     if(result){
@@ -39,7 +37,7 @@ export class LoginComponent implements OnInit {
       }
       localStorage.setItem('og-storage', JSON.stringify(item));
       // redirect to /profiles
-      this.router.navigate(['/profiles']);
+      this.router.navigate(['/dashboard']);
     }
   }
 

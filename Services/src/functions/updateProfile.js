@@ -3,7 +3,6 @@ const { Sequelize,Model,DataTypes } = require('sequelize');
 
 const { parse } = require('aws-multipart-parser')
 
-// Move to config
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
     host:  process.env.MYSQL_ENDPOINT,
     dialect: 'mysql',
@@ -109,7 +108,6 @@ async function uploadToS3(file){
 
 
 module.exports.updateProfile = async (event, context) => {
-  console.log(event);
   const formData = parse(event);
   let createdImageUrl = "";
   if(formData.profileImage){
@@ -123,7 +121,6 @@ module.exports.updateProfile = async (event, context) => {
      }
     }
   }
-  console.log(formData.pests);
   return await profileUpdate(formData.plantName, formData.scientificName, createdImageUrl, formData.plantDescription,
     formData.watering, formData.temperature, formData.sunlight, formData.soil, formData.pests, formData.diseases,
     formData.fertilizer );

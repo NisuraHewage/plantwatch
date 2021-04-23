@@ -14,6 +14,9 @@ export class ListProfilesComponent implements OnInit {
   profiles: any;
   searchText: any;
   profileToDelete: any = null;
+
+  addplantimage = "/assets/Dashboard - Central/Add Plant Profile.png"
+
   constructor(private profileService: ProfileService) { }
 
   ngOnInit(): void {
@@ -22,6 +25,11 @@ export class ListProfilesComponent implements OnInit {
     this.blockUI.start();
     this.profileService.getPlantProfilesByName(this.searchText).subscribe((p:any) => {
       this.profiles = p.result;
+      this.profiles.forEach((prof: any) => {
+        prof.editImgSrc = "/assets/Dashboard - Plant Center Overview/edit.png";
+        prof.deleteImgSrc = "/assets/Dashboard - Plant Center Overview/delete.png";
+        prof.viewImgSrc = "/assets/Dashboard - Plant Center Overview/view.png";
+      });
       this.blockUI.stop();
     });
   }
@@ -30,6 +38,11 @@ export class ListProfilesComponent implements OnInit {
     this.blockUI.start();
     this.profileService.getPlantProfilesByName(this.searchText).subscribe((p:any) => {
       this.profiles = p.result;
+      this.profiles.forEach((prof: any) => {
+        prof.editImgSrc = "/assets/Dashboard - Plant Center Overview/edit.png";
+        prof.deleteImgSrc = "/assets/Dashboard - Plant Center Overview/delete.png";
+        prof.viewImgSrc = "/assets/Dashboard - Plant Center Overview/view.png";
+      });
       this.blockUI.stop();
     });
   }
@@ -52,7 +65,6 @@ export class ListProfilesComponent implements OnInit {
   }
 
   setProfileToDelete(profile: any){
-    console.log(profile)
     this.profileToDelete = profile;
   }
 }

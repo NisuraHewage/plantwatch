@@ -49,7 +49,6 @@ export class CreateprofileComponent implements OnInit {
 
   submitForm(event: any){
     event.preventDefault();
-    console.log(this.profileForm.value['plantName'])
     if(this.profileForm.value['plantName'] == "" || this.profileForm.value['scientificName'] == ""){
       return;
     }
@@ -58,17 +57,11 @@ export class CreateprofileComponent implements OnInit {
       uploadData.append('profileImage', this.selectedFile, this.selectedFile.name);
     }
     for(let key in this.profileForm.value){
-      console.log(key + " - " + this.profileForm.value[key]);
       if(this.profileForm.value[key] != null){
         uploadData.append(key, this.profileForm.value[key]);
       }
     }
-    console.log(uploadData);
-    for (var key of uploadData.entries()) {
-      console.log(key[0] + ', ' + key[1]);
-  }
 
-    console.log(this.profileForm);
     this.blockUI.start();
     this.profileService.createPlantProfile(uploadData).subscribe((r: any) => {
       // redirect to upsert vitals

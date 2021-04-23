@@ -1,7 +1,7 @@
 'use strict';
 
 const { Sequelize,Model,DataTypes } = require('sequelize');
-// Move to config
+
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
   host:  process.env.MYSQL_ENDPOINT,
   dialect: 'mysql',
@@ -12,10 +12,10 @@ const Users = require('../models/Users');
 const User = Users(sequelize, DataTypes);
 
 const Devices = require('../models/Devices');
-const Device = Parameters(sequelize, DataTypes);
+const Device = Devices(sequelize, DataTypes);
 
 const Plants = require('../models/Plants');
-const Plant = Parameters(sequelize, DataTypes);
+const Plant = Plants(sequelize, DataTypes);
 
 var AWS = require("aws-sdk");
 

@@ -35,36 +35,45 @@
 <block-ui>
 <section *ngIf="signedIn; else elseBlock" class="main-content columns is-fullheight pw-full-container">
   <aside class="column is-1 is-narrow-mobile is-fullheight section is-hidden-mobile pw-nav-side ">
-    <p class="menu-label is-hidden-touch">{{ user }}</p>
+    <a [routerLink]="['/dashboard']" >
+    <span style="
+    width: 3rem;
+    left: 8px;
+    position: relative;
+" class="menu-label icon">
+  <img src="/assets/Logo.svg" alt="">
+  
+</span>
+</a>
     <ul class="menu-list">
       <li>
         <a [routerLink]="['/dashboard']" class=""  [ngClass]="{'is-active': route == '/dashboard'}">
-          <span class="icon"><i class="fa fa-border-all"></i></span>
+          <span class="icon"><img src="/assets/Dashboard - Central/grid.png" alt=""></span>
         </a>
       </li>
       <li>
         <a [routerLink]="['/profiles']" href="#" [ngClass]="{'is-active': route.startsWith('/profiles')}" >
-          <span class="icon"><i class="fa fa-leaf"></i></span>
+          <span class="icon"><img src="/assets/Dashboard - Central/plantcenter.png" alt=""></span>
         </a>
       </li>
       <li>
-        <a [routerLink]="['/notifications']" class="">
-          <span class="icon"><i class="fa fa-bell"></i></span>
+        <a [routerLink]="['/notifications']" class="" [ngClass]="{'is-active': route == '/notifications'}">
+          <span class="icon"><img src="/assets/Dashboard - Central/carbon_notification.png" alt=""></span>
         </a>
       </li>
       <li>
         <a (click)="logout()" class="pw-logout">
-          <span class="icon"><i class="fa fa-sign-out-alt"></i></span>
+          <span class="icon"><img src="/assets/Dashboard - Central/ic_round-logout.png" alt=""></span>
         </a>
       </li>
       <li>
-        <a [routerLink]="['/user']"  class="">
-          <span class="icon"><i class="fa fa-user"></i></span>
+        <a [routerLink]="['/user']"  class="" [ngClass]="{'is-active': route == '/user'}">
+          <span class="icon"><img src="/assets/Dashboard - Central/ant-design_user-outlined.png" alt=""></span>
         </a>
       </li>
       <li>
-        <a [routerLink]="['/settings']"  class="">
-          <span class="icon"><i class="fa fa-cog"></i></span>
+        <a [routerLink]="['/settings']"  class="" [ngClass]="{'is-active': route == '/settings'}">
+          <span class="icon"><img src="/assets/Dashboard - Central/Glyph_ .png" alt=""></span>
         </a>
       </li>
     </ul>

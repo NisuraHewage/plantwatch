@@ -19,7 +19,6 @@ export class AppComponent implements OnInit{
   ngOnInit(){
 
     this.router.events.pipe(filter((event ) => event instanceof NavigationEnd)).subscribe((val: any) => {
-      console.log(val);
       this.checkLogin();
       this.route = val.url;
     });

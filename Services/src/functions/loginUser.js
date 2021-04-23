@@ -16,15 +16,30 @@ AWS.config.update({
 
 var sns = new AWS.SNS({apiVersion: '2010-03-31'});
 
-// For notifications (Check whether this goes in login)
 async function registerDevice(token, userId){
+  try{
   let endpointArn = null;
   var params = {
     PlatformApplicationArn: process.env.SNS_PLATFORM_APPLICATION_ARN, /* required */
     Token: token, 
-    CustomUserData: userId
+    CustomUserData: userId.toString()
   };
-  sns.createPlatformEndpoint(params, function(err, data) {
+  let endpointArnResponse = await sns.createPlatformEndpoint(params).promise();
+  console.log(endpointArnResponse);
+  endpointArn = endpointArnResponse.EndpointArn;
+  params = {
+    Message: 'You logged in!', /* required */
+    TargetArn : endpointArn
+  };
+
+  // Create promise and SNS service object
+  var publishTextPromise = await sns.publish(params).promise();
+  console.log(publishTextPromise);
+  return endpointArn;
+}catch(e){
+  return "";
+}
+  /* sns.createPlatformEndpoint(params, function(err, data) {
     if (err) {
       console.log(err, err.stack);
       return null;
@@ -36,26 +51,11 @@ async function registerDevice(token, userId){
        console.log(data.EndpointArn);           // successful response
        endpointArn = data.EndpointArn;
        // Create publish parameters
-      var params = {
-        Message: 'You logged in!', /* required */
-        TargetArn : endpointArn
-      };
+      
+      return endpointArn;
 
-      // Create promise and SNS service object
-      var publishTextPromise = sns.publish(params).promise();
-
-      // Handle promise's fulfilled/rejected states
-      publishTextPromise.then(
-        function(data) {
-          console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
-          console.log("MessageID is " + data.MessageId);
-          return endpointArn;
-        }).catch(
-          function(err) {
-          console.error(err, err.stack);
-        });
     }  
-  });
+  }); */
 }
 
 async function userLogin(email, password, deviceToken, event){
@@ -96,7 +96,7 @@ async function userLogin(email, password, deviceToken, event){
 
 
          if(exitingUser.SnSPushDeviceId == null){
-           var applicationArn = registerDevice(deviceToken, exitingUser.Id);
+           var applicationArn = await registerDevice(deviceToken, exitingUser.Id.toString());
            exitingUser.SnSPushDeviceId = applicationArn;
            await exitingUser.save();
          }

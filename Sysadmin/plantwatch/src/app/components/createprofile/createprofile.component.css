@@ -65,7 +65,7 @@
 	.steps div{
 		width: 40px;
 		background: #212936;
-		height: 20px;
+		height: 10px;
 		margin: 5px;
 	}
 	
@@ -77,8 +77,8 @@
 
 	#image-upload{
 		position: relative;
-		width: 40%;
-		height: 100px;
+		width: 150px;
+    	height: 150px;
 		border-radius: 100px;
 		display: block;
 		margin: auto;
@@ -90,8 +90,9 @@ box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0p
 
 	#image-upload .image-icon{
 		position: absolute;
-		top: 40px;
-		left: 40%;
+		top: 62px;
+    	left: 29%;
+		width: 4rem;
 	}
 
 	#image-upload .fa-image{
@@ -105,11 +106,12 @@ box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0p
 	}
 	
 	#image-upload .camera-icon{
-		right: 10px;
+		right: -2px;
 		z-index: 2;
 		bottom: 10px;
 		border-radius: 20px;
 		position: absolute;
+		width: 3rem;
 	}
 
 	#image-upload img{

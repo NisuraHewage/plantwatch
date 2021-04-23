@@ -5,5 +5,5 @@ ImageUrl Varchar(300), PlantDescription varchar(1000),
  Sunlight varchar(1000),
  Soil varchar(1000),
  Pests varchar(1000),
- Diseases varchar(1000),
+ Diseases varchar(60000),
  Fertilizer varchar(1000));

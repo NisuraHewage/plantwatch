@@ -9,7 +9,7 @@ box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0p
 .notification > button{
     background: #2B3648;
     position: absolute;
-    top: 5px;
+    top: 20px;
     right: 10px;
     color: #16C7BD;
     border: none;
@@ -99,7 +99,7 @@ box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0p
 .steps div{
   width: 40px;
   background: #212936;
-  height: 20px;
+  height: 10px;
   margin: 5px;
 }
 

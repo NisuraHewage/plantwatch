@@ -28,7 +28,6 @@ async function knowledgeCreate(plantProfileId, title, content){
     }
 };
 
-console.log(params)
 try{
   var result = await docClient.put(params).promise();
   console.log("Added item:", result);

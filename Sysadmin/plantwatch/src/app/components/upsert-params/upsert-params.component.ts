@@ -24,12 +24,10 @@ export class UpsertParamsComponent implements OnInit {
     this.blockUI.start();
     this._activatedRoute.queryParams.subscribe(
       params =>{
-        console.log('queryParams', params['profileId']);
         this.profileId = params['profileId'];
         this.profileService.getParametersByProfileId(this.profileId).subscribe((r: any) => {
           this.parameters = r.result;
           this.blockUI.stop();
-          console.log(this.parameters)
         });
       });
   }
@@ -39,11 +37,7 @@ export class UpsertParamsComponent implements OnInit {
   }
 
   updateField(name: string, type: string, event: any){
-    console.log(name);
-    console.log(type);
-    console.log(event.target.value);
     let field = this.parameters.filter((p: any) => p.Name == name)[0];
-    console.log(field)
     field[type] = event.target.value;
   }
 
@@ -73,12 +67,10 @@ export class UpsertParamsComponent implements OnInit {
     this.blockUI.start();
     this.profileService.upsertParameters(payload).
     subscribe(d => {
-      console.log(d);
       this.blockUI.stop();
       alert("Successfully updated parameters")
       this.router.navigate([`/profile`], {queryParams: {profileId: this.profileId}});
     }, e=> {
-      console.log(e);
       this.blockUI.stop();
       alert('Error occured while updating parameters');
     });

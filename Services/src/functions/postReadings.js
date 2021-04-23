@@ -31,9 +31,12 @@ const Parameter = Parameters(sequelize, DataTypes);
 const Users = require('../models/Parameters');
 const User = Users(sequelize, DataTypes);
 
-const READING_COUNT = 2;
+const READING_COUNT = 3;
 
 function getNotificationMessage(last5Readings, params){
+      let today = new Date();
+      // Ensure we only consider readings as old as one day
+      last5Readings = last5Readings.filter(r => r.Timestamp >= new Date(today.getTime() - 8.64e+7));
       last5Readings.forEach(reading => {
 
         for(let j = 0; j < params.length; j++){
@@ -143,61 +146,38 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
           TargetArn : user.SnSPushDeviceId
         };
   
-        // Create promise and SNS service object
-        var publishTextPromise = sns.publish(messageParams).promise();
-  
-        // Handle promise's fulfilled/rejected states
-        publishTextPromise.then(
-          async function(data) {
-            console.log(`Message ${messageParams.Message} sent to the topic ${messageParams.TopicArn}`);
-            console.log("MessageID is " + data.MessageId);
+        try{
 
-            // create notification in dynamo
-
-            
-              var notificationParams = {
-                TableName:"Notifications",
-                Item:{
-                    "NotificationId": uuidv4(),
-                    "UserId": userId,
-                    "Timestamp": Date.now(),
-                    "Message": notificationMessage,
-                    "IsRead": false
-                }
-            };
-            
-            try{
-              var result = await docClient.put(notificationParams).promise();
+          // Create promise and SNS service object
+          var publishTextPromise = await sns.publish(messageParams).promise();
+          // create notification in dynamo
+          var notificationParams = {
+            TableName:"Notifications",
+            Item:{
+                "NotificationId": uuidv4(),
+                "UserId": userId,
+                "Timestamp": Date.now(),
+                "Message": notificationMessage,
+                "IsRead": false
+            }
+          }
+            var result = await docClient.put(notificationParams).promise();
               console.log("Added item:", result);
               return "OK";
-            
-            }catch(err){
-              console.error("Unable to add item. Error JSON:", err);
-              return {
-                statusCode: 500,
-                headers: {
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Credentials': true,
-                  'Access-Control-Allow-Headers': 'Authorization'
-                }
-              }
+        
+        }catch(err){
+          console.error("Unable to add item. Error JSON:", err);
+          return {
+            statusCode: 500,
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': true,
+              'Access-Control-Allow-Headers': 'Authorization'
             }
-            
-
-
-          }).catch(
-            function(err) {
-            console.error(err, err.stack);
-            return {
-              statusCode: 500,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': true,
-                'Access-Control-Allow-Headers': 'Authorization'
-              }
-            }
-          });
-
+          }
+        }
+      }else{
+        return "OK";
       }
     }
 
@@ -245,10 +225,8 @@ async function readingCreate(userId, deviceId, moisture, temperature,  light, hu
     }
 };
 
-console.log(params)
 try{
   var result = await docClient.put(params).promise();
-  console.log("Added item:", result);
 
   let verificationResult = await verifyParameters(userId, deviceId, moisture, temperature, light, humidity);
 
@@ -290,7 +268,6 @@ try{
 }
 
 module.exports.postReadings = async (event, context) => {
-  console.log(event.body)
   const body = JSON.parse(event.body);
 
   const {userId, deviceId, moisture, temperature, light, humidity, batteryLevel} = body;

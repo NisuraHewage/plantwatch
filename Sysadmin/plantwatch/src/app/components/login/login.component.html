@@ -1,27 +1,28 @@
 
 
-<section class="hero is-primary is-fullheight">
+<section id="login-screen" class="hero is-primary is-fullheight">
     <div class="hero-body">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-5-tablet is-4-desktop is-3-widescreen">
-            <form action="" class="box">
+            <h1>Hello! <br> Welcome to PlantWatch</h1>
+            <form action="" class="">
               <div class="field">
                 <label for="" class="label">Email</label>
                 <div class="control has-icons-left">
-                  <input (keyup)="updateUsername($event)" type="text"  name="username"  class="input" required>
-                  <span class="icon is-small is-left">
+                  <input placeholder="Email" (keyup)="updateUsername($event)" type="text"  name="username"  class="input" required>
+                  <!-- <span class="icon is-small is-left">
                     <i class="fa fa-envelope"></i>
-                  </span>
+                  </span> -->
                 </div>
               </div>
               <div class="field">
                 <label for="" class="label">Password</label>
                 <div class="control has-icons-left">
-                  <input type="password" (keyup)="updatePassword($event)" name="password" class="input" required>
-                  <span class="icon is-small is-left">
+                  <input placeholder="Password" type="password" (keyup)="updatePassword($event)" name="password" class="input" required>
+                  <!-- <span class="icon is-small is-left">
                     <i class="fa fa-lock"></i>
-                  </span>
+                  </span> -->
                 </div>
               </div>
               <div class="field">
@@ -31,7 +32,7 @@
                 </label>
               </div>
               <div class="field">
-                <button (click)="checkLogin()" class="button is-success">
+                <button [disabled]="username == '' || password == ''"  (click)="checkLogin()" class="button is-success">
                   Login
                 </button>
               </div>

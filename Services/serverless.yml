@@ -78,12 +78,26 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  predictV2:
+    handler: src/functions/predictV2.predictV2
   updateKnowledgebase:
     handler: src/functions/updateKnowledgebase.updateKnowledgebase
   deleteKnowledgebase:
     handler: src/functions/deleteKnowledgebase.deleteKnowledgebase
   readNotification:
     handler: src/functions/readNotification.readNotification
+    events:
+      - http:
+          path: /v1/notification/read
+          method: post
+          cors: true 
+          authorizer: validateUser
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
   deletePlant:
     handler: src/functions/deletePlant.deletePlant
   viewDiseaseResults:
@@ -93,6 +107,7 @@ functions:
           path: /v1/disease
           method: get
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -119,6 +134,7 @@ functions:
           path: /v1/notification
           method: get
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -132,6 +148,7 @@ functions:
           path: /v1/plants
           method: get
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -145,6 +162,7 @@ functions:
           path: /v1/devices
           method: get
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -198,6 +216,7 @@ functions:
           path: /v1/predict
           method: post
           cors: true 
+          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
