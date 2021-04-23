@@ -1,4 +1,9 @@
 # plantwatch
+
+Mobile Device will send the device token with the 
+
+https://fireship.io/lessons/flutter-push-notifications-fcm-guide/
+
 Repository to maintain Team OG's progress in their pilot project for an all in one smart IOT plant monitoring solution
 
 Directory Structure -
@@ -13,3 +18,250 @@ Directory Structure -
 Create serverless function (in the services directory)
 
     serverless create function -f testFunction --handler src/functions/testFunction.testFunction --path src/tests/
+
+sls invoke test -f postReadings --path ./src/tests
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    The following functions facilitate functionality
+
+Create User
+
+    /user/ - POST
+    request{
+        email: string,
+        password: string
+    }
+
+    201
+    returns{
+        message: "Successfully created user",
+        created: {{ userId }}
+    }
+
+Login
+
+    /user/login - POST
+    request{
+        email: string,
+        password: string
+    }
+
+    200
+    returns{
+        token: {{ authToken }}
+    }
+
+Verify Token (Managed Auth) - Different for mobile (User account), sys admin (User account), IOT (Device Id)
+
+    /user/token - POST
+    request{
+        token: string
+    }
+
+    200
+    returns{
+        securityPolicy: {{ generatedByAWS }} // Allows access to endpoints
+    }
+
+Post Readings
+
+    /vitals/{{ deviceId }} - POST
+    request{
+        timeStamp: DateTime,
+        light: double,
+        moisture: double,
+        humidity: double,
+        temperature: double
+    }
+
+    201
+    returns{
+        
+    }
+
+Get Readings
+
+    /vitals/{{ plantId }}?start={{ startRange }}&end={{ endRange }} - GET
+    request{
+
+    }
+
+    200
+    returns{
+        lastUpdated: DateTime,
+        light: double,
+        moisture: double,
+        humidity: double,
+        temperature: double
+    }
+
+Add Device 
+    - Returns Device Id which is sent to the device
+
+    /user/{{ userId }}/device/ - POST
+    request{
+        deviceId: string
+    }
+
+    201
+    returns{
+        
+    }
+
+Get Devices
+
+    /user/{{ userId }}/devices - Get
+    request{
+    }
+
+    200
+    returns{
+        result: Device[]
+    }
+
+Add Plant Profile
+
+    /profile/ - POST
+    request{
+        name: string,
+        scientificName: string
+    }
+
+    201
+    returns{
+        created: {{ created Id }}
+    }
+
+Get Plant Profiles
+
+    /profile?name={{ profileName }} - Get
+    request{
+    }
+
+    200
+    returns{
+        created: PlantProfile[]
+    }
+
+Add Plant
+
+    /user/{{ userId }}/device/{{ deviceId }}/plant - POST
+    request{
+        name: string,
+        profileId: string
+    }
+
+    201
+    returns{
+        created: {{ created Id }}
+    }
+
+Get Plants
+
+    /user/{{ userId }}/plants - Get
+    request{
+    }
+
+    200
+    returns{
+        result: Plant[]
+    }
+
+Add Knowledge Base
+
+    /profile/{{ profileId }}/knowledge - POST
+    request
+    Content-Type: multipart/form-data; 
+    {
+        title: string,
+        description: string
+    }
+
+    201
+    returns{
+        created: {{ created Id }}
+    }
+
+View Knowledge Base
+
+    /profile/{{ plantId }}/knowledge - GET
+    request{
+
+    }
+
+    200
+    returns{
+        results: KnowledgeBase[]
+    }
+
+Upsert Parameters - Adds the parameters that don't exist and updates the ones that do
+
+    /profile/{{ profileId }} - PUT
+    request{
+        parameters: Parameter[]
+    }
+
+    204
+    returns{
+        created: {{ created Id }}
+    }
+
+Post Disease Image
+
+    /plant/{{ plantId }}/disease - POST
+    request
+    Content-Type: multipart/form-data; 
+    {
+        timestamp: DateTime
+    }
+
+    201 
+    returns{
+        result: DiseaseIdentificationResult
+    }
+
+View Disease Results
+
+    /plant/{{ plantId }}/disease?start={{ startRange }}&end={{ endRange }} - GET
+    request{
+
+    }
+
+    200
+    returns{
+        results: DiseaseIdentificationResult[]
+    }
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+mysql models will be executed as scripts on the mysql server and will be reverse reflected on the services directory
+
+    Models
+
+User
+    npx sequelize-cli model:generate --name User --attributes email:string,password:string
+
+Device 
+    npx sequelize-cli model:generate --name Device --attributes deviceID:string
+
+PlantProfile
+    npx sequelize-cli model:generate --name PlantProfile --attributes name:string,scientificName:string
+
+Plant
+    npx sequelize-cli model:generate --name Plant --attributes name:string,profileId:INTEGER
+
+Parameter
+    npx sequelize-cli model:generate --name Parameter --attributes name:string,value:DOUBLE
+
+DiseaseIdentificationResult (Nosql)
+
+Reading (Nosql) - Dynamo?
+
+Notification (Nosql) - Dynamo?
+
+KnowledgeBase
+    Title, Subtitle, Last Updated, RichText
+
+sequelize-auto -h <host> -d <database> -u <user> -x [password] -p [port]  --dialect [dialect]  -o [/path/to/models] 

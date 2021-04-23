@@ -1,3 +1,10 @@
 /node_modules
 connect-db.js
 /PlantWatchMobileApp
+Services/.serverless/ogservice.zip
+Services/test-db.js
+Services/createDynamoTables.js
+Services/test-S3.js
+Services/test-predict.js
+Services/predict-bin
+Services/predict-binary

@@ -1,6 +1,9 @@
 'use strict';
 
+const jwt = require('jsonwebtoken');
+
 module.exports.validateUser = async (event, context) => {
+  console.log(event.methodArn);
   const authorizerToken = event.authorizationToken
   const authorizerArr = authorizerToken.split(' ')
   const token = authorizerArr[1]
@@ -8,17 +11,17 @@ module.exports.validateUser = async (event, context) => {
   if (authorizerArr.length !== 2 ||
   authorizerArr[0] !== 'Bearer' ||
   authorizerArr[1].length === 0) {
+    
     return generatePolicy('undefined', 'Deny', event.methodArn)
   }
   let decodedJwt = jwt.verify(token, process.env.JWT_SECRET)
-  if (typeof decodedJwt.username !== 'undefined' &&
-  decodedJwt.username.length > 0) {
-    return generatePolicy(decodedJwt.username, 'Allow', event.methodArn)
+  if (typeof decodedJwt.email !== 'undefined' &&
+  decodedJwt.email.length > 0) {
+    console.log("Successfully verified");
+    return generatePolicy(decodedJwt.email, 'Allow', event.methodArn)
   }
   generatePolicy('undefined', 'Deny', event.methodArn)
-
 };
-
 
 // Help function to generate an IAM policy
 const generatePolicy = function(principalId, effect, resource) {

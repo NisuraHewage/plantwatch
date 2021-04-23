@@ -26,6 +26,22 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'dynamodb:Query'
+            - 'dynamodb:Scan'
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+            - 'dynamodb:UpdateItem'
+            - 'dynamodb:DeleteItem'
+          Resource:  ${param:DYNAMODB_READINGS_ARN}
+        - Effect: 'Allow'
+          Action:
+            - 's3:*'
+          Resource: ${param:S3_BUCKET_ARN}
   httpApi:
       cors: true
 # you can overwrite defaults here
@@ -62,58 +78,285 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  validateUser:
-    handler: src/functions/validateUser.validateUser
-  loginUser:
-    handler: src/functions/loginUser.loginUser
-  createUser:
-    handler: src/functions/createUser.createUser
+  updateKnowledgebase:
+    handler: src/functions/updateKnowledgebase.updateKnowledgebase
+  deleteKnowledgebase:
+    handler: src/functions/deleteKnowledgebase.deleteKnowledgebase
+  readNotification:
+    handler: src/functions/readNotification.readNotification
+  deletePlant:
+    handler: src/functions/deletePlant.deletePlant
+  viewDiseaseResults:
+    handler: src/functions/viewDiseaseResults.viewDiseaseResults
     events:
-      - httpApi:
-          path: /v1/user
+      - http:
+          path: /v1/disease
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  sendNotification:
+    handler: src/functions/sendNotification.sendNotification
+    events:
+      - http:
+          path: /v1/notification/send
           method: post
-          cors: true
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-#    events:
-#      - httpApi:
-#          path: /users/create
-#          method: get
-#      - websocket: $connect
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-#      - alb:
-#          listenerArn: arn:aws:elasticloadbalancing:us-east-1:XXXXXX:listener/app/my-load-balancer/50dc6c495c0c9188/
-#          priority: 1
-#          conditions:
-#            host: example.com
-#            path: /hello
-
-#    Define function environment variables here
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  viewNotifications:
+    handler: src/functions/viewNotifications.viewNotifications
+    events:
+      - http:
+          path: /v1/notification
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  getPlants:
+    handler: src/functions/getPlants.getPlants
+    events:
+      - http:
+          path: /v1/plants
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  getDevices:
+    handler: src/functions/getDevices.getDevices
+    events:
+      - http:
+          path: /v1/devices
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+      PUSH_FREQUENCY_MILLI_SECONDS: ${param:PUSH_FREQUENCY_MILLI_SECONDS}
+  viewKnowledgeBase:
+    handler: src/functions/viewKnowledgeBase.viewKnowledgeBase
+    events:
+      - http:
+          path: /v1/knowledgebase/view
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  viewKnowledgeBases:
+    handler: src/functions/viewKnowledgeBases.viewKnowledgeBases
+    events:
+      - http:
+          path: /v1/knowledgebase
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  addKnowledgeBase:
+    handler: src/functions/addKnowledgeBase.addKnowledgeBase
+    events:
+      - http:
+          path: /v1/knowledgebase
+          method: post
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  predictDisease:
+    handler: src/functions/predictDisease.predictDisease
+    events:
+      - http:
+          path: /v1/predict
+          method: post
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  getParameters:
+    handler: src/functions/getParameters.getParameters
+    events:
+      - http:
+          path: /v1/parameters
+          method: get
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
       JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  upsertParameters:
+    handler: src/functions/upsertParameters.upsertParameters
+    events:
+      - http:
+          path: /v1/parameters
+          method: post
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  deleteProfile:
+    handler: src/functions/deleteProfile.deleteProfile
+    events:
+      - http:
+          path: /v1/profiles
+          method: delete
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  updateProfile:
+    handler: src/functions/updateProfile.updateProfile
+    events:
+      - http:
+          path: /v1/profiles
+          method: put
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  getProfile:
+    handler: src/functions/getProfile.getProfile
+    events:
+      - http:
+          path: /v1/profile
+          method: get
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  getProfiles:
+    handler: src/functions/getProfiles.getProfiles
+    events:
+      - http:
+          path: /v1/profiles
+          method: get
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  viewReadings:
+    handler: src/functions/viewReadings.viewReadings
+    events:
+      - http:
+          path: /v1/readings
+          method: get
+          authorizer: validateUser
+  addPlant:
+    handler: src/functions/addPlant.addPlant
+    events:
+      - http:
+          path: /v1/plants
+          method: post
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  addPlantProfile:
+    handler: src/functions/addPlantProfile.addPlantProfile
+    events:
+      - http:
+          path: /v1/plantprofiles
+          method: post
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  addDevice:
+    handler: src/functions/addDevice.addDevice
+    events:
+      - http:
+          path: /v1/devices
+          method: post
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  postReadings:
+    handler: src/functions/postReadings.postReadings
+    events:
+      - http:
+          path: /v1/readings
+          method: post
+  validateUser:
+    handler: src/functions/validateUser.validateUser
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+  loginUser:
+    handler: src/functions/loginUser.loginUser
+    events:
+      - http:
+          path: /v1/user/login
+          method: post
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      SNS_PLATFORM_APPLICATION_ARN: ${param:SNS_PLATFORM_APPLICATION_ARN}
+  createUser:
+    handler: src/functions/createUser.createUser
+    events:
+      - http:
+          path: /v1/user
+          method: post
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      JWT_SECRET: ${param:JWT_SECRET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
 
 # you can add CloudFormation resource templates here
 #resources:
@@ -130,8 +373,12 @@ functions:
 plugins:
   - serverless-pseudo-parameters
   - serverless-mocha
+  - serverless-apigw-binary
 
 custom:
   serverless-mocha-plugin:
       testTemplate: src/templates/test-template.ejs
       functionTemplate: src/templates/function-template.ejs
+  apigwBinary:
+    types:
+      - 'multipart/form-data'

@@ -1,0 +1,35 @@
+.notification-item{
+    width: 80%;
+    margin: 60px auto;
+    background: #2B3648;
+    /* Card hover */
+    padding: 30px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);
+}
+
+.notification-item{
+    color:  #16C7BD;
+}
+
+.edit-link{
+    color: #16C7BD;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.3);
+    border-radius: 100px;
+    padding: 10px 20px;
+    padding-left: 50px;
+    position: relative;
+}
+
+.edit-link .icon{
+    background: #2B3648;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+    position: absolute;
+    left: -1px;
+    padding: 17px;
+    top: 5px;
+}
+
+.parameters .icon{
+    margin: 5px 20px;
+}

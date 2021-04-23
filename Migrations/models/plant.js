@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+const Device = require('./device');
+
 module.exports = (sequelize, DataTypes) => {
   class Plant extends Model {
     /**
@@ -11,10 +13,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Plant.belongsTo(Device);
     }
   };
   Plant.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    profileId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Plant',

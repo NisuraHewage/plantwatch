@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const PlantProfile = require('./plantprofile');
 module.exports = (sequelize, DataTypes) => {
   class Parameter extends Model {
     /**
@@ -11,13 +12,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Parameter.belongsTo(PlantProfile);
     }
   };
   Parameter.init({
     name: DataTypes.STRING,
-    value: DataTypes.DOUBLE,
-    notificationAlert: DataTypes.STRING,
-    actionMessage: DataTypes.STRING
+    value: DataTypes.DOUBLE
   }, {
     sequelize,
     modelName: 'Parameter',
