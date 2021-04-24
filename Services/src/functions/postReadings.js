@@ -70,6 +70,18 @@ function getNotificationMessage(last5Readings, params){
 
 async function verifyParameters(userId, deviceId, moisture, temperature,  light, humidity){
   try {
+    // Check if readings were sent for last 4 hours
+    var user = await User.findOne({
+      Id: userId
+    });
+
+    if(user.LastNotifiedTimeStamp){
+      let today = new Date();
+      if(user.LastNotifiedTimeStamp < new Date(today.getTime() - 1.44e+7)){
+        return;
+      }
+    }
+
         // Get last 5 readings for device
         var result = await docClient.scan({TableName:"Readings"}).promise();
         // This is sorted to ensure even if latest readings are not valid that the if the last n windows have been valid it doesn't notify
@@ -137,9 +149,7 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
       } */
       if(notificationMessage != ""){
         // Send to sns
-        var user = await User.findOne({
-          Id: userId
-        });
+        
         
         var messageParams = {
           Message: notificationMessage, /* required */
@@ -162,6 +172,8 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
             }
           }
             var result = await docClient.put(notificationParams).promise();
+            user.LastNotifiedTimeStamp = new Date();
+            await user.save();
               console.log("Added item:", result);
               return "OK";
         
@@ -227,6 +239,9 @@ async function readingCreate(userId, deviceId, moisture, temperature,  light, hu
 
 try{
   var result = await docClient.put(params).promise();
+
+  // Check if last notified more that 2 hours ago
+  
 
   let verificationResult = await verifyParameters(userId, deviceId, moisture, temperature, light, humidity);
 
