@@ -9,6 +9,7 @@ AWS.config.update({
   secretAccessKey: process.env.DYNAMO_DB_SECRETKEY
 });
 
+const { Sequelize,Model,DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
   host:  process.env.MYSQL_ENDPOINT,
