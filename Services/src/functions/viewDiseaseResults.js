@@ -17,7 +17,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 
 try{
   // Replace Scan with Query
-  var result = await docClient.scan({TableName:"DiseaseIdentificationResult"}).promise();
+  var result = await docClient.scan({TableName:"DiseaseIdentificationResults"}).promise();
   console.log("Query succeeded.");
   return {
     statusCode: 200,
