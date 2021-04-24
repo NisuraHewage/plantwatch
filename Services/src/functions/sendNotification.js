@@ -10,8 +10,18 @@ AWS.config.update({
 });
 
 
+const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
+  host:  process.env.MYSQL_ENDPOINT,
+  dialect: 'mysql',
+  port: 3306
+});
+
+const Users = require('../models/Users');
+const User = Users(sequelize, DataTypes);
+
 var sns = new AWS.SNS({apiVersion: '2010-03-31'});
 
+var docClient =  new AWS.DynamoDB.DocumentClient();
 
 // For notifications (Check whether this goes in login)
 async function notificationSend(message, userId){
