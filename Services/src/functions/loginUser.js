@@ -157,5 +157,6 @@ async function userLogin(email, password, deviceToken, event){
 
 module.exports.loginUser = async (event, context) => {
   const body = JSON.parse(event.body);
+  console.log(body)
   return await userLogin(body.email, body.password, body.deviceToken, event);
 };
