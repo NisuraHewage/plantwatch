@@ -65,7 +65,7 @@ async function notificationSend(message, userId){
       var result = await docClient.put(notificationParams).promise();
       console.log("Added item:", result);
     }catch(error){
-      console.error(err, err.stack);
+      console.error(error, error.stack);
       return {
         statusCode: 500,
         body: JSON.stringify({
