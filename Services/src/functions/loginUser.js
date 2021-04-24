@@ -25,7 +25,7 @@ async function registerDevice(token, userId){
     CustomUserData: userId.toString()
   };
   let endpointArnResponse = await sns.createPlatformEndpoint(params).promise();
-  console.log(endpointArnResponse);
+  console.log("Endpoint ARN " + endpointArnResponse.EndpointArn);
   endpointArn = endpointArnResponse.EndpointArn;
   params = {
     Message: 'You logged in!', /* required */
@@ -34,9 +34,10 @@ async function registerDevice(token, userId){
 
   // Create promise and SNS service object
   var publishTextPromise = await sns.publish(params).promise();
-  console.log(publishTextPromise);
+  console.log("Publish Text Response" + publishTextPromise);
   return endpointArn;
 }catch(e){
+  console.log(e);
   return "";
 }
   /* sns.createPlatformEndpoint(params, function(err, data) {
@@ -95,7 +96,7 @@ async function userLogin(email, password, deviceToken, event){
          });
 
 
-         if(exitingUser.SnSPushDeviceId == null){
+         if(true){
            var applicationArn = await registerDevice(deviceToken, exitingUser.Id.toString());
            exitingUser.SnSPushDeviceId = applicationArn;
            await exitingUser.save();
@@ -156,5 +157,6 @@ async function userLogin(email, password, deviceToken, event){
 
 module.exports.loginUser = async (event, context) => {
   const body = JSON.parse(event.body);
+  console.log(body)
   return await userLogin(body.email, body.password, body.deviceToken, event);
 };

@@ -12,7 +12,7 @@ AWS.config.update({
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
  async function notificationsView(userId, context){
-  var params = {
+  /* var params = {
     TableName : "Notifications",
     KeyConditionExpression: "#dId = :device",
     ExpressionAttributeNames:{
@@ -21,7 +21,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
     ExpressionAttributeValues: {
         ":device": parseInt(deviceId),
     }
-};
+}; */
 
 
 try{

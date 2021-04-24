@@ -12,21 +12,12 @@ AWS.config.update({
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
  async function diseaseIdentificationResultsView(userId, context){
-  var params = {
-    TableName : "DiseaseIdentificationResult",
-    KeyConditionExpression: "#dId = :device",
-    ExpressionAttributeNames:{
-        "#dId": "DeviceId"
-    },
-    ExpressionAttributeValues: {
-        ":device": parseInt(deviceId),
-    }
-};
+ 
 
 
 try{
   // Replace Scan with Query
-  var result = await docClient.scan({TableName:"DiseaseIdentificationResult"}).promise();
+  var result = await docClient.scan({TableName:"DiseaseIdentificationResults"}).promise();
   console.log("Query succeeded.");
   return {
     statusCode: 200,

@@ -18,6 +18,11 @@ module.exports = function(sequelize, DataTypes) {
     SnSPushDeviceId: {
       type: DataTypes.STRING(300),
       allowNull: true
+    },
+    LastNotifiedTimeStamp:
+    {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,
