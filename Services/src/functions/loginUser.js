@@ -37,6 +37,7 @@ async function registerDevice(token, userId){
   console.log("Publish Text Response" + publishTextPromise);
   return endpointArn;
 }catch(e){
+  console.log(e);
   return "";
 }
   /* sns.createPlatformEndpoint(params, function(err, data) {
