@@ -12,16 +12,7 @@ AWS.config.update({
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
  async function diseaseIdentificationResultsView(userId, context){
-  var params = {
-    TableName : "DiseaseIdentificationResult",
-    KeyConditionExpression: "#dId = :device",
-    ExpressionAttributeNames:{
-        "#dId": "DeviceId"
-    },
-    ExpressionAttributeValues: {
-        ":device": parseInt(deviceId),
-    }
-};
+ 
 
 
 try{
