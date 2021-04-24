@@ -1,6 +1,8 @@
 'use strict';
 
 
+const { v4: uuidv4 } = require('uuid');
+
 var AWS = require("aws-sdk");
 
 AWS.config.update({
