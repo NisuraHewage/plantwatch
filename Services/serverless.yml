@@ -107,7 +107,6 @@ functions:
           path: /v1/disease
           method: get
           cors: true 
-          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
