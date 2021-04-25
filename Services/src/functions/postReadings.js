@@ -112,7 +112,7 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
     };
 
     let plants = await Plant.findAll({
-      where: {DeviceID : devices[0].Id }
+      where: {DeviceID : devices[0].DeviceID }
       }
     );
 
