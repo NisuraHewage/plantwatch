@@ -60,7 +60,7 @@ async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
         }
       }
 
-      const newPlant = await Plant.create({ Name: plantName, PlantProfileID: plantProfileId, DeviceID: exitingDevices[0].Id, UserID : userId });
+      const newPlant = await Plant.create({ Name: plantName, PlantProfileID: plantProfileId, DeviceID: exitingDevices[0].DeviceID, UserID : userId });
 
       return {
         statusCode: 201,
