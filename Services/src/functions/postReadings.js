@@ -19,6 +19,10 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
   port: 3306
 });
 
+console.log(process.env.MYSQL_PASSWORD + "Password")
+console.log(process.env.MYSQL_ENDPOINT + " Host")
+
+
 const Devices = require('../models/Devices');
 const Device = Devices(sequelize, DataTypes);
 
