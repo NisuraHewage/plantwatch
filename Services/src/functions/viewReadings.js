@@ -35,7 +35,7 @@ try{
       'Access-Control-Allow-Headers': 'Authorization'
     },
     body: JSON.stringify({
-      readings: result.Items.filter(d => d.deviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp ).slice(0,10)
+      readings: result.Items.filter(d => d.DeviceId == deviceId).sort((a,b) => b.Timestamp - a.Timestamp ).slice(0,10)
     })
   };
 }catch(err){
