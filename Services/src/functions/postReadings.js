@@ -223,7 +223,7 @@ async function readingCreate(userId, deviceId, moisture, temperature,  light, hu
   // Check if device exists in middleware
 
   var params = {
-    TableName:"Readings",
+    TableName:"Reading",
     Item:{
         "ReadingId": uuidv4(),
         "DeviceId": deviceId,

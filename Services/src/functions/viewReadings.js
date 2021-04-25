@@ -12,7 +12,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 
  async function readingsView(deviceId, context){
   var params = {
-    TableName : "Readings",
+    TableName : "Reading",
     KeyConditionExpression: "#dId = :device",
     ExpressionAttributeNames:{
         "#dId": "DeviceId"
@@ -25,7 +25,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 
 try{
   // Replace Scan with Query
-  var result = await docClient.scan({TableName:"Readings"}).promise();
+  var result = await docClient.scan({TableName:"Reading"}).promise();
   console.log("Query succeeded.");
   return {
     statusCode: 200,
