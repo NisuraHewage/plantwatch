@@ -112,7 +112,7 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
     };
 
     let plants = await Plant.findAll({
-      where: {DeviceID : devices[0].DeviceID }
+      where: {DeviceID : devices[0].Id }
       }
     );
 
@@ -230,7 +230,7 @@ async function readingCreate(userId, deviceId, moisture, temperature,  light, hu
     TableName:"Readings",
     Item:{
         "ReadingId": uuidv4(),
-        "DeviceId": 0,
+        "DeviceId": 15,
         "DeviceUUID": deviceId,
         "UserId": userId,
         "Timestamp": Date.now(),
