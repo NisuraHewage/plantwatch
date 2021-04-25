@@ -11,7 +11,7 @@ AWS.config.update({
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
  async function readingsView(deviceId, context){
-  var params = {
+  /* var params = {
     TableName : "Reading",
     KeyConditionExpression: "#dId = :device",
     ExpressionAttributeNames:{
@@ -20,7 +20,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
     ExpressionAttributeValues: {
         ":device": parseInt(deviceId),
     }
-};
+}; */
 
 
 try{
