@@ -226,7 +226,7 @@ async function readingCreate(userId, deviceId, moisture, temperature,  light, hu
     TableName:"Readings",
     Item:{
         "ReadingId": uuidv4(),
-        "DeviceId": parseInt(deviceId),
+        "DeviceId": deviceId,
         "UserId": userId,
         "Timestamp": Date.now(),
         "Moisture": moisture,
