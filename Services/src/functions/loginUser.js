@@ -106,7 +106,8 @@ async function userLogin(email, password, deviceToken, event){
               statusCode: 200,
               body: JSON.stringify({
                 message: "Successful Login",
-                token: token
+                token: token,
+                userI: exitingUser.Id
               }),
               headers: {
                 'Access-Control-Allow-Origin': '*',
