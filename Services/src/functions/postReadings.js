@@ -13,8 +13,8 @@ AWS.config.update({
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
 const { Sequelize,Model,DataTypes } = require('sequelize');
-const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
-  host:  process.env.MYSQL_ENDPOINT,
+const sequelize = new Sequelize('og_test', 'admin', "AristotlE456", {
+  host:  "og.cbnfndsvtpgr.us-east-2.rds.amazonaws.com",
   dialect: 'mysql',
   port: 3306
 });
