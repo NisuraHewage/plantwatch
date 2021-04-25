@@ -89,7 +89,7 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
     await sequelize.authenticate();
 
     let devices = await Device.findAll({
-      DeviceID : deviceId
+      where : {DeviceID : deviceId}
       }
     );
 
@@ -108,14 +108,14 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
     };
 
     let plants = await Plant.findAll({
-      DeviceID : devices[0].Id
+      where: {DeviceID : devices[0].Id }
       }
     );
 
     for(let i = 0; i < plants.length; i++){
       let plant = plants[i];
       let params = await Parameter.findAll({
-        PlantProfileID : plant.PlantProfileID
+       where: { PlantProfileID : plant.PlantProfileID }
         }
       );
       let notificationMessage = getNotificationMessage(last5Readings, params);
