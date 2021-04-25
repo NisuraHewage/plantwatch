@@ -32,7 +32,7 @@ const Plant = Plants(sequelize, DataTypes);
 const Parameters = require('../models/Parameters');
 const Parameter = Parameters(sequelize, DataTypes);
 
-const Users = require('../models/Parameters');
+const Users = require('../models/Users');
 const User = Users(sequelize, DataTypes);
 
 const READING_COUNT = 3;
