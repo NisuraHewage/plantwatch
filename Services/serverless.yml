@@ -214,7 +214,6 @@ functions:
           path: /v1/predict
           method: post
           cors: true 
-          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
