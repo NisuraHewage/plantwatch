@@ -226,6 +226,7 @@ functions:
       - http:
           path: /v1/parameters
           method: get
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -275,6 +276,7 @@ functions:
       - http:
           path: /v1/profile
           method: get
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -286,6 +288,7 @@ functions:
       - http:
           path: /v1/profiles
           method: get
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -304,6 +307,7 @@ functions:
       - http:
           path: /v1/plants
           method: post
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -315,6 +319,7 @@ functions:
       - http:
           path: /v1/plantprofiles
           method: post
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -328,6 +333,7 @@ functions:
       - http:
           path: /v1/devices
           method: post
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -339,6 +345,7 @@ functions:
       - http:
           path: /v1/readings
           method: post
+          cors: true 
   validateUser:
     handler: src/functions/validateUser.validateUser
     environment:
@@ -352,6 +359,7 @@ functions:
       - http:
           path: /v1/user/login
           method: post
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -366,6 +374,7 @@ functions:
       - http:
           path: /v1/user
           method: post
+          cors: true 
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
