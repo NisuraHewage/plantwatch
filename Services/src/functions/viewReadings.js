@@ -23,6 +23,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 }; */
 
 
+
 try{
   // Replace Scan with Query
   var result = await docClient.scan({TableName:"Readings"}).promise();

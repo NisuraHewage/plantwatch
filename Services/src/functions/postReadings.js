@@ -14,7 +14,7 @@ AWS.config.update({
 var docClient =  new AWS.DynamoDB.DocumentClient();
 const { Sequelize,Model,DataTypes, Op } = require('sequelize');
 const sequelize = new Sequelize('og_test', 'admin', "AristotlE456", {
-  host:  "og.cbnfndsvtpgr.us-east-2.rds.amazonaws.com",
+  host:  process.env.MYSQL_ENDPOINT,
   dialect: 'mysql',
   port: 3306
 });
@@ -230,7 +230,7 @@ async function readingCreate(userId, deviceId, moisture, temperature,  light, hu
     TableName:"Readings",
     Item:{
         "ReadingId": uuidv4(),
-        "DeviceId": 15,
+        "DeviceId": deviceId,
         "DeviceUUID": deviceId,
         "UserId": userId,
         "Timestamp": Date.now(),
