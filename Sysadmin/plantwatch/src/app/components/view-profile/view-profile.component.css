@@ -1,0 +1,140 @@
+body {
+  background: #F5F7FA
+}
+
+.stat-val {
+  font-size: 3em;
+  padding-top: 20px;
+  font-weight: bold;
+}
+
+.stat-key {
+  font-size: 1.4em;
+  font-weight: 200
+}
+
+.section.profile-heading .column.is-2-tablet.has-text-centered + .has-text-centered {
+  border-left: 1px dotted rgba(0, 0, 0, .2);
+}
+
+.container.profile {
+  margin-top: 1%;
+}
+
+.control.is-pulled-left span.select {
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+.modal-card .content h1 {
+  padding: 40px 10px 10px;
+  border-bottom: 1px solid #dadada
+}
+
+.container.profile .profile-options .tabs ul li.link a {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #F1F1F1;
+}
+
+.field{
+  position: relative;
+  width: 50%;
+  margin: 30px auto;
+}
+
+.field label{
+  color: #16C7BD;
+  font-weight: 300;
+
+}
+
+.field input{
+  background: #2B3648;
+  border:none;
+  color: #F1F1F1;
+  font-weight: 300;
+  border-bottom: 1px solid #16C7BD;
+}
+
+.field textarea{
+  background: #2B3648;
+  border:none;
+  color: #F1F1F1;
+  font-weight: 300;
+  border-bottom: 1px solid #16C7BD;
+}
+
+.label-input-empty{
+  position: absolute;
+  left: 40%;
+  z-index: 2;
+}
+
+.label-input-filled{
+  font-size: 0.8rem;
+}
+
+#quick-help{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#quick-help > div{
+  width: 20%;
+  padding-top: 10px;
+  margin: 1%;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);
+  border-radius: 4px;
+}
+
+#quick-help *{
+  background: #2B3648;
+  color: #F1F1F1;
+}
+
+#quick-help .icon{
+  color: #16C7BD;
+  width: 3rem;
+  position: absolute;
+  left: 40px;
+  top: 6px;
+}
+
+#quick-help .content span{
+  color: #16C7BD;
+  background: #F1F1F1;
+  border-radius: 8px;
+  padding: 2px;
+  top: 20px;
+  position: relative;
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+#quick-help .card-header{
+  text-align: center;
+  position: relative;
+  left: 30px;
+  font-size: 1.2rem;
+}
+
+#profile-image{
+  height: 200px;
+  width: 40%;
+  border-radius: 200px;
+  display: block;
+  margin: auto;
+  padding: 20px;
+  background: #212936;
+/* Card hover */
+
+box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);
+}
+
+#profile-image figure{
+  display: block;
+  margin: auto;
+}

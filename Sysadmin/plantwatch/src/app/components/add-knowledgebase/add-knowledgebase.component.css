@@ -1,0 +1,140 @@
+.step-active{
+    background: #16C7BD !important;
+}
+
+.steps{
+    display: flex;
+    justify-content: center;
+    top: 20px;
+    position: relative;
+}
+
+.steps div{
+    width: 40px;
+    background: #212936;
+    height: 10px;
+    margin: 5px;
+}
+
+
+#progress-summary{
+    width: 15%;
+    margin: auto;
+}
+
+.pw-button{
+	background: #16C7BD;
+	display: block;
+	margin: auto;
+	}
+
+.field{
+    position: relative;
+    width: 70%;
+    margin: 30px auto;
+  }
+
+  .field label{
+    color: #16C7BD;
+    font-weight: 300;
+
+  }
+
+  .field input{
+    background: #2B3648;
+    border:none;
+    color: #F1F1F1;
+    font-weight: 300;
+    border-bottom: 1px solid #16C7BD;
+  }
+
+  .field textarea{
+    background: #2B3648;
+    border:none;
+    color: #F1F1F1;
+    font-weight: 300;
+    border-bottom: 1px solid #16C7BD;
+  }
+
+  .label-input-empty{
+    position: absolute;
+    left: 40%;
+    z-index: 2;
+    transition-delay: 0.8;
+  }
+
+  .label-input-filled{
+    font-size: 0.8rem;
+    transition-delay: 0.8;
+  }
+
+  #image-upload{
+    position: relative;
+    width: 40%;
+    height: 100px;
+    border-radius: 100px;
+    display: block;
+    margin: auto;
+    background: #212936;
+/* Card hover */
+
+box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);
+}
+
+#image-upload .image-icon{
+    position: absolute;
+    top: 40px;
+    left: 40%;
+}
+
+#image-upload .fa-image{
+    color: #16C7BD;
+}
+
+#image-upload .fa-camera{
+    color: #16C7BD;
+    background: #212936;
+    
+}
+
+#image-upload .camera-icon{
+    right: 10px;
+    z-index: 2;
+    bottom: 10px;
+    border-radius: 20px;
+    position: absolute;
+}
+
+#image-upload img{
+    object-fit: cover;
+    max-height: 72px;
+}
+
+#image-upload figure{
+    position: absolute;
+    top: 17px;
+    right: 6px;
+    width: 240px;
+}
+
+#quick-info{
+
+}
+
+#quick-info p{
+    color: #16C7BD;
+    text-align: center;
+    flex-basis: 100%;
+    margin-bottom: 20px;
+}
+
+#quick-info .control{
+    display: flex;
+    margin-top: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.checkbox:hover, .radio:hover{
+    color: #F1F1F1;
+}

@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+
+h1,h2,h3,h4,h5,h6,p,span, label, button{
+  font-family: 'Quicksand', sans-serif;
+}
+
+#login-screen{
+  background-image: url("/assets/login-back.png");
+  background-size: cover;
+}
+
+h1{
+  font-size: 2rem;
+  color: #1C1C1E;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 1.1rem;
+}
+
+#login-screen > div{
+  background: rgba(255, 255, 255, 0);
+}
+
+.container{
+  background: rgba(255, 255, 255, 0);
+}
+
+#login-screen .login-screen{
+  background: rgba(255, 255, 255, 0);
+}
+
+.checkbox{
+  color: #4785D6;
+}
+
+.field button{
+  width: 100%;
+}
+
+.field input{
+  background: #E3E6EC;
+}

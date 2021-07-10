@@ -1,0 +1,93 @@
+    
+<!-- <nav class="nav has-shadow">
+  <div class="container">
+    <div class="nav-left">
+      <a class="nav-item">
+        Plant Watch
+      </a>
+    </div>
+    <label for="menu-toggle" class="nav-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+    <input type="checkbox" id="menu-toggle" class="is-hidden"/>
+    <div class="nav-right nav-menu">
+      <a class="nav-item is-tab is-hidden-tablet">
+        <span class="icon"><i class="fa fa-home"></i></span> Home
+      </a>
+      <a class="nav-item is-tab is-hidden-tablet">
+        <span class="icon"><i class="fa fa-table"></i></span> Links
+      </a>
+      <a class="nav-item is-tab is-hidden-tablet">
+        <span class="icon"><i class="fa fa-info"></i></span> About
+      </a>
+      
+      <a class="nav-item is-tab is-active">
+        <span class="icon"><i class="fa fa-user"></i></span>
+      </a>
+      <a class="nav-item is-tab">
+        <span class="icon"><i class="fa fa-sign-out-alt"></i></span>
+      </a>
+    </div>
+  </div>
+</nav> -->
+<block-ui>
+<section *ngIf="signedIn; else elseBlock" class="main-content columns is-fullheight pw-full-container">
+  <aside class="column is-1 is-narrow-mobile is-fullheight section is-hidden-mobile pw-nav-side ">
+    <a [routerLink]="['/dashboard']" >
+    <span style="
+    width: 3rem;
+    left: 8px;
+    position: relative;
+" class="menu-label icon">
+  <img src="/assets/Logo.svg" alt="">
+  
+</span>
+</a>
+    <ul class="menu-list">
+      <li>
+        <a [routerLink]="['/dashboard']" class=""  [ngClass]="{'is-active': route == '/dashboard'}">
+          <span class="icon"><img src="/assets/Dashboard - Central/grid.png" alt=""></span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/profiles']" href="#" [ngClass]="{'is-active': route.startsWith('/profiles')}" >
+          <span class="icon"><img src="/assets/Dashboard - Central/plantcenter.png" alt=""></span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/notifications']" class="" [ngClass]="{'is-active': route == '/notifications'}">
+          <span class="icon"><img src="/assets/Dashboard - Central/carbon_notification.png" alt=""></span>
+        </a>
+      </li>
+      <li>
+        <a (click)="logout()" class="pw-logout">
+          <span class="icon"><img src="/assets/Dashboard - Central/ic_round-logout.png" alt=""></span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/user']"  class="" [ngClass]="{'is-active': route == '/user'}">
+          <span class="icon"><img src="/assets/Dashboard - Central/ant-design_user-outlined.png" alt=""></span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/settings']"  class="" [ngClass]="{'is-active': route == '/settings'}">
+          <span class="icon"><img src="/assets/Dashboard - Central/Glyph_ .png" alt=""></span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <div class="container column is-11">
+    <div class="section">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</section>
+
+
+
+<ng-template #elseBlock><router-outlet></router-outlet></ng-template>
+</block-ui>

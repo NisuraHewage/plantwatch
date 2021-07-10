@@ -1,0 +1,52 @@
+
+<main class="container content box">
+
+
+	<form autocomplete="off" [formGroup]="profileForm">
+
+        <div class="field">
+			<div id="image-upload" >
+				<span class="icon image-icon" *ngIf='selectedFile == null' >
+					<img src="/assets/Plant Profile Create Step 1/Image placeholder.png" alt="">
+				</span>
+				<figure class="image" *ngIf='selectedFile != null' >
+					<img class="is-rounded " [src]="previewImageUrl"/>
+				  </figure>
+				<input  class="file-input"  type="file" name="plantProfileImage" (change)="onFileChanged($event)" />
+				<span class="icon camera-icon">
+					<img src="/assets/Plant Profile Create Step 1/Upload image.png" alt="">
+				</span>
+			</div>
+		</div>
+
+		<div class="field">
+			<label class="label" [ngClass]="{'label-input-empty': plantNameInput.value == '', 'label-input-filled': plantNameInput.value != ''}" for="plant_name" >Plant Name</label>
+			<input type="text" name="plant_name" #plantNameInput formControlName="plantName" id="plant_name" class="input">
+		</div>
+
+        <div class="field">
+			<label class="label"  [ngClass]="{'label-input-empty': scientificNameInput.value == '', 'label-input-filled': scientificNameInput.value != ''}" for="plant_name" >Scientific Name</label>
+			<input type="text" #scientificNameInput name="plant_name" formControlName="scientificName" id="plant_name" class="input">
+		</div>
+
+
+		<div class="field">
+			<button type="submit" class="button is-primary pw-button" (click)="submitForm($event)">Next</button>
+		</div>
+
+		<div class="field" id="progress-summary">
+			<div class="steps">
+			  <div id="step1" class="step-active">
+		
+			  </div>
+			  <div id="step2" >
+				
+			  </div>
+			  <div id="step3">
+				
+			  </div>
+			</div>
+		  </div>
+	</form>
+
+</main>

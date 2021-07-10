@@ -1,7 +1,7 @@
 'use strict';
 
-const { Sequelize,Model,DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
+const { Sequelize,Model,DataTypes } = require('sequelize');
 
 // Move to config
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
@@ -10,23 +10,17 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
     port: 3306
 });
 
-const User = sequelize.define('User', {
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
-  }, {
-    // Other model options go here
-  });
+const Users = require('../models/Users');
+const User = Users(sequelize, DataTypes);
 
 async function userCreate(email, password, event){
     try {
-        console.log(email);
         await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
 
        // Validate Email, Password
 
         const exitingUsers = await User.findAll({
-          where:{email}
+          where:{Email: email}
         });
 
         if(exitingUsers.length != 0){
@@ -43,20 +37,18 @@ async function userCreate(email, password, event){
           }
         }
 
-        // 
+        const newUser = await User.create({ Email: email, Password : bcrypt.hashSync(password, 10) });
 
-        const newUser = await User.create({ email, password : bcrypt.hashSync(password, 10) });
-        // Return login token
-
-        await sequelize.close();
-        console.log('User successfully created');
         return {
           statusCode: 201,
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
             'Access-Control-Allow-Headers': 'Authorization'
-          }
+          },
+          body: JSON.stringify({
+            created: newUser.Id
+          })
         };
       } catch (error) {
         console.error('Unable to connect to the database:', error);
@@ -73,7 +65,7 @@ async function userCreate(email, password, event){
 
 module.exports.createUser = async (event, context) => {
   const body = JSON.parse(event.body);
-  await userCreate(body.email, body.password, event);
 
-  return ;
+  return await userCreate(body.email, body.password, event);
+
 };

@@ -4,7 +4,7 @@
 
 const mochaPlugin = require('serverless-mocha');
 const expect = mochaPlugin.chai.expect;
-let wrapped = mochaPlugin.getWrapper('loginUser', '../../../src/functions/loginUser.js', 'loginUser');
+let wrapped = mochaPlugin.getWrapper('loginUser', '\\src\\functions\\loginUser.js', 'loginUser');
 
 // Mocking AWS Services
 const AWS = require('aws-sdk-mock');
@@ -16,8 +16,4 @@ describe('loginUser', () => {
     done();
   });
 
-  it('implement tests here', async () => {
-    const response = await wrapped.run({});
-    expect(response).to.not.be.empty;
-  });
 });

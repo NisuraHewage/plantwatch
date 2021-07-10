@@ -1,0 +1,29 @@
+<h2>Notification Center</h2>
+
+<div *ngFor="let profile of profiles" class="notification-item">
+    <div class="columns">
+        <div class="column">
+            <span class="tag is-primary is-rounded is-medium">
+                {{ profile.Name }}
+              </span>
+        </div>
+        <div class="column parameters" >
+            <span class="icon">
+                <img src="/assets/Notification Center/droplet.png" alt="">
+            </span>
+            <span class="icon">
+                <img src="/assets/Notification Center/temp.png" alt="">
+            </span>
+            <span class="icon">
+                <img src="/assets/Notification Center/light.png" alt="">
+            </span>
+            <span class="icon">
+                <img src="/assets/Notification Center/humidity.png" alt="">
+            </span>
+            
+        </div>
+        <div class="column">
+            <a class="edit-link" [routerLink]="['/parameters']"   [queryParams]="{profileId: profile.Id }"><span class="icon"><i class="fas fa-edit"></i></span> Edit Notifications</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+
+
+<section id="login-screen" class="hero is-primary is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+            <h1>Hello! <br> Welcome to PlantWatch</h1>
+            <form action="" class="">
+              <div class="field">
+                <label for="" class="label">Email</label>
+                <div class="control has-icons-left">
+                  <input placeholder="Email" (keyup)="updateUsername($event)" type="text"  name="username"  class="input" required>
+                  <!-- <span class="icon is-small is-left">
+                    <i class="fa fa-envelope"></i>
+                  </span> -->
+                </div>
+              </div>
+              <div class="field">
+                <label for="" class="label">Password</label>
+                <div class="control has-icons-left">
+                  <input placeholder="Password" type="password" (keyup)="updatePassword($event)" name="password" class="input" required>
+                  <!-- <span class="icon is-small is-left">
+                    <i class="fa fa-lock"></i>
+                  </span> -->
+                </div>
+              </div>
+              <div class="field">
+                <label for="" class="checkbox">
+                  <input type="checkbox">
+                 Remember me
+                </label>
+              </div>
+              <div class="field">
+                <button [disabled]="username == '' || password == ''"  (click)="checkLogin()" class="button is-success">
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!--   <div class="v18_0"><div class="v18_6"><div class="v18_7"></div></div><div class="v18_159"><div class="name"></div><span class="v18_220">Hello!
+    Welcome to
+    PlantWatch</span><div class="v18_221"></div><div class="v18_222"></div><span class="v18_223">LOGIN</span><div class="v18_224"></div><span class="v18_225">Name</span><span class="v18_352">Username</span><span class="v18_353">Password</span><span class="v18_226">Password</span><span class="v18_229">Forgot Password?</span><span class="v18_288">Remember me</span><div class="v18_285"></div><div class="v18_287"></div><div class="v18_289"></div><div class="v18_291"></div></div><div class="v18_216"></div><div class="v18_295"></div><div class="v18_217"></div><div class="name"></div><div class="name"></div><div class="v18_290"></div><div class="v18_292"></div><div class="v18_219"></div></div> -->
