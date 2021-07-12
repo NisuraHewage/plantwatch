@@ -1,9 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
 import Login from '../src/components/login/login';
 import Vitals from '../src/components/vitals/vitals';
+import Device from '../src/components/device/device';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 class App extends React.Component {
 
@@ -13,7 +20,6 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    this.checkLogin();
 
   }
 
@@ -23,7 +29,7 @@ class App extends React.Component {
     // route them to vitals 
 
     this.switchComponent("vitals");
-    this.setState({vitals: { temperature: 24, moisture: 25}})
+    
   }
 
   switchComponent(component){
@@ -67,7 +73,43 @@ class App extends React.Component {
           break;
 
     }
-      return content;
+      return (<Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/vitals">Vitals</Link>
+              </li>
+              <li>
+                <Link to="/diseases">Diseases</Link>
+              </li>
+              <li>
+                <Link to="/devices">Devices</Link>
+              </li>
+              <li>
+                <Link to="/notifications">Notifications</Link>
+              </li>
+              <li>
+              <Link to="/diseaseResults">Disease Results</Link>
+              </li>
+            </ul>
+          </nav>
+  
+          {/* A <Switch> looks through its children <Route>s and
+              renders the first one that matches the current URL. */}
+          <Switch>
+            <Route path="/vitals">
+              <Vitals />
+            </Route>
+            <Route path="/devices">
+              <Device />
+            </Route>
+            <Route path="/">
+              <Login />
+            </Route>
+          </Switch>
+        </div>
+      </Router>);
     }
 }
 
