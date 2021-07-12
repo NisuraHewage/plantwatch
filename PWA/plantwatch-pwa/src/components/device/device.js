@@ -14,6 +14,8 @@ import {
     constructor(props){
         super(props);
         this.state = {devices: []}
+
+        this.selectDevice = this.selectDevice.bind(this);
     }
 
     componentDidMount(){
@@ -41,6 +43,7 @@ import {
           // get the first device id and send
            this.setState({devices: deviceData.result});
           if(deviceData.result && deviceData.result.length != 0){
+            this.setState({selectedDevice: deviceData.result[0].DeviceID});
             fetch(`${apiURL}plants?deviceId=${deviceData.result[0].DeviceID}`,{ 
               headers: new Headers({
                 'Authorization': 'Bearer '+ userToken 
@@ -57,24 +60,43 @@ import {
         });
     }
 
-    
+    refreshPlants(event){
+        let userToken = localStorage.getItem('userToken');
+        let deviceID = event.target.value;
+        fetch(`${apiURL}plants?deviceId=${deviceID}`,{ 
+            headers: new Headers({
+              'Authorization': 'Bearer '+ userToken 
+            })})
+            .then(response => response.json())
+            .then(plantData => {
+              console.log(plantData);
+              /* if(vitalData.readings && vitalData.readings.length != 0){
+                this.setState({ vitals: vitalData.readings[0] })
+              } */
+            } );
+    }
+
+    selectDevice(e){
+        this.setState({selectedDevice: e.target.value});
+    }
 
     render() {
 
         let deviceMarkup = (
-            <select>
-              {this.state.devices.map(d => (<option key={d.Id}>{d.DeviceId}</option>))}
+            <select onChange={this.selectDevice}>
+              {this.state.devices.map(d => (<option value={d.DeviceID} key={d.Id}>{d.DeviceID}</option>))}
             </select>
           )
 
       return (
       
         <>
+        <h1>Devices</h1>
         {deviceMarkup}
-        <h1>Hello, Babbe</h1>
-        <label>Email</label><input name="email" type="text"/>
-        <label>Password</label><input name="password" type="password"/>
-        <Link to="/addDevice">New Device</Link>
+        <h1>Plants</h1>
+
+        <Link to={{ pathname: '/addDevice'}}>New Device</Link>
+        <Link to={{ pathname: '/addPlant', search: `?deviceId=${this.state.selectedDevice}` }}>New Plant</Link>
         </>
       );
     }

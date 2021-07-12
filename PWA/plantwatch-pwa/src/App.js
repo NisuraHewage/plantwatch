@@ -4,6 +4,7 @@ import React from 'react';
 import Login from '../src/components/login/login';
 import Vitals from '../src/components/vitals/vitals';
 import Device from '../src/components/device/device';
+import AddPlant from '../src/components/device/addPlant';
 
 import {
   BrowserRouter as Router,
@@ -102,6 +103,12 @@ class App extends React.Component {
               <Vitals />
             </Route>
             <Route path="/devices">
+              <Device />
+            </Route>
+            <Route path="/addPlant">
+              <AddPlant />
+            </Route>
+            <Route path="/addDevice">
               <Device />
             </Route>
             <Route path="/">

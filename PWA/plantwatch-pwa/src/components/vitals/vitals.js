@@ -50,7 +50,7 @@ export default class Vitals extends React.Component {
   render() {
     let deviceMarkup = (
       <select>
-        {this.state.devices.map(d => (<option key={d.Id}>{d.DeviceId}</option>))}
+        {this.state.devices.map(d => (<option key={d.Id}>{d.DeviceID}</option>))}
       </select>
     )
 
