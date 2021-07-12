@@ -8,14 +8,9 @@ const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, 
   port: 3306
 });
 
-const Users = require('../models/Users');
-const User = Users(sequelize, DataTypes);
-
-const Devices = require('../models/Devices');
-const Device = Parameters(sequelize, DataTypes);
 
 const Plants = require('../models/Plants');
-const Plant = Parameters(sequelize, DataTypes);
+const Plant = Plants(sequelize, DataTypes);
 
 async function plantsGet(deviceId, event){
   try {
