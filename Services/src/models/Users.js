@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(300),
       allowNull: true
     },
+    DeviceToken: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
     LastNotifiedTimeStamp:
     {
       type: DataTypes.INTEGER,
