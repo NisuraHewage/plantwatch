@@ -26,6 +26,14 @@ var sns = new AWS.SNS({apiVersion: '2010-03-31'});
 
 var docClient =  new AWS.DynamoDB.DocumentClient();
 
+
+var admin = require('firebase-admin');
+var serviceAccount = require('../google-services.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+})
+
 // For notifications (Check whether this goes in login)
 async function notificationSend(message, userId){
 
@@ -53,8 +61,15 @@ async function notificationSend(message, userId){
 
     try{
       // Create promise and SNS service object
-      var publishTextPromise = await sns.publish(params).promise();
-      var notificationParams = {
+      admin.messaging().sendToDevice(registrationToken, {notification: {
+            title: 'Plantwatch',
+            body: message
+            }
+          }
+        )
+      .then( response => {
+
+       var notificationParams = {
         TableName:"Notifications",
         Item:{
             "NotificationId": uuidv4(),
@@ -66,6 +81,8 @@ async function notificationSend(message, userId){
       };
       var result = await docClient.put(notificationParams).promise();
       console.log("Added item:", result);
+      })
+      
     }catch(error){
       console.error(error, error.stack);
       return {

@@ -96,11 +96,8 @@ async function userLogin(email, password, deviceToken, event){
          });
 
 
-         if(true){
-           var applicationArn = await registerDevice(deviceToken, exitingUser.Id.toString());
-           exitingUser.SnSPushDeviceId = applicationArn;
+           exitingUser.DeviceToken = deviceToken;
            await exitingUser.save();
-         }
 
             return {
               statusCode: 200,
