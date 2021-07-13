@@ -13,9 +13,9 @@ import {
 
     constructor(props){
         super(props);
-        this.state = {devices: []}
+        this.state = {devices: [], selectedDevice: {DeviceID: 1}, plants: []}
 
-        this.selectDevice = this.selectDevice.bind(this);
+        this.refreshPlants = this.refreshPlants.bind(this);
     }
 
     componentDidMount(){
@@ -43,17 +43,17 @@ import {
           // get the first device id and send
            this.setState({devices: deviceData.result});
           if(deviceData.result && deviceData.result.length != 0){
-            this.setState({selectedDevice: deviceData.result[0].DeviceID});
-            fetch(`${apiURL}plants?deviceId=${deviceData.result[0].DeviceID}`,{ 
+            this.setState({selectedDevice: deviceData.result[0]});
+            fetch(`${apiURL}plants?deviceId=${deviceData.result[0].Id}`,{ 
               headers: new Headers({
                 'Authorization': 'Bearer '+ userToken 
               })})
               .then(response => response.json())
               .then(plantData => {
                 console.log(plantData);
-                /* if(vitalData.readings && vitalData.readings.length != 0){
-                  this.setState({ vitals: vitalData.readings[0] })
-                } */
+                if(plantData.result && plantData.result.length != 0){
+                  this.setState({ plants: plantData.result })
+                }
               } );
             }
               
@@ -63,30 +63,37 @@ import {
     refreshPlants(event){
         let userToken = localStorage.getItem('userToken');
         let deviceID = event.target.value;
-        fetch(`${apiURL}plants?deviceId=${deviceID}`,{ 
+        this.setState({selectedDevice: this.state.devices.filter(d => d.DeviceID == deviceID)[0]});
+        console.log(this.state);
+
+        fetch(`${apiURL}plants?deviceId=${this.state.selectedDevice.Id}`,{ 
             headers: new Headers({
               'Authorization': 'Bearer '+ userToken 
             })})
             .then(response => response.json())
             .then(plantData => {
               console.log(plantData);
-              /* if(vitalData.readings && vitalData.readings.length != 0){
-                this.setState({ vitals: vitalData.readings[0] })
-              } */
+              if(plantData.result && plantData.result.length != 0){
+                this.setState({ plants: plantData.result })
+              }else{
+                this.setState({ plants: [] })
+              }
             } );
-    }
-
-    selectDevice(e){
-        this.setState({selectedDevice: e.target.value});
     }
 
     render() {
 
-        let deviceMarkup = (
-            <select onChange={this.selectDevice}>
+        let deviceMarkup =  this.state.devices.length > 0 ? (
+            <select onChange={this.refreshPlants}>
               {this.state.devices.map(d => (<option value={d.DeviceID} key={d.Id}>{d.DeviceID}</option>))}
             </select>
-          )
+          ) : (<h2>No Devices</h2>)
+        
+        let plantMarkup = this.state.plants.length > 0 ? (
+            <ul>
+                {this.state.plants.map(p => (<li key={p.Id}>{p.Name}</li>))}
+            </ul>
+        ) : (<h2>No Plants</h2>)
 
       return (
       
@@ -94,9 +101,9 @@ import {
         <h1>Devices</h1>
         {deviceMarkup}
         <h1>Plants</h1>
-
+        {plantMarkup}
         <Link to={{ pathname: '/addDevice'}}>New Device</Link>
-        <Link to={{ pathname: '/addPlant', search: `?deviceId=${this.state.selectedDevice}` }}>New Plant</Link>
+        <Link to={{ pathname: '/addPlant', search: `?deviceId=${this.state.selectedDevice.DeviceID}` }}>New Plant</Link>
         </>
       );
     }

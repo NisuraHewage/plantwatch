@@ -10,6 +10,10 @@ export default class Vitals extends React.Component {
         this.state = {vitals: { temperature: 0, moisture: 0, Timestamp: 5645654}, devices: []}
     }
 
+    componentDidMount(){
+      this.refreshValues();
+    }
+
     refreshValues(){
       localStorage.setItem('userId', 1);
       let userId = localStorage.getItem('userId');
@@ -27,7 +31,7 @@ export default class Vitals extends React.Component {
           // get the first device id and send
            this.setState({devices: deviceData.result});
           if(deviceData.result && deviceData.result.length != 0){
-            fetch(`${apiURL}readings?deviceId=${deviceData.result[0].Id}`,{ 
+            fetch(`${apiURL}readings?deviceId=${deviceData.result[0].DeviceID}`,{ 
               headers: new Headers({
                 'Authorization': 'Bearer '+ userToken 
               })})

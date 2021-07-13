@@ -1,4 +1,7 @@
 
+
+
+  
 import React from "react";
 
 
@@ -10,7 +13,7 @@ import {
   useLocation
 } from "react-router-dom";
 
-  export default class AddPlant extends React.Component {
+  export default class Notification extends React.Component {
 
     constructor(props){
         super(props);
