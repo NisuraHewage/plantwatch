@@ -27,9 +27,7 @@ import {
 
         // save token
 
-        localStorage.setItem('userId', 1);
       let userId = localStorage.getItem('userId');
-      localStorage.setItem('userToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFobWVkbmlzaGFkM0BnbWFpbC5jb20iLCJ1c2VySWQiOjEsImlhdCI6MTYyNjA2MjQwNiwiZXhwIjoxNjU3NTk4NDA2fQ.dsobmm8q2Yb6HtQ0tjxkYTj2Asgf5aOoQGtljeidHNs');
       let userToken = localStorage.getItem('userToken');
 
         // Call every 5 seconds
@@ -64,7 +62,6 @@ import {
         let userToken = localStorage.getItem('userToken');
         let deviceID = event.target.value;
         this.setState({selectedDevice: this.state.devices.filter(d => d.DeviceID == deviceID)[0]});
-        console.log(this.state);
 
         fetch(`${apiURL}plants?deviceId=${this.state.selectedDevice.Id}`,{ 
             headers: new Headers({

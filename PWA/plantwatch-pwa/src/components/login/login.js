@@ -14,9 +14,13 @@ import {
     constructor(props){
         super(props);
         this.state = {isLoggedIn: false}
+
+        this.updateEmail = this.updateEmail.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
+        this.loginRequest = this.loginRequest.bind(this);
     }
 
-    loginRequest(){
+    loginRequest(e){
         // Send request
         let body = JSON.stringify({
             email: this.state.email,
@@ -31,6 +35,8 @@ import {
             .then(response => response.json())
             .then(createResponse => {
               console.log(createResponse);
+              localStorage.setItem('userToken', createResponse.token);
+              localStorage.setItem('userId', createResponse.userI);
               this.setState({isLoggedIn: true})
             } );
         
@@ -53,12 +59,13 @@ import {
       
         <>
         <h1>Hello, Babbe</h1>
-        <label>Email</label><input name="email"  type="text"/>
-        <label>Password</label><input name="password" type="password"/>
+        <label>Email</label><input name="email"  onChange={this.updateEmail} type="text"/>
+        <label>Password</label><input name="password" onChange={this.updatePassword} type="password"/>
+        <button onClick={this.loginRequest} >Login</button>
         <Link to="/registration">New User?</Link>
         </>
       );
 
-      return markeup;
+      return (<>{markup}</>);
     }
   }

@@ -15,9 +15,7 @@ export default class Vitals extends React.Component {
     }
 
     refreshValues(){
-      localStorage.setItem('userId', 1);
       let userId = localStorage.getItem('userId');
-      localStorage.setItem('userToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFobWVkbmlzaGFkM0BnbWFpbC5jb20iLCJ1c2VySWQiOjEsImlhdCI6MTYyNjA2MjQwNiwiZXhwIjoxNjU3NTk4NDA2fQ.dsobmm8q2Yb6HtQ0tjxkYTj2Asgf5aOoQGtljeidHNs');
       let userToken = localStorage.getItem('userToken');
 
         // Call every 5 seconds
@@ -27,7 +25,6 @@ export default class Vitals extends React.Component {
           })})
         .then(response => response.json())
         .then(deviceData => {
-          console.log(deviceData);
           // get the first device id and send
            this.setState({devices: deviceData.result});
           if(deviceData.result && deviceData.result.length != 0){
@@ -37,7 +34,6 @@ export default class Vitals extends React.Component {
               })})
               .then(response => response.json())
               .then(vitalData => {
-                console.log(vitalData);
                 if(vitalData.readings && vitalData.readings.length != 0){
                   this.setState({ vitals: vitalData.readings[0] })
                 }

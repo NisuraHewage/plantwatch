@@ -34,14 +34,12 @@ function uuidv4() {
     }
     
     createDevice(){
-        console.log(this.state);
         let userToken = localStorage.getItem('userToken');
         let userId = localStorage.getItem('userId');
         let body = JSON.stringify({
             userId,
             deviceId: this.state.deviceUUID
         })
-        console.log(body);
         fetch(`${apiURL}devices`,{ 
             method: 'POST',
             headers: new Headers({
