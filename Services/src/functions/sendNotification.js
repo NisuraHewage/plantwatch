@@ -28,7 +28,7 @@ var docClient =  new AWS.DynamoDB.DocumentClient();
 
 
 var admin = require('firebase-admin');
-var serviceAccount = require('../google-services.json');
+var serviceAccount = require('../service.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -63,7 +63,8 @@ async function notificationSend(message, userId){
       // Create promise and SNS service object
       admin.messaging().sendToDevice(registrationToken, {notification: {
             title: 'Plantwatch',
-            body: message
+            body: message,
+            icon: "https://www.ikea.com/mx/en/images/products/fejka-artificial-potted-plant-in-outdoor-monstera__0614197_pe686822_s5.jpg"
             }
           }
         )
