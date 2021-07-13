@@ -18,6 +18,7 @@ import {
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.loginRequest = this.loginRequest.bind(this);
+
     }
 
     loginRequest(e){
@@ -27,14 +28,12 @@ import {
             password: this.state.password,
             deviceToken: localStorage.getItem('deviceToken')
         })
-        console.log(body);
         fetch(`${apiURL}user/login`,{ 
             method: 'POST',
             body
         })
             .then(response => response.json())
             .then(createResponse => {
-              console.log(createResponse);
               localStorage.setItem('userToken', createResponse.token);
               localStorage.setItem('userId', createResponse.userI);
               this.setState({isLoggedIn: true})
