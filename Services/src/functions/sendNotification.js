@@ -67,7 +67,7 @@ async function notificationSend(message, userId){
             }
           }
         )
-      .then( response => {
+      .then( async (response) => {
 
        var notificationParams = {
         TableName:"Notifications",
