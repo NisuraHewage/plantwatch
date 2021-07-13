@@ -1,12 +1,12 @@
 const config = {
-    apiKey: "AIzaSyANe__czrCy-8SVZhMzwr9YvT8X7ScxDqM",
-   projectId: "plantwatch-67663",
-   messagingSenderId: "624693589249",
-   appId: '1:624693589249:android:427ef77b08adbfa3d71700'
+    apiKey: "AIzaSyC-ZtO_OPhu5Dq8_lZrzCZ6t01X-8Kj4Fg",
+   projectId: "escapade-69098",
+   messagingSenderId: "406824911363",
+   appId: '11:406824911363:web:93fe21fb18b399cbb20436'
 }
 
 export {config}
 
-const vapidKey = 'BO0fQ3MBuV0abaL453h3STfYvlwJOYklSDwaaY15FtETxjBf_B76c7RKiIvKBv2fU0U3--Cs764dkqAOV3VdMtU'
+const vapidKey = 'BLcL3u7hmt4HpywmOJwQbRM8VriCVC1lzsjvWMMmr6Ozfno00Lt6p9GAF3bNBiZhUfOgIMEM_ozAhE5PutCsKos'
 
 export {vapidKey}
