@@ -61,29 +61,29 @@ async function notificationSend(message, userId){
 
     try{
       // Create promise and SNS service object
-      admin.messaging().sendToDevice(existingUser[0].DeviceToken, {notification: {
+      var response = await admin.messaging().sendToDevice(existingUser[0].DeviceToken, {notification: {
             title: 'Plantwatch',
             body: message,
             icon: "https://www.ikea.com/mx/en/images/products/fejka-artificial-potted-plant-in-outdoor-monstera__0614197_pe686822_s5.jpg"
             }
           }
         )
-      .then( async (response) => {
+
         console.log(response);
 
-       var notificationParams = {
-        TableName:"Notifications",
-        Item:{
-            "NotificationId": uuidv4(),
-            "UserId": userId,
-            "Timestamp": Date.now(),
-            "Message": message,
-            "IsRead": false
-        }
-      };
-      var result = await docClient.put(notificationParams).promise();
-      console.log("Added item:", result);
-
+        var notificationParams = {
+          TableName:"Notifications",
+          Item:{
+              "NotificationId": uuidv4(),
+              "UserId": userId,
+              "Timestamp": Date.now(),
+              "Message": message,
+              "IsRead": false
+          }
+        };
+        var result = await docClient.put(notificationParams).promise();
+        console.log("Added item:", result);
+      
       return {
         statusCode: 200,
         body: JSON.stringify({
@@ -95,8 +95,6 @@ async function notificationSend(message, userId){
           'Access-Control-Allow-Headers': 'Authorization'
         }
       }
-      })
-      
     }catch(error){
       console.error(error, error.stack);
       return {
