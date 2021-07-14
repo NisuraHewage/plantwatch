@@ -49,19 +49,19 @@ async function notificationSend(message, userId){
 
  // Validate Email, Password (To be moved to Gateway)
 
-  const exitingUser = await User.findOne({
+  const existingUser = await User.findAll({
     where:{Id: userId}
   });
 
-  if(exitingUser.length != 0){
+  if(existingUser.length != 0){
     var params = {
       Message: message, /* required */
-      TargetArn : exitingUser.SnSPushDeviceId
+      TargetArn : existingUser[0].SnSPushDeviceId
     };
 
     try{
       // Create promise and SNS service object
-      admin.messaging().sendToDevice(existingUser.DeviceToken, {notification: {
+      admin.messaging().sendToDevice(existingUser[0].DeviceToken, {notification: {
             title: 'Plantwatch',
             body: message,
             icon: "https://www.ikea.com/mx/en/images/products/fejka-artificial-potted-plant-in-outdoor-monstera__0614197_pe686822_s5.jpg"
