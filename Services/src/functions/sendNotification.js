@@ -69,6 +69,7 @@ async function notificationSend(message, userId){
           }
         )
       .then( async (response) => {
+        console.log(response);
 
        var notificationParams = {
         TableName:"Notifications",
@@ -82,6 +83,18 @@ async function notificationSend(message, userId){
       };
       var result = await docClient.put(notificationParams).promise();
       console.log("Added item:", result);
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: "Notified!",
+        }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Headers': 'Authorization'
+        }
+      }
       })
       
     }catch(error){
@@ -101,17 +114,7 @@ async function notificationSend(message, userId){
     
    
 
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          message: "Notified!",
-        }),
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Headers': 'Authorization'
-        }
-      }
+      
 
     
   }else{
