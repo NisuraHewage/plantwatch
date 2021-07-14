@@ -21,6 +21,7 @@ import {
     }
 
     loginRequest(e){
+      e.target.disabled = true;
         // Send request
         let body = JSON.stringify({
             email: this.state.email,

@@ -1,7 +1,7 @@
 
 import React from "react";
 
-import {apiURL} from "../../consts";
+import {apiURL, timeSince} from "../../consts";
 
 export default class Vitals extends React.Component {
 
@@ -65,7 +65,7 @@ export default class Vitals extends React.Component {
 
       <h1>Light {this.state.vitals.Light}</h1>
 
-      <h2>Last reading @{(new Date(this.state.vitals.Timestamp).toUTCString())}</h2>
+      <h2>Last reading was {timeSince(new Date(this.state.vitals.Timestamp))} ago</h2>
 
       <button onClick={this.refreshValues.bind(this)} >Refresh vitals</button>
     </>

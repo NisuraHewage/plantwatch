@@ -1,7 +1,7 @@
 
 import React from "react";
 
-
+import logo from '../../images/Logo.svg'
 
 import {apiURL} from "../../consts";
 
@@ -73,11 +73,25 @@ import {
       let markup = this.state.isLoggedIn ? (<> <Redirect to="/vitals" /> </>) : (
       
         <>
-        <h1>Register</h1>
+        <div className="logo-container-register">
+          <img src={logo}/>
+        </div>
+        <div className="login-form-register">
+          <label>Email</label><br /><input class="input is-normal input-green-border"  name="email"  onChange={this.updateEmail} type="email"/><br />
+          <label>Password</label><br /><input class="input is-normal input-green-border"  name="password" onChange={this.updatePassword} type="password"/><br />
+          <button style={{top: "20px"}} class="button large-btn" onClick={this.registerRequest} >Register</button>
+        </div>
+        <br />
+        
+        <div className="newuser-container-register">
+          <span>Already Registered? </span><Link to="/login">Login</Link>
+        </div>
+
+        {/* <h1>Register</h1>
         <label>Email</label><input name="email"  onChange={this.updateEmail} type="email"/>
         <label>Password</label><input name="password" onChange={this.updatePassword} type="password"/>
         <button onClick={this.registerRequest} >Register</button>
-        <Link to="/registration">Already Registered?</Link>
+        <Link to="/registration">Already Registered?</Link> */}
         </>
       );
 

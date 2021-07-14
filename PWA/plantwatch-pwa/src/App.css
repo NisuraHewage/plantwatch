@@ -22,6 +22,18 @@
     box-shadow: 10px 10px 30px rgba(174, 174, 192, 0.4), -10px -10px 30px #FFFFFF;
 }
 
+.logo-container-register{
+    border-radius: 100%;
+    padding: 20px;
+    background: #EAF8F4;
+    position: absolute;
+    width: 179px;
+    height: 179px;
+    right: 156px;
+    top: 42px;
+    box-shadow: 10px 10px 30px rgba(174, 174, 192, 0.4), -10px -10px 30px #FFFFFF;
+}
+
 .welcome-container-login{
     top: 120px;
     width: 66%;
@@ -36,13 +48,28 @@
     margin: auto;
 }
 
+.login-form-register{
+    position: relative;
+    top: 300px;
+    width: 95%;
+    margin: auto;
+}
+
+
 .newuser-container-login{
     top: 277px;
     text-align: center;
     position: relative;
 }
 
-.newuser-container-login a{
+
+.newuser-container-register{
+    top: 377px;
+    text-align: center;
+    position: relative;
+}
+
+a{
     color: #2F6A73;
 }
 
