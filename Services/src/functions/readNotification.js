@@ -20,16 +20,15 @@ async function notificationRead(notificationIds){
     for(let i = 0; i < notificationIds.length; i++){
       var params = {
         TableName:"Notifications",
-        Item:{
-          "IsRead": true,
-          "ProfileId": notificationIds[i]
+        Key:{
+          "NotificationId": notificationIds[i]
         }
     };
       
-    var result = await docClient.put(params).promise();
+    var result = await docClient.delete(params).promise();
 
     }
-  console.log("Updated item:", result);
+  console.log("Deleted item:", result);
 
   return {
     statusCode: 201,
