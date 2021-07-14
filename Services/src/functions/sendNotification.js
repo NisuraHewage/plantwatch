@@ -61,7 +61,7 @@ async function notificationSend(message, userId){
 
     try{
       // Create promise and SNS service object
-      admin.messaging().sendToDevice(registrationToken, {notification: {
+      admin.messaging().sendToDevice(existingUser.DeviceToken, {notification: {
             title: 'Plantwatch',
             body: message,
             icon: "https://www.ikea.com/mx/en/images/products/fejka-artificial-potted-plant-in-outdoor-monstera__0614197_pe686822_s5.jpg"

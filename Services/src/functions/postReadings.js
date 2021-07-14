@@ -72,6 +72,13 @@ function getNotificationMessage(last5Readings, params){
       return notificationMessage;
 }
 
+var admin = require('firebase-admin');
+var serviceAccount = require('../service.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+})
+
 async function verifyParameters(userId, deviceId, moisture, temperature,  light, humidity){
   try {
     // Check if readings were sent for last 4 hours
@@ -161,25 +168,33 @@ async function verifyParameters(userId, deviceId, moisture, temperature,  light,
         };
   
         try{
-
-          // Create promise and SNS service object
-          var publishTextPromise = await sns.publish(messageParams).promise();
-          // create notification in dynamo
-          var notificationParams = {
-            TableName:"Notifications",
-            Item:{
-                "NotificationId": uuidv4(),
-                "UserId": userId,
-                "Timestamp": Date.now(),
-                "Message": notificationMessage,
-                "IsRead": false
+          admin.messaging().sendToDevice(user.DeviceToken, {notification: {
+            title: 'Plantwatch',
+            body: notificationMessage,
+            icon: "https://www.ikea.com/mx/en/images/products/fejka-artificial-potted-plant-in-outdoor-monstera__0614197_pe686822_s5.jpg"
             }
           }
-            var result = await docClient.put(notificationParams).promise();
-            user.LastNotifiedTimeStamp = new Date();
-            await user.save();
-              console.log("Added item:", result);
-              return "OK";
+        )
+      .then( async (response) => {
+
+       // create notification in dynamo
+       var notificationParams = {
+        TableName:"Notifications",
+        Item:{
+            "NotificationId": uuidv4(),
+            "UserId": userId,
+            "Timestamp": Date.now(),
+            "Message": notificationMessage,
+            "IsRead": false
+        }
+      }
+        var result = await docClient.put(notificationParams).promise();
+        user.LastNotifiedTimeStamp = new Date();
+        await user.save();
+          console.log("Added item:", result);
+          return "OK";
+      })
+          
         
         }catch(err){
           console.error("Unable to add item. Error JSON:", err);
