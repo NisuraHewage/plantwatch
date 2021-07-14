@@ -13,6 +13,34 @@ import {
   useLocation
 } from "react-router-dom";
 
+function timeSince(date) {
+
+  var seconds = Math.floor((new Date() - date) / 1000);
+
+  var interval = seconds / 31536000;
+
+  if (interval > 1) {
+    return Math.floor(interval) + " years";
+  }
+  interval = seconds / 2592000;
+  if (interval > 1) {
+    return Math.floor(interval) + " months";
+  }
+  interval = seconds / 86400;
+  if (interval > 1) {
+    return Math.floor(interval) + " days";
+  }
+  interval = seconds / 3600;
+  if (interval > 1) {
+    return Math.floor(interval) + " hours";
+  }
+  interval = seconds / 60;
+  if (interval > 1) {
+    return Math.floor(interval) + " minutes";
+  }
+  return Math.floor(seconds) + " seconds";
+}
+
   export default class Notification extends React.Component {
 
     constructor(props){
@@ -74,20 +102,22 @@ import {
     }
 
     clearAllNotifications(e){
-        this.readNotifications(this.state.notifications.map(n => n.NotificationId));
+      this.setState({notifications: []});
+        this.readNotifications(this.state.notifications.map(n => { return {NotificationId: n.NotificationId, Timestamp: n.Timestamp}}));
     }
 
     readNotification(e){
       let selectedId = e.target.getAttribute('data-notificationId');
+      let selectedTimestamp = this.state.notifications.filter(n => n.NotificationId == selectedId)[0].Timestamp;
       this.setState({notifications: this.state.notifications.filter(n => n.NotificationId != selectedId)})
-      this.readNotifications([selectedId]);
+      this.readNotifications([{NotificationId: selectedId, Timestamp:  selectedTimestamp}]);
     }
 
     render() {
 
         let notificationsMarkup = this.state.notifications.length > 0 ? (
             <ul >
-              {this.state.notifications.map(d => (<li onClick={this.readNotification} data-notificationId={d.NotificationId} key={d.NotificationId}>{new Date(d.Timestamp).toLocaleDateString()} - {d.Message}</li>))}
+              {this.state.notifications.map(d => (<li onClick={this.readNotification} data-notificationId={d.NotificationId} key={d.NotificationId}>{timeSince(new Date(d.Timestamp))} ago - {d.Message}</li>))}
             </ul>
           ) : (<h2>All caught up!</h2>)
 

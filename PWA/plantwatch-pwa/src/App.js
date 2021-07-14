@@ -19,18 +19,6 @@ import {
   Link
 } from "react-router-dom";
 
-/* function randomNotification() {
-  const randomItem = Math.floor(Math.random() * 5);
-  const notifTitle = "Title";
-  const notifBody = `TestPlant`;
-  const notifImg = `http://sysadmin-pw-11197.s3-website-us-east-1.amazonaws.com/assets/Logo.svg`;
-  const options = {
-    body: notifBody,
-    icon: notifImg,
-  };
-  new Notification(notifTitle, options);
-  setTimeout(randomNotification, 3000);
-} */
 
 class App extends React.Component {
 
@@ -41,15 +29,6 @@ class App extends React.Component {
 
   componentDidMount(){
     initializePush();
-    /* Notification.requestPermission().then((result) => {
-      console.log(result)
-      if (result === 'granted') {
-        navigator.serviceWorker.getRegistration().then((reg) => {
-          console.log(reg);
-          reg.showNotification('Hello world!');
-        });
-      }
-    }); */
   }
 
   checkLogin(){
@@ -104,12 +83,6 @@ class App extends React.Component {
     }
       return (<Router>
         <div>
-        <div className="push">
-            <button  className="image" >On</button>
-            <p id='token'></p>
-            <p id='error'></p>
-            <p id='message'></p>
-        </div>
           <nav>
             <ul>
               <li>
