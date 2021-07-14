@@ -16,7 +16,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 
 
@@ -82,23 +83,26 @@ class App extends React.Component {
 
     }
       return (<Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/vitals">Vitals</Link>
-              </li>
-              <li>
-                <Link to="/diseases">Diseases</Link>
-              </li>
-              <li>
-                <Link to="/devices">Devices</Link>
-              </li>
-              <li>
-                <Link to="/notifications">Notifications</Link>
-              </li>
-            </ul>
-          </nav>
+        <div className="app-container">
+        <Route render={({ location }) => {
+     return (location.pathname.indexOf('/login') === -1 && location.pathname.indexOf('/register') === -1 ) ? (<nav>
+      <ul>
+        <li>
+          <Link to="/vitals">Vitals</Link>
+        </li>
+        <li>
+          <Link to="/diseases">Diseases</Link>
+        </li>
+        <li>
+          <Link to="/devices">Devices</Link>
+        </li>
+        <li>
+          <Link to="/notifications">Notifications</Link>
+        </li>
+      </ul>
+    </nav>) : null 
+  }} />
+          
   
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
@@ -124,8 +128,11 @@ class App extends React.Component {
             <Route path="/notifications">
               <Notification />
             </Route>
-            <Route path="/">
+            <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/">
+            <Redirect to="/login" />
             </Route>
           </Switch>
         </div>

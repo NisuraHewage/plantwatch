@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+.app-container{
+    font-family: 'Quicksand', sans-serif;
+    color: #333333;
+    max-width: 500px;
+    background: #EAF8F4;
+    margin: auto;
+    height: 100vh;
+    position: relative;
+}
+
+.logo-container-login{
+    border-radius: 100%;
+    padding: 20px;
+    background: #EAF8F4;
+    position: absolute;
+    width: 179px;
+    height: 179px;
+    right: 45px;
+    top: 42px;
+    box-shadow: 10px 10px 30px rgba(174, 174, 192, 0.4), -10px -10px 30px #FFFFFF;
+}
+
+.welcome-container-login{
+    top: 120px;
+    width: 66%;
+    position: relative;
+    margin-left: 20px;
+}
+
+.login-form-login{
+    position: relative;
+    top: 200px;
+    width: 95%;
+    margin: auto;
+}
+
+.newuser-container-login{
+    top: 277px;
+    text-align: center;
+    position: relative;
+}
+
+.newuser-container-login a{
+    color: #2F6A73;
+}
+
+.h1{
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 50px;
+}
+
+.large-btn{
+    background: #1FC9A7;
+    color: #2B3648;
+    width: 100%;
+    margin: auto;
+    position: relative;
+    display: block;
+}
+
+.large-btn:disabled{
+    background:rgba(31, 201, 167, 0.3);
+    box-shadow: -18px -18px 30px rgba(255, 255, 255, 0.65), 18px 18px 30px rgba(198, 206, 220, 0.5);
+    color: #E3E6EC;
+}
+
+.link-text{
+    color: #2F6A73;
+}
+
+.input-green-border{
+    border-bottom: 5px solid #1FC9A7;
+}
+
+label{
+    color: #333333;
+    font-weight: 800;
+}
