@@ -9,7 +9,7 @@ import {
   Link, Redirect
 } from "react-router-dom";
 
-  export default class Login extends React.Component {
+  export default class Register extends React.Component {
 
     constructor(props){
         super(props);
@@ -17,11 +17,11 @@ import {
 
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
-        this.loginRequest = this.loginRequest.bind(this);
+        this.registerRequest = this.registerRequest.bind(this);
 
     }
 
-    loginRequest(e){
+    loginRequest(){
         // Send request
         let body = JSON.stringify({
             email: this.state.email,
@@ -43,6 +43,22 @@ import {
         // save token
     }
 
+    registerRequest(){
+        let body = JSON.stringify({
+            email: this.state.email,
+            password: this.state.password
+        })
+        fetch(`${apiURL}user`,{ 
+            method: 'POST',
+            body
+        })
+            .then(response => response.json())
+            .then(createResponse => {
+              console.log(createResponse);
+                this.loginRequest();
+            } );
+    }
+
     updateEmail(e){
       this.setState({ email: e.target.value })
     }
@@ -57,11 +73,11 @@ import {
       let markup = this.state.isLoggedIn ? (<> <Redirect to="/vitals" /> </>) : (
       
         <>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <label>Email</label><input name="email"  onChange={this.updateEmail} type="email"/>
         <label>Password</label><input name="password" onChange={this.updatePassword} type="password"/>
-        <button onClick={this.loginRequest} >Login</button>
-        <Link to="/register">New User?</Link>
+        <button onClick={this.registerRequest} >Register</button>
+        <Link to="/registration">Already Registered?</Link>
         </>
       );
 

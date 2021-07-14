@@ -1,6 +1,8 @@
 import './App.css';
 import React from 'react';
 
+import Notification from '../src/components/notification/notification';
+import Register from '../src/components/login/registration';
 import Login from '../src/components/login/login';
 import Vitals from '../src/components/vitals/vitals';
 import Device from '../src/components/device/device';
@@ -142,6 +144,12 @@ class App extends React.Component {
             </Route>
             <Route path="/addDevice">
               <AddDevice />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route path="/notifications">
+              <Notification />
             </Route>
             <Route path="/">
               <Login />

@@ -18,53 +18,45 @@ import {
     constructor(props){
         super(props);
         
-        // get deviceId from query
-        const urlParams = new URLSearchParams(window.location.search);
-        let deviceId = urlParams.get('deviceId');
-        this.state = {profiles: [], deviceId}
+        this.state = {notifications: []}
 
-        this.updateName = this.updateName.bind(this);
-        this.updateProfile = this.updateProfile.bind(this);
-        this.createPlant = this.createPlant.bind(this);
+        this.readNotification = this.readNotification.bind(this);
+        this.clearAllNotifications = this.clearAllNotifications.bind(this);
     }
 
     componentDidMount(){
-        this.refreshPlantProfiles();
+        this.refreshNotifications();
     }
 
-    refreshPlantProfiles(){
+    refreshNotifications(){
         // Send request
 
         // save token
-      localStorage.setItem('userToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFobWVkbmlzaGFkM0BnbWFpbC5jb20iLCJ1c2VySWQiOjEsImlhdCI6MTYyNjA2MjQwNiwiZXhwIjoxNjU3NTk4NDA2fQ.dsobmm8q2Yb6HtQ0tjxkYTj2Asgf5aOoQGtljeidHNs');
       let userToken = localStorage.getItem('userToken');
-
+      let userId = localStorage.getItem('userId');
         // Call every 5 seconds
-        fetch(`${apiURL}profiles?plantName=`,{ 
+        fetch(`${apiURL}notification?userId=${userId}`,{ 
           headers: new Headers({
             'Authorization': 'Bearer '+ userToken 
           })})
         .then(response => response.json())
-        .then(profileData => {
-          console.log(profileData);
-          if(profileData.result && profileData.result.length != 0){
-            this.setState({ profiles: profileData.result })
+        .then(notificationData => {
+          console.log(notificationData);
+          if(notificationData.results && notificationData.results.length != 0){
+            this.setState({ notifications: notificationData.results })
           }
         });
     }
 
-    createPlant(event){
+    readNotifications(ids){
         console.log(this.state);
         let userToken = localStorage.getItem('userToken');
         let userId = localStorage.getItem('userId');
         let body = JSON.stringify({
-            plantName: this.state.plantName,
-            plantProfileId: this.state.profileId,
-            userId,
-            deviceId: this.state.deviceId
+            notifications: ids
         })
         console.log(body);
-        fetch(`${apiURL}plants`,{ 
+        fetch(`${apiURL}notification/read`,{ 
             method: 'POST',
             headers: new Headers({
               'Authorization': 'Bearer '+ userToken ,
@@ -81,31 +73,30 @@ import {
         // redirect to devices view
     }
 
-    updateName(e){
-        this.setState({plantName: e.target.value});
+    clearAllNotifications(e){
+        this.readNotifications(this.state.notifications.map(n => n.NotificationId));
     }
 
-    updateProfile(e){
-        this.setState({profileId: e.target.value});
+    readNotification(e){
+      let selectedId = e.target.getAttribute('data-notificationId');
+      this.setState({notifications: this.state.notifications.filter(n => n.NotificationId != selectedId)})
+      this.readNotifications([selectedId]);
     }
 
     render() {
 
-        let profileMarkup = (
-            <select onChange={this.updateProfile}>
-              {this.state.profiles.map(d => (<option value={d.Id} key={d.Id}>{d.Name} - {d.ScientificName}</option>))}
-            </select>
-          )
+        let notificationsMarkup = this.state.notifications.length > 0 ? (
+            <ul >
+              {this.state.notifications.map(d => (<li onClick={this.readNotification} data-notificationId={d.NotificationId} key={d.NotificationId}>{new Date(d.Timestamp).toLocaleDateString()} - {d.Message}</li>))}
+            </ul>
+          ) : (<h2>All caught up!</h2>)
 
       return (
       
         <>
-        <h1>Add Plant</h1>
-        <h2>Select Profile</h2>
-        {profileMarkup}
-        <h2>Name</h2>
-        <input onChange={this.updateName} name="plantName"/>
-        <button onClick={this.createPlant}>Add</button>
+        <h1>Notifications</h1>
+        {notificationsMarkup}
+        <button onClick={this.readNotifications}>Clear</button>
         </>
       );
     }
