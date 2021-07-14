@@ -21,7 +21,8 @@ async function notificationRead(notificationIds){
       var params = {
         TableName:"Notifications",
         Key:{
-          "NotificationId": notificationIds[i]
+          "NotificationId": notificationIds[i].NotificationId,
+          "Timestamp": notificationIds[i].Timestamp
         }
     };
       
