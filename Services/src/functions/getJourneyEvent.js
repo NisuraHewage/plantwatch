@@ -1,28 +1,28 @@
 'use strict';
 
+
 const { Sequelize,Model,DataTypes } = require('sequelize');
 
+// Move to config
 const sequelize = new Sequelize('og_test', 'admin', process.env.MYSQL_PASSWORD, {
-  host:  process.env.MYSQL_ENDPOINT,
-  dialect: 'mysql',
-  port: 3306
+    host:  process.env.MYSQL_ENDPOINT,
+    dialect: 'mysql',
+    port: 3306
 });
 
+const PlantEventJourneys = require('../models/PlantEventJourney');
+const PlantEventJourney = PlantEventJourneys(sequelize, DataTypes);
 
-const Plants = require('../models/Plants');
-const Plant = Plants(sequelize, DataTypes);
 
-const PlantProfiles = require('../models/PlantProfiles');
-const PlantProfile = PlantProfiles(sequelize, DataTypes);
-
-async function plantsGet(deviceId, event){
+async function getEventById(eventId, event){
   try {
       await sequelize.authenticate();
 
-      const plants = await Plant.findAll({
-        where:{DeviceID: deviceId},
-        include: PlantProfile
+
+      const exitingEvents = await PlantEventJourney.findAll({
+        where:{Id: eventId}
       });
+
 
       return {
         statusCode: 200,
@@ -32,7 +32,7 @@ async function plantsGet(deviceId, event){
           'Access-Control-Allow-Headers': 'Authorization'
         },
         body: JSON.stringify({
-          result: plants
+          result: exitingEvents[0]
         })
       };
     } catch (error) {
@@ -49,6 +49,21 @@ async function plantsGet(deviceId, event){
 }
 
 
-module.exports.getPlants = async (event, context) => {
-  return await plantsGet(event.queryStringParameters.deviceId, event)
+
+
+module.exports.getJourneyEvents = async (event, context) => {
+
+const eventId = event.queryStringParameters.id;
+if(eventId){
+  return await getEventById(eventId, event);
+}
+
+return {
+  statusCode: 200,
+  body: JSON.stringify({
+    message: 'Go Serverless v1.0! Your function executed successfully!',
+    input: event,
+  }),
 };
+};
+

@@ -18,7 +18,7 @@ const Plant = Plants(sequelize, DataTypes);
 const Devices = require('../models/Devices');
 const Device = Devices(sequelize, DataTypes);
 
-async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
+async function plantCreate(plantName, plantProfileId, userId, deviceId, birthdate, event){
   try {
       await sequelize.authenticate();
 
@@ -60,7 +60,8 @@ async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
         }
       }
 
-      const newPlant = await Plant.create({ Name: plantName, PlantProfileID: plantProfileId, DeviceID: exitingDevices[0].Id, UserID : userId });
+      const newPlant = await Plant.create({ Name: plantName, PlantProfileID: plantProfileId, DeviceID: exitingDevices[0].Id, UserID : userId,
+        Birthdate: birthdate });
 
       return {
         statusCode: 201,
@@ -88,6 +89,6 @@ async function plantCreate(plantName, plantProfileId, userId, deviceId, event){
 
 module.exports.addPlant = async (event, context) => {
   const body = JSON.parse(event.body);
-  const {plantName, plantProfileId, userId, deviceId } = body;
-  return await plantCreate(plantName, plantProfileId, userId, deviceId  ,event);
+  const {plantName, plantProfileId, userId, deviceId, birthdate } = body;
+  return await plantCreate(plantName, plantProfileId, userId, deviceId, birthdate  ,event);
 };

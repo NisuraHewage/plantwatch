@@ -17,6 +17,9 @@ const Device = Devices(sequelize, DataTypes);
 const Plants = require('../models/Plants');
 const Plant = Plants(sequelize, DataTypes);
 
+const PlantProfiles = require('../models/PlantProfiles');
+const PlantProfile = PlantProfiles(sequelize, DataTypes);
+
 var AWS = require("aws-sdk");
 
 AWS.config.update({
@@ -36,16 +39,21 @@ async function devicesGet(userId, event){
         where:{UserID: userId}
       });
       // Replace Scan with Query
-      var result = await docClient.scan({TableName:"Readings"}).promise();
+     /*  var result = await docClient.scan({TableName:"Readings"}).promise();
       console.log("Query succeeded.");
 
       let readings = result.Items;
-
+ */
       devices.forEach(d => {
         // Show as active if it is within a certain range
-        if(readings.filter((a) => a.Timestamp > (Date.now() - parseInt(process.env.PUSH_FREQUENCY_MILLI_SECONDS)[0])).length > 0){
+        /* if(readings.filter((a) => a.Timestamp > (Date.now() - parseInt(process.env.PUSH_FREQUENCY_MILLI_SECONDS)[0])).length > 0){
           d.Active = true;
-        }
+        } */
+        let plants = await Plant.findAll({
+          where:{DeviceID: d.Id},
+          include: PlantProfile
+        });
+        d.plants = plants;
       });
 
 

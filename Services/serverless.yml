@@ -78,6 +78,74 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  getJourneyEvents:
+    handler: src/functions/getJourneyEvents.getJourneyEvents
+    events:
+      - http:
+          path: /v1/events
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  getJourneyEvent:
+    handler: src/functions/getJourneyEvent.getJourneyEvent
+    events:
+      - http:
+          path: /v1/event
+          method: get
+          cors: true 
+          authorizer: validateUser
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  deleteJourneyEvent:
+    handler: src/functions/deleteJourneyEvent.deleteJourneyEvent
+    events:
+      - http:
+          path: /v1/events
+          method: delete
+          cors: true 
+          authorizer: validateUser
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  createJourneyEvent:
+    handler: src/functions/createJourneyEvent.createJourneyEvent
+    events:
+      - http:
+          path: /v1/events
+          method: post
+          cors: true 
+          authorizer: validateUser
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
+  sysAdminDashboard:
+    handler: src/functions/sysAdminDashboard.sysAdminDashboard
+    events:
+      - http:
+          path: /v1/breakdown
+          method: get
+          cors: true 
+    environment:
+      MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
+      MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
+      STORAGE_BUCKET: ${param:STORAGE_BUCKET}
+      DYNAMO_DB_ACCESSKEY: ${param:DYNAMO_DB_ACCESSKEY}
+      DYNAMO_DB_SECRETKEY: ${param:DYNAMO_DB_SECRETKEY}
   predictV2:
     handler: src/functions/predictV2.predictV2
   updateKnowledgebase:
