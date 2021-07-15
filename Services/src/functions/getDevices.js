@@ -44,7 +44,8 @@ async function devicesGet(userId, event){
 
       let readings = result.Items;
  */
-      devices.forEach(d => {
+        for(let di = 0; di < devices.length; di++){
+          let d = devices[di];
         // Show as active if it is within a certain range
         /* if(readings.filter((a) => a.Timestamp > (Date.now() - parseInt(process.env.PUSH_FREQUENCY_MILLI_SECONDS)[0])).length > 0){
           d.Active = true;
@@ -58,7 +59,7 @@ async function devicesGet(userId, event){
           });
         }
         d.plants = plants;
-      });
+      }
 
 
       return {

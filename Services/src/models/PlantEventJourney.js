@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     WeeksAfterBirth: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     PlantProfileId: {
