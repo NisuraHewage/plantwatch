@@ -20,9 +20,14 @@ async function plantsGet(deviceId, event){
       await sequelize.authenticate();
 
       const plants = await Plant.findAll({
-        where:{DeviceID: deviceId},
-        include: PlantProfile
+        where:{DeviceID: deviceId}
       });
+
+    for(let i = 0; i < plants.length; i++){
+      plants[i].profile = await PlantProfile.findOne({
+        where:{Id: p.PlantProfileID}
+      });
+    }
 
       return {
         statusCode: 200,

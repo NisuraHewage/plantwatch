@@ -50,9 +50,13 @@ async function devicesGet(userId, event){
           d.Active = true;
         } */
         let plants = await Plant.findAll({
-          where:{DeviceID: d.Id},
-          include: PlantProfile
+          where:{DeviceID: d.Id}
         });
+        for(let i = 0; i < plants.length; i++){
+          plants[i].profile = await PlantProfile.findOne({
+            where:{Id: p.PlantProfileID}
+          });
+        }
         d.plants = plants;
       });
 
