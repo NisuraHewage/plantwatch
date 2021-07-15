@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 
+body{
+    max-height: 100vh !important;
+}
+
 .app-container{
     font-family: 'Quicksand', sans-serif;
     color: #333333;
@@ -7,6 +11,7 @@
     background: #EAF8F4;
     margin: auto;
     height: 100vh;
+    overflow: hidden;
     position: relative;
 }
 
@@ -106,4 +111,40 @@ a{
 label{
     color: #333333;
     font-weight: 800;
+}
+
+
+
+#bottom-nav{
+    position: absolute;
+    bottom: 0px;
+    background: #2B3648;
+    color: #16C7BD;
+    width: 100%;
+    height: 50px;
+}
+#bottom-nav ul{
+    width: 100%;
+    top: 20px;
+    position: relative;
+}
+#bottom-nav li{
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+}
+#bottom-nav a{
+    color: #16C7BD;
+    text-align: center;
+}
+#disease-nav{
+    position: relative;
+    bottom: 51px;
+    background: #2B3648;
+    height: 130px;
+    border-radius: 100%;
+}
+#disease-nav a{
+    top: 36px;
+    position: relative;
 }

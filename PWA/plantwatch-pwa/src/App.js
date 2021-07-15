@@ -85,22 +85,29 @@ class App extends React.Component {
       return (<Router>
         <div className="app-container">
         <Route render={({ location }) => {
-     return (location.pathname.indexOf('/login') === -1 && location.pathname.indexOf('/register') === -1 ) ? (<nav>
+     return (location.pathname.indexOf('/login') === -1 && location.pathname.indexOf('/register') === -1 ) ? (<>
+     <nav id="bottom-nav">
       <ul>
         <li>
           <Link to="/vitals">Vitals</Link>
         </li>
-        <li>
+        <li id="disease-nav">
           <Link to="/diseases">Diseases</Link>
         </li>
         <li>
           <Link to="/devices">Devices</Link>
         </li>
-        <li>
+        
+      </ul>
+    </nav>
+    <nav id="top-nav">
+      <ul>
+      <li>
           <Link to="/notifications">Notifications</Link>
         </li>
       </ul>
-    </nav>) : null 
+      
+    </nav></>) : null 
   }} />
           
   

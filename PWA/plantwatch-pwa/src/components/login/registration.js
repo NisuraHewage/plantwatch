@@ -70,7 +70,7 @@ import {
 
     render() {
 
-      let markup = this.state.isLoggedIn ? (<> <Redirect to="/vitals" /> </>) : (
+      let markup = this.state.isLoggedIn ? (<> <Redirect to="/devices" /> </>) : (
       
         <>
         <div className="logo-container-register">
