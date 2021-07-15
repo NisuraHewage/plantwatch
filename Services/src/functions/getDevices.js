@@ -54,11 +54,11 @@ async function devicesGet(userId, event){
           where:{DeviceID: d.Id}
         });
         for(let i = 0; i < plants.length; i++){
-          plants[i].profile = await PlantProfile.findOne({
-            where:{Id: p.PlantProfileID}
+          plants[i].dataValues.profile = await PlantProfile.findOne({
+            where:{Id: plants[i].PlantProfileID}
           });
         }
-        d.plants = plants;
+        d.dataValues.plants = plants;
       }
 
 
