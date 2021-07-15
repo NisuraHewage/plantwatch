@@ -24,7 +24,7 @@ async function plantsGet(deviceId, event){
       });
 
     for(let i = 0; i < plants.length; i++){
-      plants[i].profile = await PlantProfile.findOne({
+      plants[i].dataValues.profile = await PlantProfile.findOne({
         where:{Id: plants[i].PlantProfileID}
       });
     }
