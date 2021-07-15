@@ -112,7 +112,6 @@ functions:
           path: /v1/events
           method: delete
           cors: true 
-          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
@@ -126,7 +125,6 @@ functions:
           path: /v1/events
           method: post
           cors: true 
-          authorizer: validateUser
     environment:
       MYSQL_PASSWORD: ${param:MYSQL_PASSWORD}
       MYSQL_ENDPOINT: ${param:MYSQL_ENDPOINT}
