@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 
 
+import Modal from 'react-modal';
 
 
 import { config } from "../src/firebaseConfig";
@@ -14,6 +15,7 @@ firebase.initializeApp(config);
 
 
 
+Modal.setAppElement('#root');
 
 
 ReactDOM.render(

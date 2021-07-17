@@ -103,6 +103,9 @@ class App extends React.Component {
     <nav id="top-nav">
       <ul>
       <li>
+          <Link to="/home">Home</Link>
+        </li>
+        <li>
           <Link to="/notifications">Notifications</Link>
         </li>
       </ul>

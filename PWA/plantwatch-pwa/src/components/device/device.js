@@ -15,7 +15,10 @@ import {
         super(props);
         this.state = {devices: [], selectedDevice: {DeviceID: 1}, plants: []}
 
+        this.state.selectedDeviceId = localStorage.getItem('selectedDevice');
+
         this.refreshPlants = this.refreshPlants.bind(this);
+        this.selectDevice = this.selectDevice.bind(this);
     }
 
     componentDidMount(){
@@ -48,7 +51,6 @@ import {
               })})
               .then(response => response.json())
               .then(plantData => {
-                console.log(plantData);
                 if(plantData.result && plantData.result.length != 0){
                   this.setState({ plants: plantData.result })
                 }
@@ -78,13 +80,21 @@ import {
             } );
     }
 
+    selectDevice(e){
+        let newDevice = e.target.getAttribute('data-deviceid');
+
+        console.log(newDevice)
+        localStorage.setItem('selectedDevice', newDevice);
+        this.setState({selectedDeviceId: newDevice})
+    }
+
     render() {
 
-        let deviceMarkup =  this.state.devices.length > 0 ? (
+        /* let deviceMarkup =  this.state.devices.length > 0 ? (
             <select onChange={this.refreshPlants}>
               {this.state.devices.map(d => (<option value={d.DeviceID} key={d.Id}>{d.DeviceID}</option>))}
             </select>
-          ) : (<h2>No Devices</h2>)
+          ) : (<h2>No Devices</h2>) */
         
         let plantMarkup = this.state.plants.length > 0 ? (
             <ul>
@@ -92,15 +102,36 @@ import {
             </ul>
         ) : (<h2>No Plants</h2>)
 
+
+            let deviceMarkup = this.state.devices.length > 0 ? (
+                <div>
+                  {this.state.devices.map(d => (
+                  <div onClick={this.selectDevice} className={(this.state.selectedDeviceId && this.state.selectedDeviceId == d.DeviceID)
+                   ? "device-card" : "device-card not-selected"} data-deviceid={d.DeviceID} key={d.Id}>
+                    <span className="device-status-devices">{d.Status ? "Active" : "Inactive"}</span>
+                      <span className="device-name-label-devices">Device Name</span>
+                      <span className="device-name-span-devices">{d.DeviceName || 'IWuvPlants'}</span>
+                      <span className="plant-tracking-span-devices">Tracking: </span> 
+                      <div className="plant-list-devices">
+                      {d.plants.reverse().slice(0,1).map(p => (<div className="plant-details-devices"><span>{p.Name}</span> <img src={p.profile.ImageUrl}/> </div>))}
+                      </div>
+                    </div>))}
+                </div>
+              ) : (<h2>{/* No Devices */}</h2>)
+
       return (
       
         <>
-        <h1>Devices</h1>
-        {deviceMarkup}
-        <h1>Plants</h1>
-        {plantMarkup}
-        <Link to={{ pathname: '/addDevice'}}>New Device</Link>
-        <Link to={{ pathname: '/addPlant', search: `?deviceId=${this.state.selectedDevice.DeviceID}` }}>New Plant</Link>
+        <h1 className="section-heading">Devices</h1>
+
+        <div className="device-list-devices">
+            {deviceMarkup}
+
+        </div>
+
+        <div className="new-device-devices">
+            <Link to={{ pathname: '/addDevice'}}>Add Another Device</Link>
+        </div>
         </>
       );
     }
