@@ -64,7 +64,7 @@ async function notificationSend(message, userId){
       var response = await admin.messaging().sendToDevice(existingUser[0].DeviceToken, {notification: {
             title: 'Plantwatch',
             body: message,
-            icon: "https://www.ikea.com/mx/en/images/products/fejka-artificial-potted-plant-in-outdoor-monstera__0614197_pe686822_s5.jpg"
+            icon: "http://deploy-preview.cloudlewire.com/plantwatch/PlantWatch-72x72.png"
             }
           }
         )
